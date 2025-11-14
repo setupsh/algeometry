@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
 
 namespace Geometry {
+    public class DashedLineConfig : LineRendererConfig {
+        public float DashLenght { get; }
+        public float TimeMultiplier { get; }
+        public DashedLineConfig(float lineWidth, bool loop, Color lineColor, int sortingOrder, bool scalable, bool absolutePosition, float dashLenght, float timeMultiplier) : base(lineWidth, loop, lineColor, sortingOrder, scalable, absolutePosition) {
+            DashLenght = dashLenght;
+            TimeMultiplier = timeMultiplier;
+        }
+    }
     public class DashedLineRenderer :  GeometricalLineRenderer {
         [SerializeField] private float _dashLenght;
         [SerializeField] private float _timeMultiplier = 0f;
         private float accumulatedLength;
 
-        public void Setup(float lineWidth, bool loop, Color lineColor, int sortingOrder, bool scalable, float dashLenght, float timeMultiplier) {
-            _dashLenght = dashLenght;
-            _timeMultiplier = timeMultiplier;
-            base.Setup(lineWidth, loop, lineColor, sortingOrder, scalable);
+        public void Setup(DashedLineConfig dashedLineConfig) {
+            _dashLenght = dashedLineConfig.DashLenght;
+            _timeMultiplier = dashedLineConfig.TimeMultiplier;
+            base.Setup(dashedLineConfig);
         }
         protected override void GenerateMesh() {
             accumulatedLength = 0f;

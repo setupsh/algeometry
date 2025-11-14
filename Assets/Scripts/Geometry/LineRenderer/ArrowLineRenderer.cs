@@ -1,13 +1,21 @@
 ﻿using UnityEngine;
 namespace Geometry {
+    public class ArrowLineConfig : LineRendererConfig {
+        public float ArrowWidth { get; }
+        public float ArrowHeight { get; }
+        public ArrowLineConfig(float lineWidth, bool loop, Color lineColor, int sortingOrder, bool scalable, bool absolutePosition, float arrowWidth, float arrowHeight) : base(lineWidth, loop, lineColor, sortingOrder, scalable, absolutePosition) {
+            ArrowWidth = arrowWidth;
+            ArrowHeight = arrowHeight;
+        }
+    }
     public class ArrowLineRenderer : GeometricalLineRenderer {
         [SerializeField] private float _arrowWidth;
         [SerializeField] private float _arrowHeight;
 
-        public void Setup(float lineWidth, bool loop, Color lineColor, int sortingOrder, bool scalable, float arrowWidth, float arrowHeight) {
-            _arrowWidth = arrowWidth;
-            _arrowHeight = arrowHeight;
-            base.Setup(lineWidth, loop, lineColor, sortingOrder, scalable);
+        public void Setup(ArrowLineConfig arrowLineConfig) {
+            _arrowWidth = arrowLineConfig.ArrowWidth;
+            _arrowHeight = arrowLineConfig.ArrowHeight;
+            base.Setup(arrowLineConfig);
         }
         protected override void GenerateLine(int index) {
             int segmentIndex = vertices.Count;
@@ -26,7 +34,7 @@ namespace Geometry {
         protected override Line CreateLine(int index) {
             Line line = base.CreateLine(index);
             
-            line.End = line.End - (line.Direction * _arrowHeight);
+            line.End -= (line.Direction * _arrowHeight);
             return line;
         }
     }

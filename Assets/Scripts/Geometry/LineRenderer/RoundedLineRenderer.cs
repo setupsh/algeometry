@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 
 namespace Geometry {
+    public class RoundedLineRendererConfig : LineRendererConfig {
+        public int RoundedCornersSegments { get; }
+        public RoundedLineRendererConfig(float lineWidth, bool loop, Color lineColor, int sortingOrder, bool scalable, bool absolutePosition, int roundedCornersSegments) : base(lineWidth, loop, lineColor, sortingOrder, scalable, absolutePosition) {
+            RoundedCornersSegments = roundedCornersSegments;
+        }
+    }
     public class RoundedLineRenderer : GeometricalLineRenderer {
         [SerializeField] private int _roundCornersSegments = 16;
 
-        public void Setup(float baseLineWidth, bool loop, Color lineColor, int sortingOrder, bool scalable, int roundCornersSegments) {
-            _roundCornersSegments = roundCornersSegments;
-            base.Setup(baseLineWidth, loop, lineColor, sortingOrder, scalable);
+        public void Setup(RoundedLineRendererConfig config) {
+            _roundCornersSegments = config.RoundedCornersSegments;
+            base.Setup(config);
         }
         protected override void GenerateLine(int index) {
             base.GenerateLine(index);

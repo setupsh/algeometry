@@ -57,7 +57,6 @@ namespace Geometry {
                 horizontalPoints.Add(new Vector2(endX, y));
                 horizontalPoints.Add(GeometricalLineRenderer.VOID_POINT);
             }
-            //Не забудь откатить в linerendere 
             _lineRendererHorizontal.SetPositions(horizontalPoints);
             _startX = Utilities.SnapToGridMin(_cameraBounds.min.x, ceilSize);
             _startY = Utilities.SnapToGridMin(_cameraBounds.min.y, ceilSize);
@@ -79,7 +78,7 @@ namespace Geometry {
 
         private GeometricalLineRenderer SetupLineRenderer(float lineWidth, Color color) {
             GeometricalLineRenderer lineRenderer = Instantiate(_lineRendererReference, _lineStorage.transform);
-            lineRenderer.Setup(lineWidth, false, color, Parameters.Instance.GridSortingOrder, true);
+            lineRenderer.Setup(new LineRendererConfig(lineWidth, false, color, Parameters.Instance.GridSortingOrder, true, true));
             return lineRenderer;
         }
 

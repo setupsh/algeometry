@@ -6,6 +6,25 @@ namespace Geometry {
     public struct Line {
         public Vector2 Start, End, Perpendicular, Direction;
     }
+
+    public class LineRendererConfig {
+        public float LineWidth { get; }
+        public bool Loop { get; }
+        public Color LineColor { get; }
+        public int SortingOrder { get; }
+        public bool Scalable { get; }
+        
+        public bool AbsolutePosition { get; }
+
+        public LineRendererConfig(float lineWidth, bool loop, Color lineColor, int sortingOrder, bool scalable, bool absolutePosition) {
+            LineWidth = lineWidth;
+            Loop = loop;
+            LineColor = lineColor;
+            SortingOrder = sortingOrder;
+            Scalable = scalable;
+            AbsolutePosition = absolutePosition;
+        }
+    }
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     public class GeometricalLineRenderer : MonoBehaviour, ICameraListener {
         [SerializeField] protected List<Vector2> _points = new List<Vector2>();
@@ -14,7 +33,7 @@ namespace Geometry {
         [SerializeField] protected Color _lineColor;
         [SerializeField] protected int _sortingOrder = 0;
         [SerializeField] protected bool _scalable = true;
-        
+        [SerializeField] protected bool _absolutePosition = false;
         protected float lineWidth;
         protected Mesh mesh;
         protected List<Vector3> vertices  = new List<Vector3>();
@@ -22,13 +41,13 @@ namespace Geometry {
         protected List<Vector2> uvs = new List<Vector2>();
         public static readonly Vector2 VOID_POINT = new Vector2(float.NaN, float.NaN); 
 
-        public void Setup(float lineWidth, bool loop, Color lineColor, int sortingOrder, bool scalable) {
-            
-            _lineWidth = lineWidth;
-            _loop = loop;
-            _lineColor = lineColor;
-            _sortingOrder = sortingOrder;
-            _scalable = scalable;
+        public void Setup(LineRendererConfig config) {
+            _lineWidth = config.LineWidth;
+            _loop = config.Loop;
+            _lineColor = config.LineColor;
+            _sortingOrder = config.SortingOrder;
+            _scalable = config.Scalable;
+            _absolutePosition = config.AbsolutePosition;
             Awake();
         }
 
@@ -112,8 +131,9 @@ namespace Geometry {
         }
 
         protected virtual Line CreateLine(int index) {
-            Vector2 start = _points[index] ;
-            Vector2 end = _points[(index >= _points.Count - 1 && _loop) ? 0 : index + 1] ;
+            Vector2 offset = _absolutePosition? Vector2.zero : transform.position;
+            Vector2 start = _points[index] - offset;
+            Vector2 end = _points[(index >= _points.Count - 1 && _loop) ? 0 : index + 1] - offset;
             Vector2 direction = (end - start).normalized;
             Vector2 perpendicular = new Vector2(-direction.y, direction.x) * (lineWidth / 2f);
 

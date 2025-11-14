@@ -46,7 +46,7 @@ namespace Geometry {
 
         protected override void CreateConstruction() {
             _lineRenderer = gameObject.AddComponent<GeometricalLineRenderer>();
-            _lineRenderer.Setup(Parameters.Instance.AngleWidth, false, _color, Parameters.Instance.DefaultSortingOrder - 1, true);
+            _lineRenderer.Setup(new LineRendererConfig(Parameters.Instance.AngleWidth, false, _color, Parameters.Instance.DefaultSortingOrder - 1, true, false));
             if (_showLabel) {
                 _label = GeometricalLabelSystem.Instance.CreateLabel(Parent.name + "Constructions");
             }

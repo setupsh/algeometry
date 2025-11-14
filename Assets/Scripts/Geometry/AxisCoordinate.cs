@@ -16,7 +16,7 @@ namespace Geometry {
         public enum Axis {X, Y}
         private void Start() {
             _lineRenderer = gameObject.AddComponent<GeometricalLineRenderer>();
-            _lineRenderer.Setup(Parameters.Instance.DefaultLineWidth * 2f, false, _lineColor, Parameters.Instance.DefaultSortingOrder, true);
+            _lineRenderer.Setup(new LineRendererConfig(Parameters.Instance.DefaultLineWidth * 2f, false, _lineColor, Parameters.Instance.DefaultSortingOrder, true, true));
             for (int i = 0; i < bufferX.Capacity; i++) {
                 bufferX.Add(GeometricalLabelSystem.Instance.CreateLabel("AxisCoordinate"));
                 bufferX[i].SetColor(_labelColor);
