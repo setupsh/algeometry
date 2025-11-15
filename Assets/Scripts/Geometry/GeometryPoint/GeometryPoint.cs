@@ -6,11 +6,17 @@ namespace Geometry {
     public abstract class GeometryPoint : MonoBehaviour {
         [SerializeField] protected GeometryPointCollider _collider;
         [SerializeField] protected SpriteRenderer _spriteRenderer;
+        [SerializeField] protected string _label;
         protected List<Rule> Rules = new List<Rule>();
         protected List<Link> Links = new List<Link>();
         
         public Vector2 Position => GetPosition();
         public event System.Action OnPositionChanged;
+        
+        public string Label {
+            get => _label;
+            set => _label = value;
+        }
 
         private void OnEnable() {
             _collider.OnDrag += OnDrag;

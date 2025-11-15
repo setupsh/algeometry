@@ -14,7 +14,7 @@ namespace Geometry.Realisations {
             RuleHelper.PairWithEachOther.NonCollinear(_points);
             _points[0].AddLink(new Copy(_points[0], _points[1], Coordinate.Both));
             PointLabel height = new GameObject().AddComponent<PointLabel>();
-            height.Init(this, _points[0], "A", Color.white, Vector2.zero);
+            height.Init(this, _points[0], Color.white, new CentroidOffset(GetCenter, () => _points[0].Position, 0.2f, false));
             AddConstruction(height);
         }
         
