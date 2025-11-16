@@ -20,13 +20,13 @@ namespace UI {
         public void AddIndicator(IndicatorInfo info) {
             Indicator indicator = Instantiate(_prefab, _content);
             indicator.SetInfo(info);
-            indicator.RectTransform.anchoredPosition = new Vector2(0, CalculateYPosition());
+            indicator.RectTransform.anchoredPosition = new Vector2(0, -CalculateYPosition(_indicators.Count));
             _indicators.Add(indicator);
         }
 
         public void RefreshPositions() {
             foreach (Indicator indicator in _indicators) {
-                indicator.RectTransform.anchoredPosition = new Vector2(0, CalculateYPosition());
+                indicator.RectTransform.anchoredPosition = new Vector2(0, CalculateYPosition(_indicators.Count));
             }
         }
 
@@ -35,7 +35,12 @@ namespace UI {
             AddIndicator(new TextInfo(_text));
         }
 
-        private float CalculateYPosition() {
+        private float CalculateYPosition(int index) {
+            float sum = 0f;
+            for (int i = 0; i < index; i++) {
+                sum += _indicators[i].RectTransform.sizeDelta.y;
+            }
+            return sum;
             float height = -_prefab.RectTransform.sizeDelta.y;
             float y;
             Debug.Log(_content.sizeDelta.y);

@@ -1,9 +1,11 @@
+using Geometry;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI {
     public abstract class IndicatorInfo {
+        public abstract Vector2 GetSize();
         public abstract string GetString();
     }
 
@@ -12,6 +14,11 @@ namespace UI {
         public TextInfo(string text) {
             _text = text;
         }
+
+        public override Vector2 GetSize() {
+            return new Vector2(0f, Parameters.Instance.DefaultIndicatorSizeY);
+        }
+
         public override string GetString() {
             return _text;
         }

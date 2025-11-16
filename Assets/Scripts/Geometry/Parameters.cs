@@ -11,6 +11,9 @@ namespace Geometry {
                 Instance = this;
             }
         }
+        [Header("UI")]
+        [SerializeField] private float _defaultIndicatorSizeY;
+        public float DefaultIndicatorSizeY => _defaultIndicatorSizeY;
         [Header("LineRenderer")]
         [SerializeField] private float _defaultLineWidth;
         public float DefaultLineWidth => _defaultLineWidth;

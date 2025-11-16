@@ -535,7 +535,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00012207031, y: -0.00018310547}
+  m_AnchoredPosition: {x: 0, y: -0.00018310547}
   m_SizeDelta: {x: 0.00012207, y: 0.00024414}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &133632189
@@ -923,7 +923,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4171,7 +4171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00009234628}
+  m_AnchoredPosition: {x: 0, y: 27.467329}
   m_SizeDelta: {x: 0, y: 1063}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1706899105
@@ -4777,7 +4777,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2044342655}
   m_HandleRect: {fileID: 2044342654}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4903,8 +4903,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 325386001}
   m_HandleRect: {fileID: 325386000}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.8634471
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5187,6 +5187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4be593784ab44f119e87b765367cd6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Geometry.Parameters
+  _defaultIndicatorSizeY: 0
   _defaultLineWidth: 0.05
   _defaultLabelSize: 3
   _gridSortingOrder: -1
