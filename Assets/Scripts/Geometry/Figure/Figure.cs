@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UI;
 using Object = UnityEngine.Object;
 
 namespace Geometry {
-    public abstract class Figure : MonoBehaviour {
+    public abstract class Figure : MonoBehaviour, IIndicable {
         [SerializeField] protected GeometricalLineRenderer _lineRenderer;
         [SerializeField] protected GeometryPoint[] _points;
         protected Side[] sides;
@@ -81,5 +82,22 @@ namespace Geometry {
         
         protected abstract void InitRules();
 
+        public string GetCaption() {
+            throw new NotImplementedException();
+        }
+
+        public List<IndicatorInfo> GetIndicatorInfos() {
+            List<IndicatorInfo> indicators = new List<IndicatorInfo>();
+            foreach (Side side in sides) {
+                foreach (IndicatorInfo info in side.GetIndicatorInfos()) {
+                    indicators.Add(info);
+                }
+            }
+            return indicators;
+        }
+
+        public List<IIndicable> GetChildrenIndicators() {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,7 +1,9 @@
-﻿using UnityEngine;
-
+﻿using System;
+using UI;
+using UnityEngine;
+using System.Collections.Generic;
 namespace Geometry {
-    public class Side : MonoBehaviour {
+    public class Side : MonoBehaviour, IIndicable {
         public GeometryPoint Start {get; private set;}
         public GeometryPoint End {get; private set;}
         public Figure Parent {get; private set;}
@@ -38,5 +40,20 @@ namespace Geometry {
         
         
         public Vector2 GetMiddle() => (Start.transform.position + End.transform.position) * 0.5f;
+
+        public string GetCaption() {
+            return String.Empty;
+        }
+
+        public List<IndicatorInfo> GetIndicatorInfos() {
+            var indicatorInfos = new List<IndicatorInfo>();
+            indicatorInfos.Add(new TextInfo(() => $"{Start.Label} - {End.Label} = {Vector2.Distance(Start.Position, End.Position)}",
+                () => $"Side of {Parent.name}: {Start.Label} - {End.Label}"));
+            return indicatorInfos;
+        }
+
+        public List<IIndicable> GetChildrenIndicators() {
+            return null;
+        }
     }
 }

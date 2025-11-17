@@ -2,17 +2,19 @@ using Geometry;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System;
 namespace UI {
     public abstract class IndicatorInfo {
         public abstract Vector2 GetSize();
         public abstract string GetString();
+        public abstract string GetCaption();
     }
 
     public class TextInfo : IndicatorInfo {
-        private string _text;
-        public TextInfo(string text) {
+        private Func<string> _text, _caption;
+        public TextInfo(Func<string> text, Func<string> caption) {
             _text = text;
+            _caption = caption;
         }
 
         public override Vector2 GetSize() {
@@ -20,7 +22,11 @@ namespace UI {
         }
 
         public override string GetString() {
-            return _text;
+            return _text();
+        }
+
+        public override string GetCaption() {
+            return _caption();
         }
     }
     [RequireComponent(typeof(RectTransform))]
