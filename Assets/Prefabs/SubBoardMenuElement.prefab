@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 4586357887620282794}
   - component: {fileID: 8038450942519082798}
   - component: {fileID: 7118213168588450675}
-  - component: {fileID: 6193687938102056142}
   - component: {fileID: 961065268033028271}
   - component: {fileID: 6372235653281192409}
+  - component: {fileID: 8091131229893348303}
   m_Layer: 5
-  m_Name: BoardMenuElement
+  m_Name: SubBoardMenuElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,20 +79,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6193687938102056142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1287988330125665835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be359c2c91bc44fa94042ed371f1fcad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _text: {fileID: 3315536555168101012}
-  _rectTransform: {fileID: 4586357887620282794}
 --- !u!114 &961065268033028271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,9 +143,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6193687938102056142}
-        m_TargetAssemblyTypeName: UI.BoardMenuElement, Assembly-CSharp
-        m_MethodName: Send
+      - m_Target: {fileID: 8091131229893348303}
+        m_TargetAssemblyTypeName: UI.SubBoardMenuElement, Assembly-CSharp
+        m_MethodName: OpenMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -169,6 +155,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8091131229893348303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287988330125665835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9a11d109ad4d9c816ba2e8441186e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: {fileID: 3315536555168101012}
+  _rectTransform: {fileID: 4586357887620282794}
+  _boardMenuPrefab: {fileID: 7860961687412463025, guid: 61e8a2e75375a4e4886eee1ab25c3275, type: 3}
 --- !u!1 &2211132187828024356
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,8 +266,8 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 2.17
-  m_fontSizeMax: 68.4
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 4096

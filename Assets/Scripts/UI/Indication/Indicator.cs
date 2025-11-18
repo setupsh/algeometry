@@ -33,8 +33,13 @@ namespace UI {
     public class Indicator : MonoBehaviour {
         [SerializeField] private TextMeshProUGUI _label;
         [SerializeField] private RectTransform _rectTransform;
+        private IndicatorInfo _indicatorInfo;
         public void SetInfo(IndicatorInfo info) {
-            _label.text = info.GetString();
+            _indicatorInfo = info;
+            UpdateInfo();
+        }
+        public void UpdateInfo() {
+            _label.text = _indicatorInfo.GetString();
         }
         public void Delete() {
             Destroy(gameObject);

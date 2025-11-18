@@ -15,7 +15,7 @@ namespace UI {
                     foreach (var indicator in indecable.GetIndicatorInfos()) {
                         BoardMenuElement boardMenuElement = Instantiate(_boardMenuElementPrefab, _rectTransform);
                         boardMenuElement.rectTransform.anchoredPosition = new Vector2(0, y);
-                        boardMenuElement.Init(indicator, indicator.GetCaption(), getter);
+                        boardMenuElement.Init(indicator, indicator.GetCaption(), getter, this);
                         _boardMenuElements.Add(boardMenuElement);
                         y -= boardMenuElement.rectTransform.sizeDelta.y;
                     }

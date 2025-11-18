@@ -20,7 +20,6 @@ namespace Geometry {
             FieldCamera.OnCameraChanged -= OnCameraChanged;
         }
         public override void UpdateConstruction() {
-            Debug.Log(_point.Label);
             _label.SetText(_point.Label);
             _label.SetColor(_color);
             _label.SetPosition(_offset.CalculateOffset());

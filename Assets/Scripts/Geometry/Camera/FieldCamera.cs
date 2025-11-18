@@ -69,6 +69,10 @@ namespace Geometry {
         public Vector2 ToWorldPoint(Vector2 position) {
             return _camera.ScreenToWorldPoint(position);
         }
+
+        public Vector2 ToScreenPoint(Vector2 position) {
+            return _camera.WorldToScreenPoint(position);
+        }
         
         public Bounds GetCameraBounds() {
             float screenAspect = Instance.Camera.aspect;

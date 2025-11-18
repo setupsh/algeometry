@@ -18,8 +18,7 @@ namespace UI {
         }
         
         public void OpenMenu() {
-            BoardMenu boardMenu = Instantiate(_boardMenuPrefab, _rectTransform);
-            boardMenu.Setup(_indicables, _getter);
+            _getter.BoardMenuContainer.InvokeMenu(_indicables, _getter);
         }
     }
 }

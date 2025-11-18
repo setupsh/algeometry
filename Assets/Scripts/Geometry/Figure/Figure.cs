@@ -83,10 +83,11 @@ namespace Geometry {
         protected abstract void InitRules();
 
         public string GetCaption() {
-            throw new NotImplementedException();
+            return $"{this.GetType().Name} {_points[0].Label}{_points[1].Label}{_points[2].Label}";
         }
 
         public List<IndicatorInfo> GetIndicatorInfos() {
+            return new List<IndicatorInfo>();
             List<IndicatorInfo> indicators = new List<IndicatorInfo>();
             foreach (Side side in sides) {
                 foreach (IndicatorInfo info in side.GetIndicatorInfos()) {
@@ -97,7 +98,11 @@ namespace Geometry {
         }
 
         public List<IIndicable> GetChildrenIndicators() {
-            throw new NotImplementedException();
+            List<IIndicable> result = new List<IIndicable>();
+            foreach (Side side in sides) {
+                result.Add(side);
+            }
+            return result;
         }
     }
 }
