@@ -87,7 +87,6 @@ namespace Geometry {
             return NiceStep(1 / ZoomLevel);
         }
         public float NiceStep(float rawStep) {
-            // получаем степень 10, ближайшую к rawStep
             float exponent = Mathf.Floor(Mathf.Log10(rawStep));
             float fraction = rawStep / Mathf.Pow(10f, exponent);
 

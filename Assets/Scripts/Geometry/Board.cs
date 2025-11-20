@@ -12,13 +12,14 @@ namespace Geometry {
         private void Awake() {
             if (Instance == null) {
                 Instance = this;
-                foreach (GeometryPoint point in _board.GetComponentsInChildren<GeometryPoint>()) {
-                    point.OnPositionChanged += () => OnUpdate?.Invoke();
-                }
             }
             else {
                 Destroy(this);
             }
+        }
+
+        public void InvokeUpdate() {
+            OnUpdate?.Invoke();
         }
 
         public List<IIndicable> CollectIndicables() {

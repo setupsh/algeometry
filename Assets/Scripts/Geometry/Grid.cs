@@ -100,7 +100,6 @@ namespace Geometry {
             _cameraBounds = newBounds;
 
             if (!Mathf.Approximately(_zoom, FieldCamera.Instance.ZoomLevel)) {
-                // Полностью перестраиваем сетку при изменении масштаба
                 _zoom = FieldCamera.Instance.ZoomLevel;
                 BuildGrid();
             }

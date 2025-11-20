@@ -31,6 +31,7 @@ namespace Geometry {
         
         protected abstract Vector2 GetPosition();
         protected void InvokePositionChanging() {
+            Board.Instance.InvokeUpdate();
             OnPositionChanged?.Invoke();
         }
 
