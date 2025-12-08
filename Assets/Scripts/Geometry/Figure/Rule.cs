@@ -34,7 +34,7 @@ namespace Geometry {
         }
 
         public override bool Match(Vector2 position) {
-            const float epsilon = 0.0001f;
+            const float epsilon = 0.001f;
             for (int i = 0; i < _points.Length; i++) {
                 for (int j = i + 1; j < _points.Length; j++) {
                     Vector2 a = _points[i].Position;
@@ -42,6 +42,7 @@ namespace Geometry {
                     Vector2 c = position;
 
                     float triangleArea = MathF.Abs((a.x - b.x) * (c.y - b.y) - (a.y - b.y) * (c.x - b.x));
+                    Debug.Log(triangleArea);
                     if (triangleArea < epsilon) {
                         return false;
                     }

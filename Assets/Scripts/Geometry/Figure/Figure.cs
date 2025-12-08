@@ -7,24 +7,23 @@ using Object = UnityEngine.Object;
 namespace Geometry {
     public abstract class Figure : MonoBehaviour, IIndicable {
         [SerializeField] protected GeometricalLineRenderer _lineRenderer;
-        [SerializeField] protected GeometryPoint[] _points;
-        protected Side[] sides;
-        protected List<Construction> constructions = new List<Construction>();
+        public GeometryPoint[] Points {get; private set;}
+        public Side[] Sides { get; private set;}
+        public List<Construction> Constructions { get; private set; } = new List<Construction>();
         protected Transform constructionFolder;
         protected Transform sidesFolder;
-        private void OnValidate() {
-            if (PointsAmount() != _points.Length) {
-                Array.Resize(ref _points, PointsAmount());
-            }
-        }
+        protected Transform pointsFolder;
+
         private void OnEnable() {
-            foreach (GeometryPoint point in _points) {
+            InitPoints();
+            foreach (GeometryPoint point in Points) {
                 point.OnPositionChanged += UpdateFigure;
             }
         }
 
         private void OnDisable() {
-            foreach (GeometryPoint point in _points) {
+            foreach (GeometryPoint point in Points) {
+                Board.Instance.FreeCaption(point.Label);
                 point.OnPositionChanged -= UpdateFigure;
             }
         }
@@ -38,15 +37,15 @@ namespace Geometry {
 
         private void UpdateFigure() {
             for (int i = 0; i < PointsAmount(); i++) {
-                _lineRenderer.SetPosition(i, _points[i].transform.position);
+                _lineRenderer.SetPosition(i, Points[i].transform.position);
             }
             
-            foreach (Side side in sides) {
+            foreach (Side side in Sides) {
                 side.UpdatePosition();
                 side.UpdateLabel();
             }
 
-            foreach (Construction construction in constructions) {
+            foreach (Construction construction in Constructions) {
                 construction.UpdateConstruction();
             }
         }
@@ -57,22 +56,34 @@ namespace Geometry {
         }
 
         private void InitSides() {
-            sides = new Side[PointsAmount()];
+            Sides = new Side[PointsAmount()];
             sidesFolder = new GameObject("Sides").transform;
             sidesFolder.SetParent(transform);
             sidesFolder.position = transform.position;
             
             for (int i = 0; i < PointsAmount(); i++) {
                 Side side = new GameObject().AddComponent<Side>();
-                side.Init(this, _points[i], _points[i + 1 > PointsAmount() - 1 ? 0 : i + 1 ]);
+                side.Init(this, Points[i], Points[i + 1 > PointsAmount() - 1 ? 0 : i + 1 ]);
                 side.transform.SetParent(sidesFolder);
                 side.transform.position = side.GetMiddle();
-                sides[i] = side;
+                Sides[i] = side;
+            }
+        }
+
+        private void InitPoints() {
+            Points = new GeometryPoint[PointsAmount()];
+            pointsFolder = new GameObject("Points").transform;
+            for (int i = 0; i < PointsAmount(); i++) {
+                string caption = Board.Instance.GetFreeCaption();
+                GeometryPoint point = Instantiate(Board.Instance.FreeGeometryPointPrefab, pointsFolder).GetComponent<GeometryPoint>();
+                point.Label = caption;
+                point.Move((Vector2)transform.position + DefaultPositions()[i]);
+                Points[i] = point;
             }
         }
 
         public void AddConstruction(Construction construction) {
-            constructions.Add(construction);
+            Constructions.Add(construction);
             construction.transform.parent = constructionFolder;
         }
         
@@ -81,15 +92,17 @@ namespace Geometry {
         protected abstract int PointsAmount();
         
         protected abstract void InitRules();
+        
+        protected abstract Vector2[] DefaultPositions();
 
         public string GetCaption() {
-            return $"{this.GetType().Name} {_points[0].Label}{_points[1].Label}{_points[2].Label}";
+            return $"{this.GetType().Name} {Points[0].Label}{Points[1].Label}{Points[2].Label}";
         }
 
         public List<IndicatorInfo> GetIndicatorInfos() {
             return new List<IndicatorInfo>();
             List<IndicatorInfo> indicators = new List<IndicatorInfo>();
-            foreach (Side side in sides) {
+            foreach (Side side in Sides) {
                 foreach (IndicatorInfo info in side.GetIndicatorInfos()) {
                     indicators.Add(info);
                 }
@@ -99,7 +112,7 @@ namespace Geometry {
 
         public List<IIndicable> GetChildrenIndicators() {
             List<IIndicable> result = new List<IIndicable>();
-            foreach (Side side in sides) {
+            foreach (Side side in Sides) {
                 result.Add(side);
             }
             return result;

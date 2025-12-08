@@ -5,13 +5,21 @@ using System.Linq;
 
 namespace Geometry {
     public class Board : MonoBehaviour {
+        [SerializeField] private Grid _grid;
         [SerializeField] private GameObject _board;
-        public static event System.Action OnUpdate;
+        [SerializeField] private FreeGeometryPoint _freeGeometryPointPrefab;
+        [SerializeField] private GridGeometryPoint _gridGeometryPointPrefab;
         public static Board Instance { get; private set; }
+        public FreeGeometryPoint FreeGeometryPointPrefab => _freeGeometryPointPrefab;
+        public GridGeometryPoint GridGeometryPointPrefab => _gridGeometryPointPrefab;
+        public Grid Grid => _grid;
+        public static event System.Action OnUpdate;
+        private Dictionary<string, bool> captions =  new Dictionary<string, bool>();
 
         private void Awake() {
             if (Instance == null) {
                 Instance = this;
+                InitializeCaptions();
             }
             else {
                 Destroy(this);
@@ -20,6 +28,27 @@ namespace Geometry {
 
         public void InvokeUpdate() {
             OnUpdate?.Invoke();
+        }
+
+        private void InitializeCaptions() {
+            foreach (char caption in Utilities.Captions) {
+                captions[caption.ToString()] = true;
+            }
+        }
+
+        public string GetFreeCaption() {
+            foreach (char caption in Utilities.Captions) {
+                if (captions[caption.ToString()]) {
+                    captions[caption.ToString()] = false;
+                    return caption.ToString();
+                }
+            }
+            throw new System.Exception("No captions found");
+            return "";
+        }
+
+        public void FreeCaption(string caption) {
+            captions[caption] = false;
         }
 
         public List<IIndicable> CollectIndicables() {

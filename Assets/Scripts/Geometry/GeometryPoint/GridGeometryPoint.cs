@@ -4,10 +4,11 @@ using Geometry;
 using PrimeTween;
 namespace Geometry {
     public class GridGeometryPoint : GeometryPoint {
-        [SerializeField] private Grid _grid;
+        private Grid _grid;
         private Vector2 _inGridPosition;
         
         private void Start() {
+            _grid = Board.Instance.Grid;
             _inGridPosition = _grid.GetNearestGridPoint(transform.position);
             transform.position = _inGridPosition;
             InvokePositionChanging();
