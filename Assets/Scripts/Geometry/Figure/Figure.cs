@@ -73,6 +73,7 @@ namespace Geometry {
         private void InitPoints() {
             Points = new GeometryPoint[PointsAmount()];
             pointsFolder = new GameObject("Points").transform;
+            pointsFolder.SetParent(transform);
             for (int i = 0; i < PointsAmount(); i++) {
                 string caption = Board.Instance.GetFreeCaption();
                 GeometryPoint point = Instantiate(Board.Instance.FreeGeometryPointPrefab, pointsFolder).GetComponent<GeometryPoint>();

@@ -5,7 +5,7 @@ using System.Linq;
 namespace Geometry {
     public abstract class GeometryPoint : MonoBehaviour {
         [SerializeField] protected GeometryPointCollider _collider;
-        [SerializeField] protected SpriteRenderer _spriteRenderer;
+        [SerializeField] protected GeometryPointSprite _spriteRenderer;
         [SerializeField] protected string _label;
         protected List<Rule> Rules = new List<Rule>();
         protected List<Link> Links = new List<Link>();

@@ -38,5 +38,9 @@ namespace Geometry {
         public Renderer  GetRenderer() {
             return GetComponent<Renderer>();
         }
+
+        public void ForceUpdate() {
+            _text.ForceMeshUpdate();
+        }
     }
 }

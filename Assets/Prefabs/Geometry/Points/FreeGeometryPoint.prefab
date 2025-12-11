@@ -92,6 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3001812252488000135}
   - component: {fileID: 642729119914556387}
+  - component: {fileID: 6307986616406833827}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -116,6 +117,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &642729119914556387
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -134,6 +136,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -155,11 +159,13 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -167,8 +173,23 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6307986616406833827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635073137525418440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04d72ab71cd739b6e9b0911e37e0cc03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GeometryPointSprite
+  _color: {r: 0.88500226, g: 0.88500226, b: 0.88500226, a: 1}
+  _spriteRenderer: {fileID: 642729119914556387}
+  _initialScale: {x: 0.2, y: 0.2}
+  _sortingOrder: 1
 --- !u!1 &5791163230731598477
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,5 +237,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 1396534105741237014}
-  _spriteRenderer: {fileID: 642729119914556387}
+  _spriteRenderer: {fileID: 6307986616406833827}
   _label: 

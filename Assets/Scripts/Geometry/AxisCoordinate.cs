@@ -50,13 +50,16 @@ namespace Geometry {
             float textSize = ceilSize * Parameters.Instance.DefaultLabelSize;
             float offset = 0f;
             Vector2 edge = CalculateEdge(bounds);
+            
             for (int i = 0; i < count; i++) {
                 float value = min + (ceilSize * (i + 1));
                 Label label = GetLabel(axis, i);
                 label.SetColor(_labelColor);
                 label.SetSize(textSize);
                 if (i == 0) {
+                    label.ForceUpdate();
                     offset = label.GetRenderer().bounds.extents.y * 2f;
+                    Debug.Log(offset);
                 }
                 label.SetText(Round(value, GetDecimalPlaces(ceilSize)).ToString());
                 Vector2 worldPos = GetWorldPosition(axis, value, offset);
