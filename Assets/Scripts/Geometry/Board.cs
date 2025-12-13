@@ -44,7 +44,6 @@ namespace Geometry {
                 }
             }
             throw new System.Exception("No captions found");
-            return "";
         }
 
         public void FreeCaption(string caption) {

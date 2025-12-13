@@ -59,7 +59,6 @@ namespace Geometry {
                 if (i == 0) {
                     label.ForceUpdate();
                     offset = label.GetRenderer().bounds.extents.y * 2f;
-                    Debug.Log(offset);
                 }
                 label.SetText(Round(value, GetDecimalPlaces(ceilSize)).ToString());
                 Vector2 worldPos = GetWorldPosition(axis, value, offset);
