@@ -6,6 +6,7 @@ using System.Linq;
 namespace Geometry {
     public class Board : MonoBehaviour {
         [SerializeField] private Grid _grid;
+        [SerializeField] private FigureSpawner _figureSpawner;
         [SerializeField] private GameObject _board;
         [SerializeField] private FreeGeometryPoint _freeGeometryPointPrefab;
         [SerializeField] private GridGeometryPoint _gridGeometryPointPrefab;
@@ -13,6 +14,7 @@ namespace Geometry {
         public FreeGeometryPoint FreeGeometryPointPrefab => _freeGeometryPointPrefab;
         public GridGeometryPoint GridGeometryPointPrefab => _gridGeometryPointPrefab;
         public Grid Grid => _grid;
+        public FigureSpawner FigureSpawner => _figureSpawner;
         public static event System.Action OnUpdate;
         private Dictionary<string, bool> captions =  new Dictionary<string, bool>();
 

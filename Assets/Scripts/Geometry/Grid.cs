@@ -24,6 +24,7 @@ namespace Geometry {
             _startX = Utilities.SnapToGrid(_cameraBounds.min.x, ceilSize);
             _startY = Utilities.SnapToGrid(_cameraBounds.min.y, ceilSize);
             _zoom = FieldCamera.Instance.ZoomLevel;
+            BuildGrid();
         }
 
         private void OnEnable() {

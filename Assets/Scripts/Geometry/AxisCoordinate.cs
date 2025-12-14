@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine.Rendering;
 
 namespace Geometry {
@@ -22,10 +23,11 @@ namespace Geometry {
                 bufferX[i].SetColor(_labelColor);
             }
             for (int i = 0; i < bufferY.Capacity; i++) {
-                bufferY.Add(GeometricalLabelSystem.Instance.CreateLabel("AxisCoordinate"));
-                bufferY[i].SetColor(_labelColor);
+                //bufferY.Add(GeometricalLabelSystem.Instance.CreateLabel("AxisCoordinate"));
+                //bufferY[i].SetColor(_labelColor);
             }
             FieldCamera.OnCameraChanged += OnCameraChanged;
+            OnCameraChanged();
         }
 
         private void OnDestroy() {
@@ -54,13 +56,13 @@ namespace Geometry {
             for (int i = 0; i < count; i++) {
                 float value = min + (ceilSize * (i + 1));
                 Label label = GetLabel(axis, i);
-                label.SetColor(_labelColor);
+                label.GetRenderer().enabled = true;
                 label.SetSize(textSize);
+                label.SetText(Round(value, GetDecimalPlaces(ceilSize)).ToString());
                 if (i == 0) {
                     label.ForceUpdate();
                     offset = label.GetRenderer().bounds.extents.y * 2f;
                 }
-                label.SetText(Round(value, GetDecimalPlaces(ceilSize)).ToString());
                 Vector2 worldPos = GetWorldPosition(axis, value, offset);
                 
                 if (bounds.ContainsCamera(worldPos)) {
@@ -70,7 +72,7 @@ namespace Geometry {
                     SetProjectionPosition(label, worldPos, axis, bounds.center.y, offset, edge);
                 }
                 else {
-                    label.SetColor(Color.clear);
+                    label.GetRenderer().enabled = false;
                 }
             }        
         }
@@ -114,7 +116,7 @@ namespace Geometry {
             List<Label> labels = axis == Axis.X ? bufferX : bufferY;
             if (from < labels.Capacity) {
                 for (int i = from; i < labels.Capacity; i++) {
-                    labels[i].SetColor(Color.clear);
+                    labels[i].GetRenderer().enabled = false;
                 }
             }
         }

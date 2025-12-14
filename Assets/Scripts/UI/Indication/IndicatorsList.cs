@@ -8,7 +8,6 @@ namespace UI {
         [SerializeField] private RectTransform _content;
         [SerializeField] private Indicator _prefab;
         [SerializeField] private IndicatorAdder _addIndicatorButtonPrefab;
-        [SerializeField] private string _text;
         [SerializeField] private BoardMenuContainer _boardMenuContainer;
         public BoardMenuContainer BoardMenuContainer => _boardMenuContainer;
         private List<Indicator> _indicators = new List<Indicator>();

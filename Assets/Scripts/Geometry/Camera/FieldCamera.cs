@@ -10,7 +10,7 @@ namespace Geometry {
         [SerializeField] private Camera _camera;
         [SerializeField] private float _moveMultiplier;
         [SerializeField] private float _scrollMultiplier;
-        [SerializeField] private float _maxZoom, _minZoom;
+        [SerializeField] private float _maxOrthographicSize, _minOrthographicSize;
         [SerializeField] private AnimationCurve _zoomCurve;
         [SerializeField] private float _zoomDuration;
         [SerializeField] private float _defualtOrthographicSize;
@@ -29,25 +29,29 @@ namespace Geometry {
                 Destroy(this);
             }
         }
+
+        public void ForceCameraUpdate() {
+            NotifyListeners();
+        }
         private void NotifyListeners() {
             OnCameraChanged?.Invoke();
         }
-        private void LateUpdate() {
-            if (InputListener.MiddleButtonPressed) {
-                _camera.transform.position -= (Vector3) InputListener.MouseDelta * (Time.deltaTime * _moveMultiplier * (1 / ZoomLevel));
-                NotifyListeners();
-            }
 
-            if (InputListener.Scroll != 0f) {
-                if (InputListener.Scroll > 0f) {
-                    if (_camera.orthographicSize > _minZoom && !_zoomBlocked) {
-                        StartCoroutine(ZoomCamera(_camera.orthographicSize - 0.5f));
-                    }
+        public void MoveCamera(Vector2 delta) {
+            _camera.transform.position -= (Vector3) delta * (Time.deltaTime * _moveMultiplier / ZoomLevel);
+            NotifyListeners();
+        }
+
+        public void ZoomCamera(int direction) {
+            if (direction >= 1) {
+                if (_camera.orthographicSize > _minOrthographicSize && !_zoomBlocked) {
+                    Debug.Log("Starting coroutine");
+                    StartCoroutine(ZoomCamera(_camera.orthographicSize - 0.5f));
                 }
-                else {
-                    if (_camera.orthographicSize < _maxZoom && !_zoomBlocked) {
-                        StartCoroutine(ZoomCamera(_camera.orthographicSize + 0.5f));
-                    }
+            }
+            else if (direction <= -1) {
+                if (_camera.orthographicSize < _maxOrthographicSize && !_zoomBlocked) {
+                    StartCoroutine(ZoomCamera(_camera.orthographicSize + 0.5f));
                 }
             }
         }
@@ -57,6 +61,7 @@ namespace Geometry {
             float initialOrthographicSize = _camera.orthographicSize;
             for (float t = 0; t < 1f; t += (Time.deltaTime / _zoomDuration)) {
                 _camera.orthographicSize = Mathf.Lerp(initialOrthographicSize, targetOrthographicSize, _zoomCurve.Evaluate(t));
+                NotifyListeners();
                 yield return null;
             }
             _camera.orthographicSize = targetOrthographicSize;

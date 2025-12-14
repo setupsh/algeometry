@@ -32,7 +32,9 @@ namespace Geometry {
             InitConstruction();
             InitSides();
             InitRules();
+            transform.name = GetCaption();
             UpdateFigure();
+            FieldCamera.Instance.ForceCameraUpdate();
         }
 
         private void UpdateFigure() {
@@ -78,7 +80,8 @@ namespace Geometry {
                 string caption = Board.Instance.GetFreeCaption();
                 GeometryPoint point = Instantiate(Board.Instance.FreeGeometryPointPrefab, pointsFolder).GetComponent<GeometryPoint>();
                 point.Label = caption;
-                point.Move((Vector2)transform.position + DefaultPositions()[i]);
+                point.name = $"Point {caption}";
+                point.Move((Vector2)transform.position + DefaultPositions()[i] * FieldCamera.Instance.CeilSize());
                 Points[i] = point;
             }
         }
@@ -97,7 +100,11 @@ namespace Geometry {
         protected abstract Vector2[] DefaultPositions();
 
         public string GetCaption() {
-            return $"{this.GetType().Name} {Points[0].Label}{Points[1].Label}{Points[2].Label}";
+            string letters = string.Empty;
+            foreach (GeometryPoint point in Points) {
+                letters += point.Label;
+            }
+            return $"{this.GetType().Name} {letters}";
         }
 
         public List<IndicatorInfo> GetIndicatorInfos() {
