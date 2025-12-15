@@ -45,7 +45,6 @@ namespace Geometry {
         public void ZoomCamera(int direction) {
             if (direction >= 1) {
                 if (_camera.orthographicSize > _minOrthographicSize && !_zoomBlocked) {
-                    Debug.Log("Starting coroutine");
                     StartCoroutine(ZoomCamera(_camera.orthographicSize - 0.5f));
                 }
             }

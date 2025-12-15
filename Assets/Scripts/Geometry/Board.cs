@@ -9,10 +9,10 @@ namespace Geometry {
         [SerializeField] private FigureSpawner _figureSpawner;
         [SerializeField] private GameObject _board;
         [SerializeField] private FreeGeometryPoint _freeGeometryPointPrefab;
-        [SerializeField] private GridGeometryPoint _gridGeometryPointPrefab;
+        [SerializeField] private StaticGeometryPoint _staticGeometryPointPrefab;
         public static Board Instance { get; private set; }
         public FreeGeometryPoint FreeGeometryPointPrefab => _freeGeometryPointPrefab;
-        public GridGeometryPoint GridGeometryPointPrefab => _gridGeometryPointPrefab;
+        public StaticGeometryPoint GridGeometryPointPrefab => _staticGeometryPointPrefab;
         public Grid Grid => _grid;
         public FigureSpawner FigureSpawner => _figureSpawner;
         public static event System.Action OnUpdate;

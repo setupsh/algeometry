@@ -5,9 +5,10 @@ public class InputListener : MonoBehaviour {
     public static InputListener Instance { get; private set; }
     public static UserInputActions InputActions { get; private set; }
     
-    public static Vector2 MousePosition =>  InputActions.UI.MousePosition.ReadValue<Vector2>();
-    public static Vector2 MouseDelta =>  InputActions.UI.MouseDelta.ReadValue<Vector2>();
-    public static bool MiddleButtonPressed => InputActions.UI.ScrollButton.IsPressed();
+    public static Vector2 MousePosition =>  InputActions.Player.MousePosition.ReadValue<Vector2>();
+    public static Vector2 MouseDelta =>  InputActions.Player.MouseDelta.ReadValue<Vector2>();
+    public static bool MiddleButtonPressed => InputActions.Player.MiddleButton.IsPressed();
+    public static bool ShiftPressed => InputActions.Player.Shift.IsPressed();
     
     //public static float MouseScroll => InputActions.UI.ScrollWheel.;
     private void Awake() {
