@@ -41,9 +41,7 @@ namespace Geometry {
                     Vector2 b = _points[j].Position;
                     Vector2 c = position;
                     
-
                     float triangleArea = MathF.Abs((a.x - b.x) * (c.y - b.y) - (a.y - b.y) * (c.x - b.x));
-                    Debug.Log(triangleArea);
                     if (triangleArea < epsilon) {
                         return false;
                     }

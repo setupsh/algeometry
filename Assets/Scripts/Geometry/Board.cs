@@ -12,7 +12,7 @@ namespace Geometry {
         [SerializeField] private StaticGeometryPoint _staticGeometryPointPrefab;
         public static Board Instance { get; private set; }
         public FreeGeometryPoint FreeGeometryPointPrefab => _freeGeometryPointPrefab;
-        public StaticGeometryPoint GridGeometryPointPrefab => _staticGeometryPointPrefab;
+        public StaticGeometryPoint StaticGeometryPointPrefab => _staticGeometryPointPrefab;
         public Grid Grid => _grid;
         public FigureSpawner FigureSpawner => _figureSpawner;
         public static event System.Action OnUpdate;
