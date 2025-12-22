@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Angle Construction
   m_EditorClassIdentifier: Assembly-CSharp::AngleConstructionTemplate
   parameters:
-  - _parameterUIprefab: {fileID: 0}
-    _parameterCaption: 
+  - parameterUIprefab: {fileID: 0}
+    parameterCaption: 
+  - parameterUIprefab: {fileID: 0}
+    parameterCaption: 

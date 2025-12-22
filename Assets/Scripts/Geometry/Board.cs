@@ -52,6 +52,19 @@ namespace Geometry {
             captions[caption] = false;
         }
 
+        public T Instantiate<T>() where T : MonoBehaviour {
+            T instance = new GameObject(typeof(T).Name).AddComponent<T>();
+            return instance;
+        }
+
+        public List<T> Collect<T>() where T : MonoBehaviour {
+            List<T> result = new List<T>();
+            foreach (T child in gameObject.GetComponentsInChildren<T>()) {
+                result.Add(child);
+            }
+            return result;
+        }
+
         public List<IIndicable> CollectIndicables() {
             List<IIndicable> except =  new List<IIndicable>();
             List<IIndicable> result = new List<IIndicable>();

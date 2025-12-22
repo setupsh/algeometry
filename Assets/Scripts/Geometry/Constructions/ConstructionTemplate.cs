@@ -21,7 +21,7 @@ public abstract class ConstructionTemplate : ScriptableObject {
 [CreateAssetMenu(fileName = "Angle Construction", menuName = "Geometry/Constructions/Construction Template/Angle Construction")]
 public class AngleConstructionTemplate : ConstructionTemplate {
     public override Construction Generate(List<IGeometryValue> arguments) {
-        Angle construction = new GameObject("Angle").AddComponent<Angle>();
+        Angle construction = Board.Instance.Instantiate<Angle>();
         construction.Init(
             Get<Figure>(arguments, 0),
             Get<GeometryPoint>(arguments, 1),
@@ -34,12 +34,12 @@ public class AngleConstructionTemplate : ConstructionTemplate {
 }
 [System.Serializable]
 public class GeometryParameter {
-    public GeometryParameterUI _parameterUIprefab;
-    public string _parameterCaption;
+    public GeometryParameterUI parameterUIprefab;
+    public string parameterCaption;
     
     public GeometryParameterUI InstantiateUI() {
-        GeometryParameterUI parameterUI = GameObject.Instantiate(_parameterUIprefab);
-        parameterUI.SetCaption(_parameterCaption);
+        GeometryParameterUI parameterUI = GameObject.Instantiate(parameterUIprefab);
+        parameterUI.SetCaption(parameterCaption);
         return parameterUI;
     }
 }
@@ -69,14 +69,6 @@ public interface IGeometryValue<T> : IGeometryValue {
 public class GeometryPointValue : IGeometryValue<GeometryPoint> {
     public GeometryPoint Value { get; }
     public GeometryPointValue(GeometryPoint value) {
-        Value = value;
-    }
-}
-
-public class FigureValue : IGeometryValue<Figure> {
-    public Figure Value { get; }
-
-    public FigureValue(Figure value) {
         Value = value;
     }
 }

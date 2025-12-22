@@ -8,6 +8,7 @@ namespace Geometry {
             Parent = parent;
             name = $"{Parent.name} {GetType().Name}";
             CreateConstruction();
+            parent.AddConstruction(this);
         }
         public abstract void UpdateConstruction();
         protected abstract void CreateConstruction();
