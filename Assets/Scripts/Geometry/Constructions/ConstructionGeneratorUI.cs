@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UI;
 using UnityEngine;
 
-public class ConstructionGenerator : MonoBehaviour {
+public class ConstructionGeneratorUI : MonoBehaviour {
     [SerializeField] private ParametersWindow _windowPrefab;
-    private ParametersWindow currentWindow = null;
+    private ParametersWindow currentWindow;
     
     public void GenerateUI(ConstructionTemplate template) {
-        if (currentWindow != null) {
-            Destroy(currentWindow);
+        if (currentWindow) {
+            Destroy(currentWindow.gameObject);
             return;
         }
         currentWindow = Instantiate(_windowPrefab, transform);

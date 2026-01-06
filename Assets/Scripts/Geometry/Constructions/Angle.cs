@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
+using Geometry;
 
 namespace Geometry {
     public class Angle : Construction, ICameraListener {
@@ -71,5 +72,19 @@ namespace Geometry {
         public void OnCameraChanged() {
             UpdateConstruction();
         }
+    }
+}
+[System.Serializable]
+public class AngleGenerator : ConstructionGenerator {
+    public override Construction Generate(List<IGeometryValue> arguments) {
+        Angle construction = Board.Instance.Instantiate<Angle>();
+        construction.Init(
+            Get<Figure>(arguments, 0),
+            Get<GeometryPoint>(arguments, 1),
+            Get<GeometryPoint>(arguments, 2),
+            Get<GeometryPoint>(arguments, 3),
+            Get<Color>(arguments, 4),
+            Get<bool>(arguments, 5));
+        return construction;
     }
 }

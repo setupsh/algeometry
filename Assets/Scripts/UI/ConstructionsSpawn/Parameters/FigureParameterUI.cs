@@ -7,13 +7,13 @@ namespace UI {
         [SerializeField] private TextMeshProUGUI _caption;
         [SerializeField] private TMP_Dropdown _dropdown;
         private Dictionary<string, Figure> options =  new Dictionary<string, Figure>(); 
-        [HideInInspector] public Figure figure;
+        private Figure figure;
         public override void SetCaption(string caption) {
             _caption.text = caption;
         }
 
-        public void SetFigureByIndex(int index) {
-            figure = options[_dropdown.options[index].text];
+        public void SetFigureByDropdown() {
+            figure = options[_dropdown.options[_dropdown.value].text];
         }
 
         private void Start() {

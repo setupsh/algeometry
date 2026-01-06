@@ -6,39 +6,29 @@ using Geometry;
 using TMPro;
 using Color = UnityEngine.Color;
 
-public abstract class ConstructionTemplate : ScriptableObject {
+[CreateAssetMenu(fileName = "Construction Template", menuName = "Construction Template")]
+public class ConstructionTemplate : ScriptableObject {
+    [SerializeReference, SubclassSelector] public ConstructionGenerator generator = null;
     public List<GeometryParameter> parameters;
-    public abstract Construction Generate(List<IGeometryValue> arguments);
+}
 
+public abstract class ConstructionGenerator {
     protected T Get<T>(List<IGeometryValue> arguments, int index) {
         if (arguments[index] is IGeometryValue<T> argument) {
             return argument.Value;
         }
-        throw new System.Exception($"YOU ARE MOTHERFUCKING PIECE OF SHIT, FIX CRAP IN YOUR TEMPLATES {this.name} {index} {arguments[index].GetType()}");
+        throw new System.Exception($"YOU ARE MOTHERFUCKING PIECE OF SHIT, FIX CRAP IN YOUR TEMPLATES {index} {arguments[index].GetType()}");
     }
+    public abstract Construction Generate(List<IGeometryValue> arguments);
 }
 
-[CreateAssetMenu(fileName = "Angle Construction", menuName = "Geometry/Constructions/Construction Template/Angle Construction")]
-public class AngleConstructionTemplate : ConstructionTemplate {
-    public override Construction Generate(List<IGeometryValue> arguments) {
-        Angle construction = Board.Instance.Instantiate<Angle>();
-        construction.Init(
-            Get<Figure>(arguments, 0),
-            Get<GeometryPoint>(arguments, 1),
-            Get<GeometryPoint>(arguments, 2),
-            Get<GeometryPoint>(arguments, 3),
-            Get<Color>(arguments, 4),
-            Get<bool>(arguments, 5));
-        return construction;
-    }
-}
 [System.Serializable]
 public class GeometryParameter {
     public GeometryParameterUI parameterUIprefab;
     public string parameterCaption;
     
     public GeometryParameterUI InstantiateUI() {
-        GeometryParameterUI parameterUI = GameObject.Instantiate(parameterUIprefab);
+        GeometryParameterUI parameterUI = Object.Instantiate(parameterUIprefab);
         parameterUI.SetCaption(parameterCaption);
         return parameterUI;
     }
@@ -49,37 +39,12 @@ public abstract class GeometryParameterUI : MonoBehaviour {
     public abstract IGeometryValue GetValue();
 }
 
-public class GeometryPointParameterUI : GeometryParameterUI {
-    [SerializeField] private TextMeshProUGUI _caption;
-    public GeometryPoint point;
-    public override void SetCaption(string caption) {
-        _caption.text = caption;
-    }
-
-    public override IGeometryValue GetValue() {
-        return new GeometryPointValue(point);
-    }
-}
-
 public interface IGeometryValue {}
 public interface IGeometryValue<T> : IGeometryValue {
     public T Value { get; }
 }
 
-public class GeometryPointValue : IGeometryValue<GeometryPoint> {
-    public GeometryPoint Value { get; }
-    public GeometryPointValue(GeometryPoint value) {
-        Value = value;
-    }
-}
 
-public class ColorValue : IGeometryValue<Color> {
-    public Color Value { get; }
-
-    public ColorValue(Color value) {
-        Value = value;
-    }
-}
 
 public class BoolValue : IGeometryValue<bool> {
     public bool Value { get; }

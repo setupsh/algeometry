@@ -19,7 +19,6 @@ public class InputListener : MonoBehaviour {
             Instance = this;
             InputActions = new UserInputActions();
             InputActions.Enable();
-            InputActions.UI.ScrollWheel.performed += (InputAction.CallbackContext obj) => ZoomCamera(obj.ReadValue<Vector2>().normalized.y);
         }
     }
 
@@ -31,11 +30,6 @@ public class InputListener : MonoBehaviour {
 
     private void MoveCamera() {
         FieldCamera.Instance.MoveCamera(MouseDelta);
-    }
-
-    private void ZoomCamera(float scroll) {
-        Debug.Log(scroll);
-        FieldCamera.Instance.ZoomCamera((int) scroll);
     }
 
 }
