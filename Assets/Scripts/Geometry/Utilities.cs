@@ -5,7 +5,9 @@ using System.Linq;
 
 namespace Geometry {
     public static class Utilities {
-        public static readonly string Captions = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public static readonly List<string> Captions = new List<string> {
+            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
+        };
         public static bool IsVoid(this Vector2 p) => float.IsNaN(p.x) || float.IsNaN(p.y);
 
         public static bool ContainsCamera(this Bounds bounds, Vector2 point) {

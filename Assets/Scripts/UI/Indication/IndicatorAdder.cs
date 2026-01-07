@@ -19,9 +19,9 @@ namespace UI {
             PointerEventData pointerEventData = (PointerEventData) eventData;
             Debug.Log(Board.Instance);
             if (pointerEventData.button == PointerEventData.InputButton.Left) {
-                _container.InvokeMenu(Board.Instance.CollectIndicables(), _indicatorsList);
+                _container.GenerateBoardMenu(Board.Instance.CollectIndicables(), _indicatorsList);
             } else if (pointerEventData.button == PointerEventData.InputButton.Right) {
-                _container.Destroy();
+                _container.DestroyBoardMenu();
             }
         }
     }

@@ -29,10 +29,10 @@ namespace UI {
             return new GeometryPointValue(point);
         }
     }
-}
-public class GeometryPointValue : IGeometryValue<GeometryPoint> {
-    public GeometryPoint Value { get; }
-    public GeometryPointValue(GeometryPoint value) {
-        Value = value;
+    public class GeometryPointValue : IGeometryValue<GeometryPoint> {
+        public GeometryPoint Value { get; }
+        public GeometryPointValue(GeometryPoint value) {
+            Value = value;
+        }
     }
 }

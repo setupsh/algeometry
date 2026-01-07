@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class BoardMenuContainer : MonoBehaviour {
     [SerializeField] private BoardMenu _boardMenuPrefab;
     private BoardMenu boardMenu = null;
-    public void InvokeMenu(List<IIndicable> indicables, IndicatorsList indicatorsList) {
+    public void GenerateBoardMenu(List<IIndicable> indicables, IndicatorsList indicatorsList) {
         if (boardMenu != null) {
             Destroy(boardMenu.gameObject);
             boardMenu = null;
@@ -14,7 +14,7 @@ public class BoardMenuContainer : MonoBehaviour {
         boardMenu.Setup(indicables, indicatorsList);
     }
 
-    public void Destroy() {
+    public void DestroyBoardMenu() {
         Destroy(boardMenu.gameObject);
     }
 }

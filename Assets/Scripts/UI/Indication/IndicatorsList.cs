@@ -20,6 +20,10 @@ namespace UI {
             //UpdateAddButtonPosition();
         }
 
+        private void OnDestroy() {
+            Board.OnUpdate -= UpdateIndicators;
+        }
+
         public void AddIndicator(IndicatorInfo info) {
             Indicator indicator = Instantiate(_prefab, _content);
             indicator.SetInfo(info);

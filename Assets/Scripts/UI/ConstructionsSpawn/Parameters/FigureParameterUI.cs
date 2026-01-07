@@ -27,11 +27,11 @@ namespace UI {
             return new FigureValue(figure);
         }
     }
-}
-public class FigureValue : IGeometryValue<Figure> {
-    public Figure Value { get; }
+    public class FigureValue : IGeometryValue<Figure> {
+        public Figure Value { get; }
 
-    public FigureValue(Figure value) {
-        Value = value;
+        public FigureValue(Figure value) {
+            Value = value;
+        }
     }
 }

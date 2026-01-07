@@ -18,7 +18,7 @@ namespace UI {
 
         public void Send() {
             _getter.AddIndicator(_indicatorInfo);
-            _getter.BoardMenuContainer.Destroy();
+            _getter.BoardMenuContainer.DestroyBoardMenu();
         }
     }
 }

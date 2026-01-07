@@ -4,10 +4,10 @@ using UI;
 using UnityEngine;
 
 public class ConstructionGeneratorUI : MonoBehaviour {
-    [SerializeField] private ParametersWindow _windowPrefab;
-    private ParametersWindow currentWindow;
+    [SerializeField] private ConstructionGeneratorWindow _windowPrefab;
+    private ConstructionGeneratorWindow currentWindow;
     
-    public void GenerateUI(ConstructionTemplate template) {
+    public void GenerateWindow(ConstructionTemplate template) {
         if (currentWindow) {
             Destroy(currentWindow.gameObject);
             return;

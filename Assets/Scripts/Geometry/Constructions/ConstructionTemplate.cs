@@ -46,17 +46,5 @@ public interface IGeometryValue<T> : IGeometryValue {
 
 
 
-public class BoolValue : IGeometryValue<bool> {
-    public bool Value { get; }
-
-    public BoolValue(bool value) {
-        Value = value;
-    }
-}
-
-
-
-
-
 
 

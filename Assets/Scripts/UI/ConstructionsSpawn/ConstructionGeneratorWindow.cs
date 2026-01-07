@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Geometry;
 namespace UI {
-    public class ParametersWindow : MonoBehaviour {
+    public class ConstructionGeneratorWindow : MonoBehaviour {
         [SerializeField] private GameObject _content;
         private List<GeometryParameterUI> parameters = new List<GeometryParameterUI>();
         private ConstructionTemplate constructionTemplate;

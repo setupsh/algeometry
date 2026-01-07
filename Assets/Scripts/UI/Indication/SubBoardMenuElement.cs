@@ -18,7 +18,7 @@ namespace UI {
         }
         
         public void OpenMenu() {
-            _getter.BoardMenuContainer.InvokeMenu(_indicables, _getter);
+            _getter.BoardMenuContainer.GenerateBoardMenu(_indicables, _getter);
         }
     }
 }

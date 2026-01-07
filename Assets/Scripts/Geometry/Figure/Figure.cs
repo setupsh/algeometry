@@ -23,7 +23,7 @@ namespace Geometry {
 
         private void OnDisable() {
             foreach (GeometryPoint point in Points) {
-                Board.Instance.FreeCaption(point.Label);
+                Board.Instance.CaptionSystem.FreeCaption(point.Label);
                 point.OnPositionChanged -= UpdateFigure;
             }
         }
@@ -77,7 +77,7 @@ namespace Geometry {
             pointsFolder = new GameObject("Points").transform;
             pointsFolder.SetParent(transform);
             for (int i = 0; i < PointsAmount(); i++) {
-                string caption = Board.Instance.GetFreeCaption();
+                string caption = Board.Instance.CaptionSystem.GetFreeCaption();
                 GeometryPoint point = Instantiate(Board.Instance.FreeGeometryPointPrefab, pointsFolder).GetComponent<GeometryPoint>();
                 point.Label = caption;
                 point.name = $"Point {caption}";
