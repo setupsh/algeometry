@@ -20,6 +20,13 @@ namespace UI {
             _colorPreview.color = color;
         }
 
+        private void Start() {
+            _colorInputR.text = Random.Range(0, 255).ToString();
+            _colorInputG.text = Random.Range(0, 255).ToString();
+            _colorInputB.text = Random.Range(0, 255).ToString();
+            UpdateColor();
+        }
+
         public override IGeometryValue GetValue() {
             return new ColorValue(color);
         }

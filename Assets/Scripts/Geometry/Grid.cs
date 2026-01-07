@@ -79,7 +79,7 @@ namespace Geometry {
 
         private GeometricalLineRenderer SetupLineRenderer(float lineWidth, Color color) {
             GeometricalLineRenderer lineRenderer = Instantiate(_lineRendererReference, _lineStorage.transform);
-            lineRenderer.Setup(new LineRendererConfig(lineWidth, false, color, Parameters.Instance.GridSortingOrder, true, true));
+            lineRenderer.Setup(new LineRendererConfig(lineWidth, false, color, Parameters.GridSortingOrder, true, true));
             return lineRenderer;
         }
 

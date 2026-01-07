@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 using Geometry;
@@ -38,8 +37,8 @@ namespace Geometry {
             }
             if (_showLabel && _label) {
                 _label.SetText(_angleValue.ToStringDecimalPlaces(2));
-                _label.SetPosition(_vertex.Position - (_vertex.Position - points[Mathf.RoundToInt(points.Count / 2f)]) * Parameters.Instance.OffsetTextFromAngleMultiplier);
-                _label.SetSize(Parameters.Instance.DefaultTextSize);
+                _label.SetPosition(_vertex.Position - (_vertex.Position - points[Mathf.RoundToInt(points.Count / 2f)]) * Parameters.OffsetTextFromAngleMultiplier);
+                _label.SetSize(Parameters.DefaultLabelSize);
                 _label.SetColor(_color);
             }
             
@@ -47,15 +46,15 @@ namespace Geometry {
 
         protected override void CreateConstruction() {
             _lineRenderer = gameObject.AddComponent<GeometricalLineRenderer>();
-            _lineRenderer.Setup(new LineRendererConfig(Parameters.Instance.AngleWidth, false, _color, Parameters.Instance.DefaultSortingOrder - 1, true, false));
+            _lineRenderer.Setup(new LineRendererConfig(Parameters.AngleWidth, false, _color, Parameters.DefaultSortingOrder - 1, true, false));
             if (_showLabel) {
-                _label = GeometricalLabelSystem.Instance.CreateLabel(Parent.name + "Constructions");
+                _label = GeometricalLabelSystem.Instance.CreateLabel(transform);
             }
         }
 
         private float CalculateRadius() {
-            float AngleRadius = Parameters.Instance.AngleRadius;
-            return FieldCamera.Instance.ZoomLevel > 1f ? Parameters.Instance.AngleRadius / (FieldCamera.Instance.ZoomLevel) : Parameters.Instance.AngleRadius;
+            float AngleRadius = Parameters.AngleRadius;
+            return FieldCamera.Instance.ZoomLevel > 1f ? Parameters.AngleRadius / (FieldCamera.Instance.ZoomLevel) : Parameters.AngleRadius;
             
             //if (Vector2.Distance(_vertex.Position, _armA.Position) < 1.5f || Vector2.Distance(_vertex.Position, _armA.Position) < 1.5f) {
             //    return AngleRadius;
@@ -73,18 +72,16 @@ namespace Geometry {
             UpdateConstruction();
         }
     }
-}
-[System.Serializable]
-public class AngleGenerator : ConstructionGenerator {
-    public override Construction Generate(List<IGeometryValue> arguments) {
-        Angle construction = Board.Instance.Instantiate<Angle>();
-        construction.Init(
-            Get<Figure>(arguments, 0),
-            Get<GeometryPoint>(arguments, 1),
-            Get<GeometryPoint>(arguments, 2),
-            Get<GeometryPoint>(arguments, 3),
-            Get<Color>(arguments, 4),
-            Get<bool>(arguments, 5));
-        return construction;
+    [System.Serializable]
+    public class AngleGenerator : ConstructionGenerator {
+        public override void Generate(List<IGeometryValue> arguments) {
+            Board.Instance.Instantiate<Angle>().Init(
+                Get<Figure>(arguments, 0),
+                Get<GeometryPoint>(arguments, 1),
+                Get<GeometryPoint>(arguments, 2),
+                Get<GeometryPoint>(arguments, 3),
+                Get<Color>(arguments, 4),
+                Get<bool>(arguments, 5));
+        }
     }
 }

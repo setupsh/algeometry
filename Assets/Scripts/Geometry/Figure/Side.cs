@@ -18,7 +18,7 @@ namespace Geometry {
         }
 
         public void AssignLabel(string label) {
-            _label = GeometricalLabelSystem.Instance.CreateLabel(Parent.name);
+            _label = GeometricalLabelSystem.Instance.CreateLabel(transform);
             _label.SetText(label);
             UpdateLabel();
         }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
@@ -21,11 +22,17 @@ namespace UI {
         }
 
         public void GenerateConstruction() {
-            List<IGeometryValue> parametersValues =  new List<IGeometryValue>();
+            List<IGeometryValue> parametersValues = new List<IGeometryValue>();
             foreach (GeometryParameterUI parameter in parameters) {
+                if (parameter.GetValue() == null) {
+                    PopupCaster.Error("Parameter " + parameter.GetType().Name.Replace("ParameterUI", String.Empty) + " is null");
+                    Destroy(gameObject);
+                    return;
+                }
                 parametersValues.Add(parameter.GetValue());
             }
             constructionTemplate.generator.Generate(parametersValues);
+            Destroy(gameObject);
         }
     }
 }

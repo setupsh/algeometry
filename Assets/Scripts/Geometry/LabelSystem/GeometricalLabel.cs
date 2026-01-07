@@ -12,12 +12,9 @@ public class GeometricalLabelSystem : MonoBehaviour {
         }
     }
 
-    public Label CreateLabel(string folderName) {
-        Transform folder = transform.Find(folderName);
-        if (folder == null) {
-            folder = new GameObject(folderName).transform;
-            folder.SetParent(transform);
-        }
-        return Instantiate(_labelReference, folder);
+    public Label CreateLabel(Transform parent) {
+        Label label = Instantiate(_labelReference, parent);
+        label.SetColor(Color.black);
+        return Instantiate(_labelReference, parent);
     }
 }

@@ -17,9 +17,9 @@ namespace Geometry {
         public enum Axis {X, Y}
         private void Start() {
             _lineRenderer = gameObject.AddComponent<GeometricalLineRenderer>();
-            _lineRenderer.Setup(new LineRendererConfig(Parameters.Instance.DefaultLineWidth * 2f, false, _lineColor, Parameters.Instance.DefaultSortingOrder, true, true));
+            _lineRenderer.Setup(new LineRendererConfig(Parameters.DefaultLineWidth * 2f, false, _lineColor, Parameters.DefaultSortingOrder, true, true));
             for (int i = 0; i < bufferX.Capacity; i++) {
-                bufferX.Add(GeometricalLabelSystem.Instance.CreateLabel("AxisCoordinate"));
+                bufferX.Add(GeometricalLabelSystem.Instance.CreateLabel(transform));
                 bufferX[i].SetColor(_labelColor);
             }
             for (int i = 0; i < bufferY.Capacity; i++) {
@@ -49,7 +49,7 @@ namespace Geometry {
                 OffUnusedBuffer(axis, count);
             }
             bufferSize = count;
-            float textSize = ceilSize * Parameters.Instance.DefaultLabelSize;
+            float textSize = ceilSize * Parameters.DefaultLabelSize;
             float offset = 0f;
             Vector2 edge = CalculateEdge(bounds);
             

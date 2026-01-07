@@ -26,6 +26,9 @@ namespace UI {
         }
 
         public override IGeometryValue GetValue() {
+            if (point == null) {
+                return null;
+            }
             return new GeometryPointValue(point);
         }
     }

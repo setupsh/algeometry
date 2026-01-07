@@ -12,7 +12,7 @@ public class FigureSpawner : MonoBehaviour {
 
     private void SnapToGrid(Figure figure) {
         foreach (GeometryPoint point in figure.Points) {
-            point.Move(Board.Instance.Grid.GetNearestGridPoint(point.Position));
+            point.Move(Board.Grid.GetNearestGridPoint(point.Position));
         }
     }
 }

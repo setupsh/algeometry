@@ -34,9 +34,9 @@ namespace Geometry {
 
         protected override void CreateConstruction() {
             _lineRenderer = gameObject.AddComponent<DashedLineRenderer>();
-            _lineRenderer.Setup(new DashedLineConfig(0.1f, false, _color, Parameters.Instance.DefaultSortingOrder, true, false,Parameters.Instance.HeightLineDashHeight, 1f));
+            _lineRenderer.Setup(new DashedLineConfig(0.1f, false, _color, Parameters.DefaultSortingOrder, true, false,Parameters.HeightLineDashHeight, 1f));
             if (_caption != String.Empty) {
-                _label = GeometricalLabelSystem.Instance.CreateLabel(Parent.name + "Constructions");
+                _label = GeometricalLabelSystem.Instance.CreateLabel(transform);
             }
         }
         

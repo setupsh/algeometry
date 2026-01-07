@@ -1,13 +1,21 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI {
     public class BoolParameterUI : GeometryParameterUI {
+        [SerializeField] private TMPro.TextMeshProUGUI _caption;
+        [SerializeField] private Toggle _toggle;
+        private bool value;
         public override void SetCaption(string caption) {
-            throw new System.NotImplementedException();
+            _caption.text = caption;
+        }
+
+        public void UpdateValue() {
+            value = _toggle.isOn;
         }
 
         public override IGeometryValue GetValue() {
-            throw new System.NotImplementedException();
+            return new BoolValue(value);
         }
     }
     
@@ -18,6 +26,4 @@ namespace UI {
             Value = value;
         }
     }
-
-
 }

@@ -16,42 +16,34 @@ namespace Geometry {
         public float DefaultIndicatorSizeY => _defaultIndicatorSizeY;
         [Header("LineRenderer")]
         [SerializeField] private float _defaultLineWidth;
-        public float DefaultLineWidth => _defaultLineWidth;
+        public static float DefaultLineWidth => Instance._defaultLineWidth;
         
         [Header("Text")]
         [SerializeField] private int _defaultLabelSize;
-        public int DefaultLabelSize => _defaultLabelSize;
+        public static int DefaultLabelSize => Instance._defaultLabelSize;
         
         [Header("Sorting Orders")]
         [SerializeField] private int _gridSortingOrder;
-        public int GridSortingOrder => _gridSortingOrder;
+        public static int GridSortingOrder => Instance._gridSortingOrder;
         
         [SerializeField] private int _defaultSortingOrder;
-        public int DefaultSortingOrder => _defaultSortingOrder;
+        public static int DefaultSortingOrder => Instance._defaultSortingOrder;
         [Header("Constructions")]
         [Header("Angle")]
         [SerializeField] private float _angleWidth;
-        public float AngleWidth => _angleWidth;   
+        public static float AngleWidth => Instance._angleWidth;   
         
         [SerializeField] private float _angleRadius;
-        public float AngleRadius => _angleRadius;
-
-        [SerializeField] private int _defaultTextSize;
-        public int DefaultTextSize => _defaultTextSize;
+        public static float AngleRadius => Instance._angleRadius;
         
         [SerializeField] private float _offsetTextFromAngleMultiplier;
-        public float OffsetTextFromAngleMultiplier => _offsetTextFromAngleMultiplier;
+        public static float OffsetTextFromAngleMultiplier => Instance._offsetTextFromAngleMultiplier;
         
         [Header("Height")]
         [SerializeField] private float _heightLineWidth;
-        public float HeightLineWidth => _heightLineWidth;
+        public static float HeightLineWidth => Instance._heightLineWidth;
         
         [SerializeField] private float _heightLineDashHeight;
-        public float HeightLineDashHeight => _heightLineDashHeight;
-        
-        
-        [Header("Tween")]
-        [SerializeField] private TweenSettings _gridPointTween;
-        public TweenSettings GridPointTween => _gridPointTween;
+        public static float HeightLineDashHeight => Instance._heightLineDashHeight;
     }
 }

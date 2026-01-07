@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7f5846021c8141a9b5cdaeadc8c3699, type: 3}
+  m_Name: LabelsConstructionTemplate
+  m_EditorClassIdentifier: 
+  generator:
+    rid: 8331730943470993408
+  parameters:
+  - parameterUIprefab: {fileID: 6176280703050483949, guid: 3181d16ecbcb62d5fb72ba1262f74732, type: 3}
+    parameterCaption: Figure
+  - parameterUIprefab: {fileID: 1667820508468493893, guid: aea5227b6c6b3aae280de90137f3aadc, type: 3}
+    parameterCaption: Color
+  - parameterUIprefab: {fileID: 4707366801509571785, guid: edd44f51df3981147b0047ee4d22cfae, type: 3}
+    parameterCaption: Distance Multiplier
+  references:
+    version: 2
+    RefIds:
+    - rid: 8331730943470993408
+      type: {class: LabelsGenerator, ns: Geometry, asm: Assembly-CSharp}
+      data: 

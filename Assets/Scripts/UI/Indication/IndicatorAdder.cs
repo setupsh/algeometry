@@ -16,8 +16,11 @@ namespace UI {
         }
 
         public void ShowMenu(BaseEventData eventData) {
+            if (Board.Instance.CollectIndicables().Count == 0) {
+                PopupCaster.Error("Nothing to show");
+                return;
+            }
             PointerEventData pointerEventData = (PointerEventData) eventData;
-            Debug.Log(Board.Instance);
             if (pointerEventData.button == PointerEventData.InputButton.Left) {
                 _container.GenerateBoardMenu(Board.Instance.CollectIndicables(), _indicatorsList);
             } else if (pointerEventData.button == PointerEventData.InputButton.Right) {

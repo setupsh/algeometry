@@ -8,15 +8,13 @@ namespace Geometry {
         [SerializeField] private Grid _grid;
         [SerializeField] private FigureSpawner _figureSpawner;
         [SerializeField] private GameObject _board;
-        [SerializeField] private FreeGeometryPoint _freeGeometryPointPrefab;
-        [SerializeField] private StaticGeometryPoint _staticGeometryPointPrefab;
+
         public static Board Instance { get; private set; }
-        public FreeGeometryPoint FreeGeometryPointPrefab => _freeGeometryPointPrefab;
-        public StaticGeometryPoint StaticGeometryPointPrefab => _staticGeometryPointPrefab;
-        public Grid Grid => _grid;
-        public FigureSpawner FigureSpawner => _figureSpawner;
+
+        public static Grid Grid => Instance._grid;
+        public static FigureSpawner FigureSpawner => Instance._figureSpawner;
         
-        public CaptionSystem CaptionSystem { get; private set; } = new CaptionSystem(Utilities.Captions);
+        public static CaptionSystem CaptionSystem { get; private set; } = new CaptionSystem(Utilities.Captions);
         public static event System.Action OnUpdate;
         
 

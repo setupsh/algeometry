@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 1797222303110161510}
   m_ItemImage: {fileID: 0}
-  m_Value: 0
+  m_Value: -1
   m_Options:
     m_Options: []
   m_OnValueChanged:
@@ -1333,7 +1333,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _caption: {fileID: 6504392545148362092}
   _dropdown: {fileID: 4861916085949967132}
-  figure: {fileID: 0}
 --- !u!114 &-7409576519597696077
 MonoBehaviour:
   m_ObjectHideFlags: 0

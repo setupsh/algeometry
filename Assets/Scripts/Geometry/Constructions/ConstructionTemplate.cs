@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 using Geometry;
+using JetBrains.Annotations;
 using TMPro;
 using Color = UnityEngine.Color;
 
@@ -19,7 +20,7 @@ public abstract class ConstructionGenerator {
         }
         throw new System.Exception($"YOU ARE MOTHERFUCKING PIECE OF SHIT, FIX CRAP IN YOUR TEMPLATES {index} {arguments[index].GetType()}");
     }
-    public abstract Construction Generate(List<IGeometryValue> arguments);
+    public abstract void Generate(List<IGeometryValue> arguments);
 }
 
 [System.Serializable]
@@ -36,7 +37,7 @@ public class GeometryParameter {
 
 public abstract class GeometryParameterUI : MonoBehaviour {
     public abstract void SetCaption(string caption);
-    public abstract IGeometryValue GetValue();
+    [CanBeNull] public abstract IGeometryValue GetValue();
 }
 
 public interface IGeometryValue {}

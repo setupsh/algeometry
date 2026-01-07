@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Geometry;
 using TMPro;
@@ -21,9 +22,13 @@ namespace UI {
                 options[figure.GetCaption()] = figure;
                 _dropdown.options.Add(new TMP_Dropdown.OptionData(figure.GetCaption()));
             }
+            _dropdown.captionText.text = String.Empty;
         }
 
         public override IGeometryValue GetValue() {
+            if (figure == null) {
+                return null;
+            }
             return new FigureValue(figure);
         }
     }

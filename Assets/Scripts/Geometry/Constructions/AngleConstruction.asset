@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AngleConstruction
   m_EditorClassIdentifier: 
   generator:
-    rid: 8729833747696320512
+    rid: 8331730943470993415
   parameters:
   - parameterUIprefab: {fileID: 6176280703050483949, guid: 3181d16ecbcb62d5fb72ba1262f74732, type: 3}
     parameterCaption: Parent
@@ -25,9 +25,11 @@ MonoBehaviour:
     parameterCaption: Arm B
   - parameterUIprefab: {fileID: 1667820508468493893, guid: aea5227b6c6b3aae280de90137f3aadc, type: 3}
     parameterCaption: Color
+  - parameterUIprefab: {fileID: 4390008416851701094, guid: 641f8d2b4b92e4dd999e9da20ef7e3e2, type: 3}
+    parameterCaption: Show label
   references:
     version: 2
     RefIds:
-    - rid: 8729833747696320512
-      type: {class: AngleGenerator, ns: , asm: Assembly-CSharp}
+    - rid: 8331730943470993415
+      type: {class: AngleGenerator, ns: Geometry, asm: Assembly-CSharp}
       data: 

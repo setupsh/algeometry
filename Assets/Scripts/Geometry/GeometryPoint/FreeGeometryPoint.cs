@@ -7,7 +7,7 @@ public class FreeGeometryPoint : GeometryPoint {
     protected override void OnDrag() {
         Vector2 mousePosition = FieldCamera.Instance.ToWorldPoint(InputListener.MousePosition);
         if (InputListener.ShiftPressed ) {
-            Vector2 nearestGridPoint = Board.Instance.Grid.GetNearestGridPoint(mousePosition);
+            Vector2 nearestGridPoint = Board.Grid.GetNearestGridPoint(mousePosition);
             if (MatchRules(nearestGridPoint)) {
                 Vector2 delta = nearestGridPoint - Position;
                 MoveLinked(delta);
