@@ -9,6 +9,7 @@ namespace Geometry {
         private GeometricalLineRenderer _lineRenderer;
         [SerializeField] private Color _lineColor;
         [SerializeField] private Color _labelColor;
+        [SerializeField] private Transform _bufferFolder;
         private List<Label> bufferX = new List<Label>(50);
         private List<Label> bufferY = new List<Label>(50);
         private float ceilSize;
@@ -19,8 +20,9 @@ namespace Geometry {
             _lineRenderer = gameObject.AddComponent<GeometricalLineRenderer>();
             _lineRenderer.Setup(new LineRendererConfig(Parameters.DefaultLineWidth * 2f, false, _lineColor, Parameters.DefaultSortingOrder, true, true));
             for (int i = 0; i < bufferX.Capacity; i++) {
-                bufferX.Add(GeometricalLabelSystem.Instance.CreateLabel(transform));
-                bufferX[i].SetColor(_labelColor);
+                bufferX.Add(GeometricalLabelSystem.Instance.CreateLabel(_bufferFolder, Parameters.DefaultSortingOrder));
+                bufferX[i].gameObject.name = $"Label X_{i}";
+                bufferX[i].TextMeshPro.color = _labelColor;
             }
             for (int i = 0; i < bufferY.Capacity; i++) {
                 //bufferY.Add(GeometricalLabelSystem.Instance.CreateLabel("AxisCoordinate"));
@@ -56,12 +58,12 @@ namespace Geometry {
             for (int i = 0; i < count; i++) {
                 float value = min + (ceilSize * (i + 1));
                 Label label = GetLabel(axis, i);
-                label.GetRenderer().enabled = true;
-                label.SetSize(textSize);
-                label.SetText(Round(value, GetDecimalPlaces(ceilSize)).ToString());
+                label.Renderer.enabled = true;
+                label.TextMeshPro.fontSize = textSize;
+                label.TextMeshPro.text = Round(value, GetDecimalPlaces(ceilSize)).ToString();
                 if (i == 0) {
-                    label.ForceUpdate();
-                    offset = label.GetRenderer().bounds.extents.y * 2f;
+                    label.TextMeshPro.ForceMeshUpdate();
+                    offset = label.Renderer.bounds.extents.y * 2f;
                 }
                 Vector2 worldPos = GetWorldPosition(axis, value, offset);
                 
@@ -72,7 +74,7 @@ namespace Geometry {
                     SetProjectionPosition(label, worldPos, axis, bounds.center.y, offset, edge);
                 }
                 else {
-                    label.GetRenderer().enabled = false;
+                    label.Renderer.enabled = false;
                 }
             }        
         }
@@ -116,7 +118,7 @@ namespace Geometry {
             List<Label> labels = axis == Axis.X ? bufferX : bufferY;
             if (from < labels.Capacity) {
                 for (int i = from; i < labels.Capacity; i++) {
-                    labels[i].GetRenderer().enabled = false;
+                    labels[i].Renderer.enabled = false;
                 }
             }
         }

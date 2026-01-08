@@ -36,10 +36,11 @@ namespace Geometry {
                 _lineRenderer.SetPosition(i, points[i]);
             }
             if (_showLabel && _label) {
-                _label.SetText(_angleValue.ToStringDecimalPlaces(2));
+                _label.TextMeshPro.text = _angleValue.ToStringDecimalPlaces(2);
                 _label.SetPosition(_vertex.Position - (_vertex.Position - points[Mathf.RoundToInt(points.Count / 2f)]) * Parameters.OffsetTextFromAngleMultiplier);
-                _label.SetSize(Parameters.DefaultLabelSize);
-                _label.SetColor(_color);
+                //TODO Динамически обновлять размер
+                _label.TextMeshPro.fontSize = Parameters.DefaultLabelSize;
+                _label.TextMeshPro.color = _color;
             }
             
         }
@@ -48,7 +49,7 @@ namespace Geometry {
             _lineRenderer = gameObject.AddComponent<GeometricalLineRenderer>();
             _lineRenderer.Setup(new LineRendererConfig(Parameters.AngleWidth, false, _color, Parameters.DefaultSortingOrder - 1, true, false));
             if (_showLabel) {
-                _label = GeometricalLabelSystem.Instance.CreateLabel(transform);
+                _label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
             }
         }
 

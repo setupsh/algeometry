@@ -27,7 +27,7 @@ namespace Geometry {
             _lineRenderer.SetPosition(1, GetHeightPoint());
             
             if (_label != null) {
-                _label.SetText(_caption);
+                _label.TextMeshPro.text = _caption;
                 _label.SetPosition(GetHeightPoint() + (GetHeightPoint() - _from.Position).normalized * 0.2f);
             }
         }
@@ -36,7 +36,7 @@ namespace Geometry {
             _lineRenderer = gameObject.AddComponent<DashedLineRenderer>();
             _lineRenderer.Setup(new DashedLineConfig(0.1f, false, _color, Parameters.DefaultSortingOrder, true, false,Parameters.HeightLineDashHeight, 1f));
             if (_caption != String.Empty) {
-                _label = GeometricalLabelSystem.Instance.CreateLabel(transform);
+                _label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
             }
         }
         

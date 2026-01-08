@@ -1,4 +1,5 @@
 using System.Globalization;
+using Geometry;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ namespace UI {
 
         public void UpdateValue() {
             value = _slider.value;
-            _value.text = _slider.value.ToString(CultureInfo.InvariantCulture);
+            _value.text = value.ToStringDecimalPlaces(2);
         }
 
         public override IGeometryValue GetValue() {

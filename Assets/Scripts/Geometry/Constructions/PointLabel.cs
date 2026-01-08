@@ -21,14 +21,14 @@ namespace Geometry {
             FieldCamera.OnCameraChanged -= OnCameraChanged;
         }
         public override void UpdateConstruction() {
-            _label.SetSize(Parameters.DefaultLabelSize * FieldCamera.Instance.CeilSize());
+            _label.TextMeshPro.fontSize = Parameters.DefaultLabelSize * FieldCamera.Instance.CeilSize();
             _label.SetPosition(_offset.CalculateOffset());
         }
 
         protected override void CreateConstruction() {
-            _label = GeometricalLabelSystem.Instance.CreateLabel(transform);
-            _label.SetText(_point.Label);
-            _label.SetColor(_color);
+            _label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
+            _label.TextMeshPro.text = _point.Label;
+            _label.TextMeshPro.color = _color;
             UpdateConstruction();
         }
 

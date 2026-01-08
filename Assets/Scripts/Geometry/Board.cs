@@ -8,12 +8,13 @@ namespace Geometry {
         [SerializeField] private Grid _grid;
         [SerializeField] private FigureSpawner _figureSpawner;
         [SerializeField] private GameObject _board;
+        [SerializeField] private GameObject _mainCanvas;
 
         public static Board Instance { get; private set; }
 
         public static Grid Grid => Instance._grid;
         public static FigureSpawner FigureSpawner => Instance._figureSpawner;
-        
+        public static GameObject MainCanvas => Instance._mainCanvas;
         public static CaptionSystem CaptionSystem { get; private set; } = new CaptionSystem(Utilities.Captions);
         public static event System.Action OnUpdate;
         

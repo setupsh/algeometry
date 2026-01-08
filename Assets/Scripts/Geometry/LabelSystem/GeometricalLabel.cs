@@ -12,9 +12,10 @@ public class GeometricalLabelSystem : MonoBehaviour {
         }
     }
 
-    public Label CreateLabel(Transform parent) {
+    public Label CreateLabel(Transform parent, int renderOrder) {
         Label label = Instantiate(_labelReference, parent);
-        label.SetColor(Color.black);
-        return Instantiate(_labelReference, parent);
+        label.TextMeshPro.color = Color.black;
+        label.TextMeshPro.sortingOrder = renderOrder;
+        return label;
     }
 }

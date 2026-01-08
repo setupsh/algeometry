@@ -19,8 +19,8 @@ namespace Geometry {
         public static float DefaultLineWidth => Instance._defaultLineWidth;
         
         [Header("Text")]
-        [SerializeField] private int _defaultLabelSize;
-        public static int DefaultLabelSize => Instance._defaultLabelSize;
+        [SerializeField] private float _defaultLabelSize;
+        public static float DefaultLabelSize => Instance._defaultLabelSize;
         
         [Header("Sorting Orders")]
         [SerializeField] private int _gridSortingOrder;
@@ -28,6 +28,10 @@ namespace Geometry {
         
         [SerializeField] private int _defaultSortingOrder;
         public static int DefaultSortingOrder => Instance._defaultSortingOrder;
+        
+        [SerializeField] private int _labelSortingOrder;
+
+        public static int LabelSortingOrder => Instance._labelSortingOrder;
         [Header("Constructions")]
         [Header("Angle")]
         [SerializeField] private float _angleWidth;

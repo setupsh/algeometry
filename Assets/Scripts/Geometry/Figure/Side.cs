@@ -18,8 +18,8 @@ namespace Geometry {
         }
 
         public void AssignLabel(string label) {
-            _label = GeometricalLabelSystem.Instance.CreateLabel(transform);
-            _label.SetText(label);
+            _label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
+            _label.TextMeshPro.SetText(label);
             UpdateLabel();
         }
 
@@ -35,7 +35,7 @@ namespace Geometry {
             if (Vector2.Dot(perpendicular, toCenter) > 0f) {
                 perpendicular = -perpendicular;
             }
-            _label.SetPosition(GetMiddle() + perpendicular * (_label.GetFontSize() / 100f));
+            _label.SetPosition(GetMiddle() + perpendicular * (_label.TextMeshPro.fontSize / 100f));
         }
         
         
