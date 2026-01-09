@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Geometry {
     public static class Utilities {
+        public const float Epsilon = 0.0001f;
         public static readonly List<string> Captions = new List<string> {
             "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
         };
@@ -12,6 +13,25 @@ namespace Geometry {
 
         public static bool ContainsCamera(this Bounds bounds, Vector2 point) {
             return bounds.Contains(new Vector3(point.x, point.y, Camera.main.transform.position.z));
+        }
+        public static bool Is<T>(this object obj, out T result) where T : class {
+            result = obj as T;
+            return obj as T != null;
+        }
+    
+        public static bool IsSubclass(this object obj, System.Type type) {
+            return obj.GetType().IsSubclassOf(type);
+        }
+        // TYPING
+        public static bool IsA(this object obj, System.Type type) {
+            return type.IsAssignableFrom(obj.GetType());
+        }
+
+        public static bool TryConvert<T>(this object obj, out T result) {
+            result = default;
+            if (obj.IsA(typeof(T)) || obj.IsSubclass(typeof(T)))
+                result = (T)obj;
+            return result != null;
         }
 
         public static float SnapToGrid(float value, float step) {

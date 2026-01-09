@@ -8,7 +8,7 @@ namespace Geometry {
     public abstract class Figure : MonoBehaviour, IIndicable {
         [SerializeField] protected GeometricalLineRenderer _lineRenderer;
         public GeometryPoint[] Points {get; private set;}
-        public Side[] Sides { get; private set;}
+        public List<Side> Sides { get; private set; } = new List<Side>();
         public List<Construction> Constructions { get; private set; } = new List<Construction>();
         protected Transform constructionFolder;
         protected Transform sidesFolder;
@@ -29,10 +29,10 @@ namespace Geometry {
         }
 
         protected void Start() {
+            transform.name = GetCaption();
             InitConstruction();
             InitSides();
             InitRules();
-            transform.name = GetCaption();
             UpdateFigure();
             FieldCamera.Instance.ForceCameraUpdate();
         }
@@ -50,6 +50,7 @@ namespace Geometry {
             foreach (Construction construction in Constructions) {
                 construction.UpdateConstruction();
             }
+            PostUpdate();
         }
 
         private void InitConstruction() {
@@ -58,7 +59,6 @@ namespace Geometry {
         }
 
         private void InitSides() {
-            Sides = new Side[PointsAmount()];
             sidesFolder = new GameObject("Sides").transform;
             sidesFolder.SetParent(transform);
             sidesFolder.position = transform.position;
@@ -68,7 +68,7 @@ namespace Geometry {
                 side.Init(this, Points[i], Points[i + 1 > PointsAmount() - 1 ? 0 : i + 1 ]);
                 side.transform.SetParent(sidesFolder);
                 side.transform.position = side.GetMiddle();
-                Sides[i] = side;
+                Sides.Add(side);
             }
         }
 
@@ -90,6 +90,8 @@ namespace Geometry {
             Constructions.Add(construction);
             construction.transform.parent = constructionFolder;
         }
+
+        protected abstract void PostUpdate();
         
         public abstract Vector2 GetCenter();
 

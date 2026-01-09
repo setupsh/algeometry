@@ -1331,6 +1331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 055e050a362d47fa9ef1c60754ba6380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _allFigures: 1
+  _figureToCollect: 0
   _caption: {fileID: 6504392545148362092}
   _dropdown: {fileID: 4861916085949967132}
 --- !u!114 &-7409576519597696077

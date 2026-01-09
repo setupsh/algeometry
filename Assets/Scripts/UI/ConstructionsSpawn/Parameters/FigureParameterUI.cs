@@ -3,6 +3,9 @@ using UnityEngine;
 using Geometry;
 using TMPro;
 using System.Collections.Generic;
+using Geometry.Realisations;
+using NaughtyAttributes;
+
 namespace UI {
     public class FigureParameterUI : GeometryParameterUI {
         [SerializeField] private TextMeshProUGUI _caption;

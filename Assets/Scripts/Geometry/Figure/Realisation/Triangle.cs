@@ -25,5 +25,8 @@ namespace Geometry.Realisations {
         protected override int PointsAmount() {
             return 3;
         }
+
+        protected override void PostUpdate() {
+        }
     }
 }

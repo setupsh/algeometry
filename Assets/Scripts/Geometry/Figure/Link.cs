@@ -1,22 +1,24 @@
 using UnityEditor.UI;
 using UnityEngine;
+using Geometry.Realisations;
 
 namespace Geometry {
     public enum Coordinate {X, Y, Both}
     public abstract class Link {
-        protected GeometryPoint _selfPoint, _linkPoint;
+        protected GeometryPoint _selfPoint;
 
-        public Link(GeometryPoint selfPoint, GeometryPoint linkPoint) {
+        public Link(GeometryPoint selfPoint) {
             _selfPoint = selfPoint;
-            _linkPoint = linkPoint;
         }
         public abstract void Move(Vector2 delta);
     }
 
     public class Mirror : Link {
         private Coordinate _coordinate;
+        private GeometryPoint _linkPoint;
 
-        public Mirror(GeometryPoint selfPoint, GeometryPoint linkPoint, Coordinate coordinate) : base(selfPoint, linkPoint) {
+        public Mirror(GeometryPoint selfPoint, GeometryPoint linkPoint, Coordinate coordinate) : base(selfPoint) {
+            _linkPoint = linkPoint;
             _coordinate = coordinate;
         }
 
@@ -39,8 +41,11 @@ namespace Geometry {
 
     public class Copy : Link {
         private Coordinate _coordinate;
+        private GeometryPoint _linkPoint;
+        
 
-        public Copy(GeometryPoint selfPoint, GeometryPoint linkPoint, Coordinate coordinate) : base(selfPoint, linkPoint) {
+        public Copy(GeometryPoint selfPoint, GeometryPoint linkPoint, Coordinate coordinate) : base(selfPoint) {
+            _linkPoint = linkPoint;
             _coordinate = coordinate;
         }
 

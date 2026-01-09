@@ -16,6 +16,8 @@ public class FreeGeometryPoint : GeometryPoint {
         }
         else {
             if (MatchRules(mousePosition)) {
+                Vector2 delta = mousePosition - (Vector2) transform.position;
+                MoveLinked(delta);
                 transform.position = mousePosition;
             }
         }
@@ -33,6 +35,10 @@ public class FreeGeometryPoint : GeometryPoint {
     }
 
     public override void Move(Vector2 position) {
+        if ((Position - position).sqrMagnitude < Utilities.Epsilon) {
+            return; 
+        }
         transform.position = position;
+        InvokePositionChanging();
     }
 }
