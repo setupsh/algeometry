@@ -9,6 +9,7 @@ namespace Geometry {
         [SerializeField] private FigureSpawner _figureSpawner;
         [SerializeField] private GameObject _board;
         [SerializeField] private GameObject _mainCanvas;
+        [SerializeField] private LessonText _lessonText;
         private bool isUpdating = false;
         public static Board Instance { get; private set; }
 
@@ -16,6 +17,9 @@ namespace Geometry {
         public static FigureSpawner FigureSpawner => Instance._figureSpawner;
         public static GameObject MainCanvas => Instance._mainCanvas;
         public static CaptionSystem CaptionSystem { get; private set; } = new CaptionSystem(Utilities.Captions);
+        public static AlgebraExpressionViewGenerator AlgebraExpressionViewGenerator { get; private set; } = new AlgebraExpressionViewGenerator();
+
+        public static LessonText LessonText => Instance._lessonText;
 
         public static event System.Action OnPreUpdate;
         public static event System.Action OnUpdate;

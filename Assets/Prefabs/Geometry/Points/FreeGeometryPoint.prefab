@@ -179,7 +179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d72ab71cd739b6e9b0911e37e0cc03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GeometryPointSprite
-  _color: {r: 0.88500226, g: 0.88500226, b: 0.88500226, a: 1}
+  _color: {r: 0.873591, g: 0.873591, b: 0.873591, a: 1}
+  _blockedColor: {r: 0, g: 0, b: 0, a: 0}
   _spriteRenderer: {fileID: 642729119914556387}
   _initialScale: {x: 0.2, y: 0.2}
   _sortingOrder: 1
@@ -192,7 +193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5096566727424271437}
-  - component: {fileID: 8429290599686881655}
+  - component: {fileID: 3939447658933097821}
   m_Layer: 0
   m_Name: FreeGeometryPoint
   m_TagString: Untagged
@@ -217,7 +218,7 @@ Transform:
   - {fileID: 3001812252488000135}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8429290599686881655
+--- !u!114 &3939447658933097821
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,9 +227,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5791163230731598477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fed3244b48ffd14ab3679666a8895c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 3cb2f11bb1244dbd89a54afc8b5317b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 1396534105741237014}
-  _spriteRenderer: {fileID: 6307986616406833827}
+  _sprite: {fileID: 0}
   _label: 

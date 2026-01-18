@@ -14,18 +14,14 @@ namespace UI {
                 if (indecable.GetChildrenIndicators() == null) {
                     foreach (var indicator in indecable.GetIndicatorInfos()) {
                         BoardMenuElement boardMenuElement = Instantiate(_boardMenuElementPrefab, _rectTransform);
-                        boardMenuElement.rectTransform.anchoredPosition = new Vector2(0, y);
-                        boardMenuElement.Init(indicator, indicator.GetCaption(), getter, this);
+                        boardMenuElement.Init(indicator, indicator.BoardMenuCaption, getter, this);
                         _boardMenuElements.Add(boardMenuElement);
-                        y -= boardMenuElement.rectTransform.sizeDelta.y;
                     }
                 }
                 else {
                     SubBoardMenuElement subBoardMenuElement = Instantiate(_subBoardMenuPrefab, _rectTransform);
-                    subBoardMenuElement.rectTransform.anchoredPosition = new Vector2(0, y);
-                    subBoardMenuElement.Init(indecable.GetChildrenIndicators(), indecable.GetCaption(), getter);
+                    subBoardMenuElement.Init(indecable.GetChildrenIndicators(), indecable.GetBoardMenuCaption(), getter);
                     _subBoardMenuElements.Add(subBoardMenuElement);
-                    y -= subBoardMenuElement.rectTransform.sizeDelta.y;
                 }
             }
         }

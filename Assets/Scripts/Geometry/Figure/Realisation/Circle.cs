@@ -11,23 +11,22 @@ namespace Geometry.Realisations {
         private Vector2 Center => Points[0].transform.position;
 
         public void LinkPoint(GeometryPoint point) {
-            if (linkedPoints.Contains(point)) linkedPoints.Remove(point);
-            else linkedPoints.Add(point);
-            UpdateLinkedPoints();
-        }
-        private void Awake() {
-            Board.OnUpdate += UpdateLinkedPoints;
+            if (linkedPoints.Contains(point)) {
+                linkedPoints.Remove(point);
+                point.Constrain = null;
+            }
+            else {
+                linkedPoints.Add(point);
+                point.Constrain = new OnCircleConstrain(this);
+            }
         }
 
         private void OnDestroy() {
-            Board.OnUpdate -= UpdateLinkedPoints;
-        }
-
-        private void UpdateLinkedPoints() {
             foreach (GeometryPoint point in linkedPoints) {
-                point.Move(GetProjection(point.Position));
+                point.Constrain = null;
             }
         }
+        
         protected override void PostUpdate() {
             List<Vector2> points = GetCirclePoints();
             _lineRenderer.SetPosition(PointsAmount(), GeometricalLineRenderer.VOID_POINT);
@@ -35,8 +34,7 @@ namespace Geometry.Realisations {
                 _lineRenderer.SetPosition(PointsAmount() + i + 1, points[i]);
             }
         }
-
-
+        
         public override Vector2 GetCenter() {
             return Points[0].Position;
         }

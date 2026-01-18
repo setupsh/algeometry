@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 namespace Geometry {
     public struct Line {
@@ -146,7 +147,7 @@ namespace Geometry {
         }
 
         public void OnCameraChanged() {
-            lineWidth = _lineWidth / FieldCamera.Instance.ZoomLevel;
+            lineWidth = _lineWidth * FieldCamera.Instance.CeilSize();
             GenerateMesh();
         }
     }

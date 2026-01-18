@@ -38,7 +38,7 @@ namespace Geometry {
         }
 
         public void MoveCamera(Vector2 delta) {
-            _camera.transform.position -= (Vector3) delta * (Time.deltaTime * _moveMultiplier / ZoomLevel);
+            _camera.transform.position -= (Vector3) delta * (Time.deltaTime * _moveMultiplier * CeilSize());
             NotifyListeners();
         }
 

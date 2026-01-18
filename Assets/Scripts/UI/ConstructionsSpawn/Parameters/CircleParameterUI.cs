@@ -22,8 +22,8 @@ namespace UI {
 
         private void Start() {
             foreach (Circle circle in Board.Instance.Collect<Circle>()) {
-                options[circle.GetCaption()] = circle;
-                _dropdown.options.Add(new TMP_Dropdown.OptionData(circle.GetCaption()));
+                options[circle.GetBoardMenuCaption()] = circle;
+                _dropdown.options.Add(new TMP_Dropdown.OptionData(circle.GetBoardMenuCaption()));
             }
             _dropdown.captionText.text = String.Empty;
         }

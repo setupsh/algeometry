@@ -113,7 +113,7 @@ MonoBehaviour:
   _points: []
   _lineWidth: 0.05
   _loop: 1
-  _lineColor: {r: 0, g: 0, b: 0, a: 1}
+  _lineColor: {r: 0.11764706, g: 0.16078432, b: 0.23137255, a: 1}
   _sortingOrder: 0
   _scalable: 1
   _absolutePosition: 0

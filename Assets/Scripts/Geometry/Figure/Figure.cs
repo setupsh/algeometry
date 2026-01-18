@@ -29,7 +29,7 @@ namespace Geometry {
         }
 
         protected void Start() {
-            transform.name = GetCaption();
+            transform.name = GetBoardMenuCaption();
             InitConstruction();
             InitSides();
             InitRules();
@@ -81,7 +81,7 @@ namespace Geometry {
                 GeometryPoint point = Instantiate(Resources.FreeGeometryPointPrefab, pointsFolder).GetComponent<GeometryPoint>();
                 point.Label = caption;
                 point.name = $"Point {caption}";
-                point.Move((Vector2)transform.position + DefaultPositions()[i] * FieldCamera.Instance.CeilSize());
+                point.Position = (Vector2)transform.position + DefaultPositions()[i] * FieldCamera.Instance.CeilSize();
                 Points[i] = point;
             }
         }
@@ -101,7 +101,7 @@ namespace Geometry {
         
         protected abstract Vector2[] DefaultPositions();
 
-        public string GetCaption() {
+        public string GetBoardMenuCaption() {
             string letters = string.Empty;
             foreach (GeometryPoint point in Points) {
                 letters += point.Label;

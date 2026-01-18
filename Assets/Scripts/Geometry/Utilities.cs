@@ -18,6 +18,10 @@ namespace Geometry {
             result = obj as T;
             return obj as T != null;
         }
+
+        public static string RichTextEffect(string effectTag, string text) {
+            return $"<{effectTag}>{text}</{effectTag}>";
+        }
     
         public static bool IsSubclass(this object obj, System.Type type) {
             return obj.GetType().IsSubclassOf(type);

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Resources = Geometry.Resources;
 
-public enum Figures {Triangle, RightTriangle, EquilateralTriangle, Circle}
+public enum Figures {Triangle, IsoscelesTriangle, EquilateralTriangle, Circle}
 public class FigureSpawner : MonoBehaviour {
     public Dictionary<Figures, Figure> Prefabs { get; private set; } = new Dictionary<Figures, Figure>();
 
@@ -13,6 +13,7 @@ public class FigureSpawner : MonoBehaviour {
         Prefabs = new Dictionary<Figures, Figure>() {
             { Figures.Triangle, Resources.TrianglePrefab},
             { Figures.Circle, Resources.CirclePrefab},
+            { Figures.IsoscelesTriangle, Resources.IsoscelesTrianglePrefab},
         };
     }
     public void SpawnFigure(Figures figure) {
@@ -22,7 +23,7 @@ public class FigureSpawner : MonoBehaviour {
 
     private void SnapToGrid(Figure figure) {
         foreach (GeometryPoint point in figure.Points) {
-            point.Move(Board.Grid.GetNearestGridPoint(point.Position));
+            point.Position = (Board.Grid.GetNearestGridPoint(point.Position));
         }
     }
 }

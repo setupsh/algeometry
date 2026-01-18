@@ -6,62 +6,53 @@ namespace Geometry {
     public enum Coordinate {X, Y, Both}
     public abstract class Link {
         protected GeometryPoint _selfPoint;
+        protected GeometryPoint _linkPoint; 
 
-        public Link(GeometryPoint selfPoint) {
+        public Link(GeometryPoint selfPoint, GeometryPoint linkPoint) {
             _selfPoint = selfPoint;
+            _linkPoint = linkPoint;
         }
         public abstract void Move(Vector2 delta);
     }
 
     public class Mirror : Link {
         private Coordinate _coordinate;
-        private GeometryPoint _linkPoint;
 
-        public Mirror(GeometryPoint selfPoint, GeometryPoint linkPoint, Coordinate coordinate) : base(selfPoint) {
-            _linkPoint = linkPoint;
-            _coordinate = coordinate;
+        public Mirror(GeometryPoint self, GeometryPoint target, Coordinate coord) : base(self, target) {
+            _coordinate = coord;
         }
 
         public override void Move(Vector2 delta) {
-            if (_coordinate == Coordinate.Both) {
-                if (_linkPoint.MatchRules(_linkPoint.Position - delta)) {
-                    _linkPoint.Move(_linkPoint.Position - delta);
-                } 
-            } else if (_coordinate == Coordinate.X) {
-                if (_linkPoint.MatchRules(new Vector2(_linkPoint.Position.x - delta.x, _linkPoint.Position.y))) {
-                    _linkPoint.Move(new Vector2(_linkPoint.Position.x - delta.x, _linkPoint.Position.y));
-                }
-            } else if  (_coordinate == Coordinate.Y) {
-                if  (_linkPoint.MatchRules(new  Vector2(_linkPoint.Position.x, _linkPoint.Position.y - delta.y))) {
-                    _linkPoint.Move(new Vector2(_linkPoint.Position.x, _linkPoint.Position.y - delta.y));
-                }
+            Vector2 constrainedDelta = new Vector2(
+                (_coordinate == Coordinate.X || _coordinate == Coordinate.Both) ? -delta.x : 0,
+                (_coordinate == Coordinate.Y || _coordinate == Coordinate.Both) ? -delta.y : 0
+            );
+
+            Vector2 targetPos = _linkPoint.Position + constrainedDelta;
+
+            if (_linkPoint.MatchRules(targetPos)) {
+                _linkPoint.Position = targetPos;
             }
         }
     }
 
     public class Copy : Link {
         private Coordinate _coordinate;
-        private GeometryPoint _linkPoint;
-        
 
-        public Copy(GeometryPoint selfPoint, GeometryPoint linkPoint, Coordinate coordinate) : base(selfPoint) {
-            _linkPoint = linkPoint;
-            _coordinate = coordinate;
+        public Copy(GeometryPoint self, GeometryPoint target, Coordinate coord) : base(self, target) {
+            _coordinate = coord;
         }
 
         public override void Move(Vector2 delta) {
-            if (_coordinate == Coordinate.Both) {
-                if (_linkPoint.MatchRules(_linkPoint.Position + delta)) {
-                    _linkPoint.Move(_linkPoint.Position + delta);
-                } 
-            } else if (_coordinate == Coordinate.X) {
-                if (_linkPoint.MatchRules(new Vector2(_linkPoint.Position.x + delta.x, _linkPoint.Position.y))) {
-                    _linkPoint.Move(new Vector2(_linkPoint.Position.x + delta.x, _linkPoint.Position.y));
-                }
-            } else if  (_coordinate == Coordinate.Y) {
-                if  (_linkPoint.MatchRules(new  Vector2(_linkPoint.Position.x, _linkPoint.Position.y + delta.y))) {
-                    _linkPoint.Move(new Vector2(_linkPoint.Position.x, _linkPoint.Position.y + delta.y));
-                }
+            Vector2 constrainedDelta = new Vector2(
+                (_coordinate == Coordinate.X || _coordinate == Coordinate.Both) ? delta.x : 0,
+                (_coordinate == Coordinate.Y || _coordinate == Coordinate.Both) ? delta.y : 0
+            );
+
+            Vector2 targetPos = _linkPoint.Position + constrainedDelta;
+
+            if (_linkPoint.MatchRules(targetPos)) {
+                _linkPoint.Position = targetPos;
             }
         }
     }

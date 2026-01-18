@@ -41,15 +41,18 @@ namespace Geometry {
         
         public Vector2 GetMiddle() => (Start.transform.position + End.transform.position) * 0.5f;
 
-        public string GetCaption() {
+        public string GetBoardMenuCaption() {
             return String.Empty;
         }
 
         public List<IndicatorInfo> GetIndicatorInfos() {
-            var indicatorInfos = new List<IndicatorInfo>();
-            indicatorInfos.Add(new TextInfo(() => $"{Start.Label} - {End.Label} = {Vector2.Distance(Start.Position, End.Position)}",
-                () => $"Side of {Parent.name}: {Start.Label} - {End.Label}"));
-            return indicatorInfos;
+            return new List<IndicatorInfo>() {
+                new NumberInfo(() => Vector2.Distance(Start.Position, End.Position), $"Length of {Start.Label} - {End.Label}", $"{Start.Label} - {End.Label}")
+            };
+            //var indicatorInfos = new List<IndicatorInfo>();
+            //indicatorInfos.Add(new TextInfo(() => $"{Start.Label} - {End.Label} = {Vector2.Distance(Start.Position, End.Position)}",
+            //    () => $"Side of {Parent.name}: {Start.Label} - {End.Label}"));
+            //return indicatorInfos;
         }
 
         public List<IIndicable> GetChildrenIndicators() {

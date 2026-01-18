@@ -1,0 +1,160 @@
+using UnityEngine;
+using UnityEngine.UI;
+using Algebra;
+using TMPro;
+
+namespace UI {
+    public abstract class AlgebraExpressionView {
+        public abstract RectTransform Root { get; }
+        public abstract void UpdateValue();
+
+        public virtual void Dispose() {
+            Object.Destroy(Root.gameObject);
+        }
+    }
+    public sealed class NumberExpressionView : AlgebraExpressionView {
+        private NumberExpression expression;
+        private TextMeshProUGUI text;
+
+        public NumberExpressionView(NumberExpression expression, Transform parent, TextMeshProUGUI prefab) {
+            this.expression = expression;
+            text = Object.Instantiate(prefab, parent);
+            UpdateValue();
+        }
+
+        public override RectTransform Root => text.rectTransform;
+
+        public override void UpdateValue() {
+            double value = expression.Evaluate();
+            text.text = expression.Evaluate().ToString(value % 1 == 0 ? "N0" : "F3");
+        }
+    }
+
+    public sealed class FractionExpressionView : AlgebraExpressionView {
+        private AlgebraExpressionUI root;
+        private AlgebraExpressionView numerator;
+        private AlgebraExpressionView denominator;
+
+        public FractionExpressionView(FractionExpression expression, Transform parent, AlgebraExpressionViewGenerator generator, AlgebraExpressionUI fractionPrefab) {
+            root = Object.Instantiate(fractionPrefab, parent);
+            numerator = generator.Generate(expression.Numerator, root.Root);
+            numerator.Root.SetAsFirstSibling();
+            //numerator.Root.localScale *= 0.9f;
+            denominator = generator.Generate(expression.Denominator, root.Root);
+            denominator.Root.SetAsLastSibling();
+            //denominator.Root.localScale *= 0.9f;
+        }
+
+        public override RectTransform Root => root.GetComponent<RectTransform>();
+
+        public override void UpdateValue() {
+            numerator.UpdateValue();
+            denominator.UpdateValue();
+        }
+
+        public override void Dispose() {
+            numerator.Dispose();
+            denominator.Dispose();
+            base.Dispose();
+        }
+    }
+    public sealed class MulExpressionView : AlgebraExpressionView {
+        private AlgebraExpressionUI root;
+        private AlgebraExpressionView left;
+        private AlgebraExpressionView right;
+
+        public MulExpressionView(MulExpression expression, Transform parent, AlgebraExpressionViewGenerator generator, AlgebraExpressionUI mulPrefab) {
+            root = Object.Instantiate(mulPrefab, parent);
+            left = generator.Generate(expression.Left, root.Root);
+            left.Root.SetAsFirstSibling();
+            right = generator.Generate(expression.Right, root.Root);
+            right.Root.SetAsLastSibling();
+        }
+
+        public override RectTransform Root => root.Root;
+
+        public override void UpdateValue() {
+            left.UpdateValue();
+            right.UpdateValue();
+        }
+
+        public override void Dispose() {
+            left.Dispose();
+            right.Dispose();
+            base.Dispose();
+        }
+    }
+    public sealed class SumExpressionView : AlgebraExpressionView {
+        private AlgebraExpressionUI root;
+        private AlgebraExpressionView left;
+        private AlgebraExpressionView right;
+
+        public SumExpressionView(SumExpression expression, Transform parent, AlgebraExpressionViewGenerator generator, AlgebraExpressionUI sumPrefab) {
+            root = Object.Instantiate(sumPrefab, parent);
+            left = generator.Generate(expression.Left, root.Root);
+            left.Root.SetAsFirstSibling();
+            right = generator.Generate(expression.Right, root.Root);
+            right.Root.SetAsLastSibling();
+        }
+
+        public override RectTransform Root => root.Root;
+
+        public override void UpdateValue() {
+            left.UpdateValue();
+            right.UpdateValue();
+        }
+
+        public override void Dispose() {
+            left.Dispose();
+            right.Dispose();
+            base.Dispose();
+        }
+    }
+    public sealed class SubtractExpressionView : AlgebraExpressionView {
+        private AlgebraExpressionUI root;
+        private AlgebraExpressionView left;
+        private AlgebraExpressionView right;
+
+        public SubtractExpressionView(SubtractExpression expression, Transform parent, AlgebraExpressionViewGenerator generator, AlgebraExpressionUI sumPrefab) {
+            root = Object.Instantiate(sumPrefab, parent);
+            left = generator.Generate(expression.Left, root.Root);
+            left.Root.SetAsFirstSibling();
+            right = generator.Generate(expression.Right, root.Root);
+            right.Root.SetAsLastSibling();
+        }
+
+        public override RectTransform Root => root.Root;
+
+        public override void UpdateValue() {
+            left.UpdateValue();
+            right.UpdateValue();
+        }
+
+        public override void Dispose() {
+            left.Dispose();
+            right.Dispose();
+            base.Dispose();
+        }
+    }
+    public sealed class SqrtExpressionView : AlgebraExpressionView {
+        private AlgebraExpressionUI root;
+        private AlgebraExpressionView inner;
+
+        public SqrtExpressionView(SqrtExpression expression, Transform parent, AlgebraExpressionViewGenerator generator, AlgebraExpressionUI fractionPrefab) {
+            root = Object.Instantiate(fractionPrefab, parent);
+            inner = generator.Generate(expression.Inner, root.Root);
+            inner.Root.SetAsLastSibling();
+        }
+
+        public override RectTransform Root => root.GetComponent<RectTransform>();
+
+        public override void UpdateValue() {
+            inner.UpdateValue();
+        }
+
+        public override void Dispose() {
+            inner.Dispose();
+            base.Dispose();
+        }
+    }
+}

@@ -22,8 +22,8 @@ namespace UI {
 
         private void Start() {
             foreach (Figure figure in Board.Instance.Collect<Figure>()) {
-                options[figure.GetCaption()] = figure;
-                _dropdown.options.Add(new TMP_Dropdown.OptionData(figure.GetCaption()));
+                options[figure.GetBoardMenuCaption()] = figure;
+                _dropdown.options.Add(new TMP_Dropdown.OptionData(figure.GetBoardMenuCaption()));
             }
             _dropdown.captionText.text = String.Empty;
         }
