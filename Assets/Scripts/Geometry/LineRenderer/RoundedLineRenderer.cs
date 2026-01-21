@@ -18,14 +18,13 @@ namespace Geometry {
             base.GenerateLine(index);
             Line line = CreateLine(index);
             int arcStart = vertices.Count;
-            foreach (var point in Utilities.GenerateSector(line.End, line.End - line.Perpendicular, line.End + line.Perpendicular, _roundCornersSegments)) {
-                vertices.Add( point);
-            }
-                
+            
+            Utilities.FillSector(vertices, line.End, line.End - line.Perpendicular, line.End + line.Perpendicular, _roundCornersSegments);
+    
             for (int i = 1; i < _roundCornersSegments + 1; i++) {
                 triangles.Add(arcStart);
                 triangles.Add(arcStart + i + 1);
-                triangles.Add(arcStart + i );
+                triangles.Add(arcStart + i);
             }
         } 
     }

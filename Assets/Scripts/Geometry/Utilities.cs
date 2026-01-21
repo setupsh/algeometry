@@ -64,9 +64,11 @@ namespace Geometry {
             return result;
         }
 
-        public static List<Vector2> GenerateSector(Vector2 center, Vector2 start, Vector2 end, int segments = 20) {
-            List<Vector2> points = new List<Vector2>();
-            points.Add(center);
+        public static List<Vector3> GenerateSector(Vector2 center, Vector2 start, Vector2 end, int segments = 20) {
+            List<Vector3> points = new List<Vector3>(segments + 2);
+            for (int i = 0; i < segments + 2; i++) 
+                points.Add(Vector2.zero);
+            points[0] = center;
             
             Vector2 dirStart = (start - center).normalized;
             Vector2 dirEnd = (end - center).normalized;
@@ -85,10 +87,29 @@ namespace Geometry {
             {
                 float angle = angleStart + angleStep * i;
                 Vector3 point = center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
-                points.Add(point);
+                points[i + 1] = point;
             }
 
             return points;
+        }
+        public static void FillSector(List<Vector3> targetList, Vector2 center, Vector2 start, Vector2 end, int segments = 20) {
+            targetList.Add(center);
+    
+            Vector2 dirStart = (start - center).normalized;
+            Vector2 dirEnd = (end - center).normalized;
+            float radius = (start - center).magnitude;
+    
+            float angleStart = Mathf.Atan2(dirStart.y, dirStart.x);
+            float angleEnd = Mathf.Atan2(dirEnd.y, dirEnd.x);
+    
+            if (angleEnd < angleStart) angleEnd += Mathf.PI * 2;
+
+            float angleStep = (angleEnd - angleStart) / segments;
+    
+            for (int i = 0; i <= segments; i++) {
+                float angle = angleStart + angleStep * i;
+                targetList.Add(center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius);
+            }
         }
         
         public static List<Vector2> GenerateAngleSector(Vector2 center, Vector2 sideA, Vector2 sideB, float radius, int segments = 20, bool shortestAngle = true) {

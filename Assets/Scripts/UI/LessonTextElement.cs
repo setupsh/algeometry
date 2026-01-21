@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using PicoTween;
 
 public class LessonTextElement : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _textMeshPro;
@@ -26,18 +27,15 @@ public class LessonTextElement : MonoBehaviour {
         else if (!evented) {
             evented = true;
             _tmpWriter.enabled = false;
-            StartCoroutine(FadeOut());
+            FadeOut();
         }
     }
 
-    private IEnumerator FadeOut() {
-        float startAlpha = _textMeshPro.alpha;
-        for (float t = 0f; t < 1f; t += Time.deltaTime * 4) {
-            _textMeshPro.alpha = Mathf.Lerp(startAlpha, 0.5f, t);
-            yield return null;
-        };
-        _textMeshPro.SetText(_textMeshPro.text.Remove(_textMeshPro.text.Length - ending.Length, ending.Length));
-        OnFinish?.Invoke();
-        
+    private void FadeOut() {
+        _textMeshPro.alpha.Tween(() => _textMeshPro.alpha, value => _textMeshPro.alpha = value, 0.25f, 5.25f, onComplete: () => {
+            _textMeshPro.SetText(_textMeshPro.text.Remove(_textMeshPro.text.Length - ending.Length, ending.Length));
+            OnFinish?.Invoke();
+        });
     }
 }
+

@@ -19,6 +19,7 @@ public class InputListener : MonoBehaviour {
             Instance = this;
             InputActions = new UserInputActions();
             InputActions.Enable();
+            InputActions.Player.Escape.performed += ctx => InvokeSceneExiter();
         }
     }
 
@@ -32,4 +33,7 @@ public class InputListener : MonoBehaviour {
         FieldCamera.Instance.MoveCamera(MouseDelta);
     }
 
+    private void InvokeSceneExiter() {
+        SceneLoader.SceneExiter.Show();
+    }
 }

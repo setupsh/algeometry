@@ -44,8 +44,8 @@ public class LessonText : MonoBehaviour {
     
 
     private void Clear() {
-        foreach (var e in elements) {
-            if (e != null) Destroy(e.gameObject);
+        foreach (var element in elements) {
+            if (element != null) Destroy(element.gameObject);
         }
         elements.Clear();
     }

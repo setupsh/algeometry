@@ -35,6 +35,7 @@ namespace Geometry {
         [SerializeField] protected int _sortingOrder = 0;
         [SerializeField] protected bool _scalable = true;
         [SerializeField] protected bool _absolutePosition = false;
+        public List<Vector2> Points => _points;
         protected float lineWidth;
         protected Mesh mesh;
         protected List<Vector3> vertices  = new List<Vector3>();
@@ -54,6 +55,7 @@ namespace Geometry {
 
         public void ClearPoints() {
             _points.Clear();
+            GenerateMesh();
         }
         public void SetPosition(int index, Vector2 position) {
             if (_points.Count <= index) {
@@ -111,6 +113,7 @@ namespace Geometry {
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
         }
+        
 
         protected virtual void GenerateLine(int index) {
             Line line = CreateLine(index);
