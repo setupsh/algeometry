@@ -30,6 +30,7 @@ namespace PicoTween {
         public static void Tween(this float self, Func<float> getter, Action<float> setter, float endValue, float duration, AnimationCurve curve = null, Action onComplete = null) {
             PicoRunner.Instance.StartCoroutine(Tween(getter, setter, endValue, duration, Mathf.Lerp, curve ?? defualtCurve, onComplete));
         }
+        
         public static void Tween(this Vector2 self, Vector2 endValue, float duration, AnimationCurve curve, Action onComplete) {
             PicoRunner.Instance.StartCoroutine(Tween(() => self, value => self = value, endValue, duration, Vector2.Lerp, curve ?? defualtCurve, onComplete));
         }

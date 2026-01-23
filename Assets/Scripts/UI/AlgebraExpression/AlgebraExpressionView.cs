@@ -31,9 +31,9 @@ namespace UI {
     }
 
     public sealed class FractionExpressionView : AlgebraExpressionView {
-        private AlgebraExpressionUI root;
-        private AlgebraExpressionView numerator;
-        private AlgebraExpressionView denominator;
+        private readonly AlgebraExpressionUI root;
+        private readonly AlgebraExpressionView numerator;
+        private readonly AlgebraExpressionView denominator;
 
         public FractionExpressionView(FractionExpression expression, Transform parent, AlgebraExpressionViewGenerator generator, AlgebraExpressionUI fractionPrefab) {
             root = Object.Instantiate(fractionPrefab, parent);
