@@ -5,7 +5,7 @@ using System.Collections;
 using UnityEngine.Rendering;
 
 namespace Geometry {
-    public class AxisCoordinate : MonoBehaviour, ICameraListener {
+    public class AxisCoordinate : MonoBehaviour {
         private GeometricalLineRenderer _lineRenderer;
         [SerializeField] private Color _lineColor;
         [SerializeField] private Color _labelColor;
@@ -14,6 +14,7 @@ namespace Geometry {
         private List<Label> bufferY = new List<Label>(50);
         private float ceilSize;
         private int bufferSize;
+        private const string transparentMinus = "<color=#00000000>-";
         
         public enum Axis {X, Y}
         private void Start() {
@@ -25,8 +26,9 @@ namespace Geometry {
                 bufferX[i].TextMeshPro.color = _labelColor;
             }
             for (int i = 0; i < bufferY.Capacity; i++) {
-                //bufferY.Add(GeometricalLabelSystem.Instance.CreateLabel("AxisCoordinate"));
-                //bufferY[i].SetColor(_labelColor);
+                bufferY.Add(GeometricalLabelSystem.Instance.CreateLabel(_bufferFolder, Parameters.DefaultSortingOrder));
+                bufferY[i].gameObject.name = $"Label Y_{i}";
+                bufferY[i].TextMeshPro.color = _labelColor;
             }
             FieldCamera.OnCameraChanged += OnCameraChanged;
             OnCameraChanged();
@@ -41,8 +43,10 @@ namespace Geometry {
             Bounds bounds = FieldCamera.Instance.GetCameraBounds();
             float minX = Utilities.SnapToGridMin(bounds.min.x, ceilSize);
             float maxX = Utilities.SnapToGridMax(bounds.max.x, ceilSize);
+            float minY = Utilities.SnapToGridMin(bounds.min.y, ceilSize);
+            float maxY = Utilities.SnapToGridMin(bounds.max.y, ceilSize);
             UpdateAxis(Axis.X, minX, maxX, bounds);
-            
+            UpdateAxis(Axis.Y, minY, maxY, bounds);
         }
 
         private void UpdateAxis(Axis axis, float min, float max, Bounds bounds) {
@@ -57,14 +61,23 @@ namespace Geometry {
             
             for (int i = 0; i < count; i++) {
                 float value = min + (ceilSize * (i + 1));
+                if (Mathf.Approximately(0f, value)) {
+                    continue;
+                }
                 Label label = GetLabel(axis, i);
                 label.Renderer.enabled = true;
                 label.TextMeshPro.fontSize = textSize;
                 label.TextMeshPro.text = Round(value, GetDecimalPlaces(ceilSize)).ToString();
-                if (i == 0) {
-                    label.TextMeshPro.ForceMeshUpdate();
-                    offset = label.Renderer.bounds.extents.y * 2f;
-                }
+                label.TextMeshPro.ForceMeshUpdate();
+                 switch (axis) {
+                    case Axis.X: offset = label.Renderer.bounds.extents.y * 1.25f; break;
+                    case Axis.Y: offset = label.Renderer.bounds.extents.x * 1.25f; break;   
+                 }
+                 //Yeah its a hack, bad hack, problem was that for example 1 have center in center of number 1, but -1 have center between - and 1, its looks terrible, so adding invisible minus solves this, we add minus from right and from left in result centered like positive numer
+                 if (value < 0f && axis == Axis.X) {
+                     label.TextMeshPro.text += transparentMinus;
+                 }
+                
                 Vector2 worldPos = GetWorldPosition(axis, value, offset);
                 
                 if (bounds.ContainsCamera(worldPos)) {

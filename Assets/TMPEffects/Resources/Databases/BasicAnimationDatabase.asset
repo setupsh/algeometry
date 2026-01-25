@@ -36,6 +36,8 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: 505ebfd45a10d324a875fe622a58721b, type: 2}
     - Key: halfade
       Value: {fileID: 11400000, guid: c2e21902cd530c280bf2ebf38027019d, type: 2}
+    - Key: lightgrow
+      Value: {fileID: 11400000, guid: 96a141d47c6a9d9b2b1d9b7b5d3e9513, type: 2}
     - Key: shake
       Value: {fileID: 11400000, guid: c9bdffa471e19f74d8eecca2e98ff7a5, type: 2}
     - Key: jump

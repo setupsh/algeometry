@@ -12,27 +12,27 @@ public class ThreeDCube : MonoBehaviour
     [SerializeField] private float _size = 2f;
     [SerializeField] private float _rotationDamping = 500f;
     [SerializeField] private float _throwForce = 30f;
-    private Vector3 _rotationVelocity = Vector3.zero;
+    private Vector3 rotationVelocity = Vector3.zero;
     
 
-    private Vector3[] _cubeVertices;
-    private int[] _cubeIndices;
-    private Vector3 _currentRotationEuler;
+    private Vector3[] cubeVertices;
+    private int[] cubeIndices;
+    private Vector3 currentRotationEuler;
     private List<Vector2> projectedPoints = new List<Vector2>(16);
     private Vector2 startPoint, endPoint;
 
     void Start() {
-        _cubeVertices = new Vector3[] {
+        cubeVertices = new Vector3[] {
             new Vector3(-1, -1,  1), new Vector3(1, -1,  1), new Vector3(1,  1,  1), new Vector3(-1,  1,  1),
             new Vector3(-1, -1, -1), new Vector3(1, -1, -1), new Vector3(1,  1, -1), new Vector3(-1,  1, -1)
         };
         
-        _cubeIndices = new int[] { 
+        cubeIndices = new int[] { 
             0, 1, 2, 3, 0, 
             4, 5, 6, 7, 4,
             5, 1, 2, 6, 7, 3 
         };
-        for (int i = 0; i < _cubeIndices.Length; i++) 
+        for (int i = 0; i < cubeIndices.Length; i++) 
             projectedPoints.Add(Vector2.zero);
         
     }
@@ -42,11 +42,11 @@ public class ThreeDCube : MonoBehaviour
     }
 
     private void Update() {
-        _rotationVelocity = Vector3.MoveTowards(
-            _rotationVelocity, 
+        rotationVelocity = Vector3.MoveTowards(
+            rotationVelocity, 
             Vector3.one * 5f, 
             _rotationDamping * Time.deltaTime);
-        _currentRotationEuler += _rotationVelocity * Time.deltaTime;
+        currentRotationEuler += rotationVelocity * Time.deltaTime;
         DrawCube();
     }
 
@@ -59,18 +59,18 @@ public class ThreeDCube : MonoBehaviour
     }
 
     private void OnMouseUp() {
-        _rotationVelocity = (_juicyLineRenderer.Points[1] - _juicyLineRenderer.Points[0]) ;
-        _rotationVelocity = new Vector3(_rotationVelocity.y, -_rotationVelocity.x, 0) * _throwForce;
+        rotationVelocity = (_juicyLineRenderer.Points[1] - _juicyLineRenderer.Points[0]) ;
+        rotationVelocity = new Vector3(rotationVelocity.y, -rotationVelocity.x, 0) * _throwForce;
         _juicyLineRenderer.ClearPoints();
     }
     
 
     private void DrawCube() {
-        Quaternion rotation = Quaternion.Euler(_currentRotationEuler);
+        Quaternion rotation = Quaternion.Euler(currentRotationEuler);
         Vector2 centerPoint = transform.position;
-        for (int i = 0; i < _cubeIndices.Length; i++) {
-            int index = _cubeIndices[i];
-            Vector3 vertex = _cubeVertices[index] * (_size * 0.5f);
+        for (int i = 0; i < cubeIndices.Length; i++) {
+            int index = cubeIndices[i];
+            Vector3 vertex = cubeVertices[index] * (_size * 0.5f);
             
             Vector3 rotated = rotation * vertex;
             

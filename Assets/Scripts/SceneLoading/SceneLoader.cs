@@ -3,19 +3,19 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 using PicoTween;
+using Unity.VisualScripting;
 using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour {
-    [SerializeField] private SceneExiter _sceneExiter;
     [SerializeField] private bool _fade;
     [SerializeField] private float _fadeDuration;
     [SerializeField] private Image _overlayImage;
+
     private static SceneLoader instance;
-    public static SceneExiter SceneExiter => instance._sceneExiter;
 
     private void Awake() {
         if (instance) {
-            Destroy(this);
+            Destroy(gameObject);
         }
         else {
             instance = this;

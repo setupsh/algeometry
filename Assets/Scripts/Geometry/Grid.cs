@@ -4,7 +4,7 @@ using System.Linq;
 using Geometry;
 
 namespace Geometry {
-    public class Grid : MonoBehaviour, ICameraListener {
+    public class Grid : MonoBehaviour {
         [SerializeField] private GeometricalLineRenderer _lineRendererReference;
         [SerializeField] private GameObject _lineStorage;
         [SerializeField] private float _lineWidth;
@@ -12,12 +12,12 @@ namespace Geometry {
         private GeometricalLineRenderer _lineRendererVertical,  _lineRendererHorizontal;
         private Bounds _cameraBounds;
         private float _ceilSize = 1f;
-        private float ceilSize;
+        private float ceilSize = 1f;
         private float _startX, _endX,  _startY, _endY;
         private int overflowLines = 3;
         private float _zoom;
         private void Start() {
-            ceilSize = _ceilSize / FieldCamera.Instance.ZoomLevel;
+            ceilSize = FieldCamera.Instance.CeilSize();
             _cameraBounds = FieldCamera.Instance.GetCameraBounds();
             _lineRendererVertical = SetupLineRenderer(_lineWidth, _lineColor);
             _lineRendererHorizontal = SetupLineRenderer(_lineWidth, _lineColor);

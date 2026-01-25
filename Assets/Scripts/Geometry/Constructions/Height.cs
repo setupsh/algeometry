@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 namespace Geometry {
-    public class Height : Construction, ICameraListener {
+    public class Height : Construction {
         private GeometryPoint _from;
         private Side _to;
         private Color _color;

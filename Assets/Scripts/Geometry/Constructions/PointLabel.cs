@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 namespace Geometry {
-    public class PointLabel : Construction, ICameraListener {
+    public class PointLabel : Construction {
         private GeometryPoint _point;
         private string _caption;
         private Label _label = null;

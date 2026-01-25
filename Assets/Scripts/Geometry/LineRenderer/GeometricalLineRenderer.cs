@@ -27,7 +27,7 @@ namespace Geometry {
         }
     }
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-    public class GeometricalLineRenderer : MonoBehaviour, ICameraListener {
+    public class GeometricalLineRenderer : MonoBehaviour {
         [SerializeField] protected List<Vector2> _points = new List<Vector2>();
         [SerializeField] protected float _lineWidth = 0.05f;
         [SerializeField] protected bool _loop;
@@ -75,8 +75,8 @@ namespace Geometry {
         
         private void Awake() {
             lineWidth = _lineWidth;
-            if (_scalable) FieldCamera.OnCameraChanged += OnCameraChanged;
-            else FieldCamera.OnCameraChanged -= OnCameraChanged;
+            if (_scalable) FieldCamera.OnCameraZoom += OnCameraZoom;
+            else FieldCamera.OnCameraZoom -= OnCameraZoom;
             mesh = new Mesh();
             MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
             GetComponent<MeshFilter>().mesh = mesh;
@@ -85,7 +85,7 @@ namespace Geometry {
         }
 
         private void OnDisable() {
-            if (_scalable) FieldCamera.OnCameraChanged -= OnCameraChanged;
+            if (_scalable) FieldCamera.OnCameraZoom -= OnCameraZoom;
         }
         
         protected virtual void ApplyMaterial(MeshRenderer meshRenderer) {
@@ -149,7 +149,7 @@ namespace Geometry {
             };
         }
 
-        public void OnCameraChanged() {
+        private void OnCameraZoom() {
             lineWidth = _lineWidth * FieldCamera.Instance.CeilSize();
             GenerateMesh();
         }

@@ -11,8 +11,10 @@ public class SceneInfo : ScriptableObject {
     public string SceneName { get; private set; }
     public int BuildIndex { get; private set; }
     public string ScenePath { get; private set; }
+    
+    public string SceneDisplayName;
     public string SceneDescription;
-    public Image ScenePreview;
+    public Sprite ScenePreview;
 #if UNITY_EDITOR
     [SerializeField] private SceneAsset sceneAsset;
 

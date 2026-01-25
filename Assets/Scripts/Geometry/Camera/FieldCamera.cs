@@ -15,15 +15,17 @@ namespace Geometry {
         [SerializeField] private float _zoomDuration;
         [SerializeField] private float _defualtOrthographicSize;
         public Camera Camera => _camera;
-        private bool _zoomBlocked;
-        private float defualtOrthograhicSize = 5f;
-        public static event System.Action OnCameraChanged ;
+        private bool zoomBlocked;
+        private float defaultOrthograhicSize = 5f;
+        public static event System.Action OnCameraChanged;
+        public static event System.Action OnCameraMove;
+        public static event System.Action OnCameraZoom;
         
         
         private void Awake() {
             if (Instance == null) {
                 Instance = this;
-                defualtOrthograhicSize = _camera.orthographicSize;
+                defaultOrthograhicSize = _camera.orthographicSize;
             }
             else {
                 Destroy(this);
@@ -31,44 +33,52 @@ namespace Geometry {
         }
 
         public void ForceCameraUpdate() {
-            NotifyListeners();
-        }
-        private void NotifyListeners() {
             OnCameraChanged?.Invoke();
+            OnCameraMove?.Invoke();
+            OnCameraZoom?.Invoke();
+        }
+
+        private void LateUpdate() {
+            if (InputListener.MiddleButtonPressed) {
+                MoveCamera(InputListener.MouseDelta);
+            }
         }
 
         public void MoveCamera(Vector2 delta) {
             _camera.transform.position -= (Vector3) delta * (Time.deltaTime * _moveMultiplier * CeilSize());
-            NotifyListeners();
+            OnCameraChanged?.Invoke();
+            OnCameraMove?.Invoke();
         }
 
         public void ZoomCamera(int direction) {
             if (direction >= 1) {
-                if (_camera.orthographicSize > _minOrthographicSize && !_zoomBlocked) {
+                if (_camera.orthographicSize > _minOrthographicSize && !zoomBlocked) {
                     StartCoroutine(ZoomCamera(_camera.orthographicSize - 0.5f));
                 }
             }
             else if (direction <= -1) {
-                if (_camera.orthographicSize < _maxOrthographicSize && !_zoomBlocked) {
+                if (_camera.orthographicSize < _maxOrthographicSize && !zoomBlocked) {
                     StartCoroutine(ZoomCamera(_camera.orthographicSize + 0.5f));
                 }
             }
         }
 
         private IEnumerator ZoomCamera(float targetOrthographicSize) {
-            _zoomBlocked = true;
+            zoomBlocked = true;
             float initialOrthographicSize = _camera.orthographicSize;
             for (float t = 0; t < 1f; t += (Time.deltaTime / _zoomDuration)) {
                 _camera.orthographicSize = Mathf.Lerp(initialOrthographicSize, targetOrthographicSize, _zoomCurve.Evaluate(t));
-                NotifyListeners();
+                //OnCameraZoom?.Invoke();
+                //OnCameraChanged?.Invoke();
                 yield return null;
             }
             _camera.orthographicSize = targetOrthographicSize;
-            NotifyListeners();
-            _zoomBlocked = false;
+            OnCameraChanged?.Invoke();
+            OnCameraZoom?.Invoke();
+            zoomBlocked = false;
         }
         
-        public float ZoomLevel => defualtOrthograhicSize / _camera.orthographicSize;
+        public float ZoomLevel => defaultOrthograhicSize / _camera.orthographicSize;
 
         public Vector2 ToWorldPoint(Vector2 position) {
             return _camera.ScreenToWorldPoint(position);

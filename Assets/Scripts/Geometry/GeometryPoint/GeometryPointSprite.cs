@@ -1,7 +1,7 @@
 using Geometry;
 using UnityEngine;
 
-public class GeometryPointSprite : MonoBehaviour, ICameraListener {
+public class GeometryPointSprite : MonoBehaviour {
     [SerializeField] private Color _color;
     [SerializeField] private Color _blockedColor;
     [SerializeField] private SpriteRenderer _spriteRenderer;

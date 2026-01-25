@@ -16,14 +16,22 @@ public class FigureSpawner : MonoBehaviour {
             { Figures.IsoscelesTriangle, Resources.IsoscelesTrianglePrefab},
         };
     }
-    public void SpawnFigure(Figures figure) {
+    public Figure SpawnFigure(Figures figure) {
         Figure instance = Instantiate(Prefabs[figure], (Vector2) FieldCamera.Instance.GetCameraBounds().center, Quaternion.identity, Board.Instance.transform);
         SnapToGrid(instance);
+        return instance;
+    }
+
+    public Figure SpawnFigure(Figures figure, Vector2 center) {
+        Figure instance = Instantiate(Prefabs[figure], center, Quaternion.identity, Board.Instance.transform);
+        SnapToGrid(instance);
+        return instance;
     }
 
     private void SnapToGrid(Figure figure) {
         foreach (GeometryPoint point in figure.Points) {
-            point.Position = (Board.Grid.GetNearestGridPoint(point.Position));
+            Debug.Log(Board.Grid.GetNearestGridPoint(point.Position));
+            point.Position = Board.Grid.GetNearestGridPoint(point.Position);
         }
     }
 }

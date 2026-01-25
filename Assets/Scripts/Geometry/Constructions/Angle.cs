@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 using Geometry;
 
 namespace Geometry {
-    public class Angle : Construction, ICameraListener {
+    public class Angle : Construction {
         private GeometryPoint _vertex, _armA, _armB;
         private int _arcAmount;
         private Color _color;

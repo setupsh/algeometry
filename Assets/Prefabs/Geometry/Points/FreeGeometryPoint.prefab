@@ -231,5 +231,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 1396534105741237014}
-  _sprite: {fileID: 0}
+  _sprite: {fileID: 6307986616406833827}
   _label: 

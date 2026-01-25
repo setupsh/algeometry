@@ -5,8 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class SceneExiter : MonoBehaviour {
     [SerializeField] private SceneInfo _mainMenuScene;
-    public void Show() {
-        gameObject.SetActive(true);
+    [SerializeField] private GameObject _sceneExiter;
+
+    private void Awake() {
+        InputListener.Escape.performed += (ctx) => Show();
+    }
+    
+    private void Show() {
+        if (!_sceneExiter.activeInHierarchy) {
+            _sceneExiter.SetActive(true);
+        }
+        else {
+            Hide();
+        }
     }
 
     public void Exit() {
@@ -15,11 +26,11 @@ public class SceneExiter : MonoBehaviour {
         }
         else {
             SceneLoader.LoadScene(_mainMenuScene.name);
-            gameObject.SetActive(false);
+            _sceneExiter.SetActive(false);
         }
     }
     
     public void Hide() {
-        gameObject.SetActive(false);
+        _sceneExiter.SetActive(false);
     }
 }
