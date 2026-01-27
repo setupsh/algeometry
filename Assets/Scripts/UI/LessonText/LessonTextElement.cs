@@ -32,7 +32,7 @@ public class LessonTextElement : MonoBehaviour {
     }
 
     private void FadeOut() {
-        _textMeshPro.alpha.Tween(() => _textMeshPro.alpha, value => _textMeshPro.alpha = value, 0.25f, 5.25f, onComplete: () => {
+        _textMeshPro.alpha.Tween(() => _textMeshPro.alpha, value => _textMeshPro.alpha = value, 0.25f, 0.25f, onComplete: () => {
             _textMeshPro.SetText(_textMeshPro.text.Remove(_textMeshPro.text.Length - ending.Length, ending.Length));
             OnFinish?.Invoke();
         });

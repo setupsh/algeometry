@@ -812,8 +812,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3efa3c04ae8d4867a01c781ea01d90e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actions:
-  - {fileID: 1161598130}
 --- !u!4 &154886870
 Transform:
   m_ObjectHideFlags: 0
@@ -827,6 +825,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 458370818}
   - {fileID: 1161598131}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2144,6 +2143,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 85189294}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &458370817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 458370818}
+  - component: {fileID: 458370819}
+  m_Layer: 0
+  m_Name: ShowText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &458370818
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458370817}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 154886870}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &458370819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458370817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fb06526d0a43c5e88d542dd4b970e49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lessonText:
+  - Text: fdsfdsfsdfdsfdsf
+    Prefab: {fileID: 5808118738280883109, guid: 21f07ce681f974ed5b9e8151bb6f4685, type: 3}
 --- !u!1 &496740395
 GameObject:
   m_ObjectHideFlags: 0
@@ -2876,6 +2922,7 @@ MonoBehaviour:
   _isoscelesTrianglePrefab: {fileID: 2331614692066997020, guid: 9e01b5f3c58afa7fd82bef85e899669f, type: 3}
   _descriptionPrefab: {fileID: 3356388454285553538, guid: 2681d7d6b0a468ed0aeb1c7fdd1976d5, type: 3}
   _numberExpressionPrefab: {fileID: 4849749961258933818, guid: 93d49eab9847d6dea99fa2c895cf6cc3, type: 3}
+  _vectorExpressionPrefab: {fileID: 3082753649635430755, guid: 226b5dcba29efd38296ca9cbc40469ea, type: 3}
   _fractionExpressionPrefab: {fileID: 5682134064731944212, guid: e24eda6bc957e7b7b88033cb2c0b7e46, type: 3}
   _sumExpressionPrefab: {fileID: 3082753649635430755, guid: 4f790e2399706d2d3a13816c113d6b44, type: 3}
   _subtractExpressionPrefab: {fileID: 2181132977284455494, guid: 7b89302acc20bc455b55f237fa1cf6ab, type: 3}

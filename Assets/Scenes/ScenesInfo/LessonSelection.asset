@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 214818c6ae93411397512a76a2eb4a7a, type: 3}
   m_Name: LessonSelection
   m_EditorClassIdentifier: 
+  BuildIndex: 2
   SceneDisplayName: 
   SceneDescription: 
   ScenePreview: {fileID: 0}
-  sceneAsset: {fileID: 102900000, guid: 03bb47a27e405830ebd38ca47338c296, type: 3}

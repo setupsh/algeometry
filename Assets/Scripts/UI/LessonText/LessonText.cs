@@ -20,7 +20,7 @@ public class LessonText : MonoBehaviour {
             elements.Add(instance);
         }
 
-        _animator.SetTrigger("Open");
+        _animator.SetTrigger(AnimatorKeys.LessonTextOpen);
         ShowText(0);
     }
 
@@ -38,7 +38,7 @@ public class LessonText : MonoBehaviour {
     }
 
     private void FinishSequence() {
-        _animator.SetTrigger("Close");
+        _animator.SetTrigger(AnimatorKeys.LessonTextClose);
         OnAllTextFinished?.Invoke();
     }
     

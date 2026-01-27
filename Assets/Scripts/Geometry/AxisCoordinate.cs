@@ -1,103 +1,163 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
-using UnityEngine.Rendering;
+using System.Globalization;
+using Unity.Profiling;
+using TMPro;
 
 namespace Geometry {
+    public class Matrix {
+        public int Min { get; private set; }
+        public int Max { get; private set; }
+        public Matrix(int min, int max) {
+            Min = min;
+            Max = max; 
+        }
+    }
+        
     public class AxisCoordinate : MonoBehaviour {
         private GeometricalLineRenderer _lineRenderer;
         [SerializeField] private Color _lineColor;
         [SerializeField] private Color _labelColor;
         [SerializeField] private Transform _bufferFolder;
-        private List<Label> bufferX = new List<Label>(50);
-        private List<Label> bufferY = new List<Label>(50);
-        private float ceilSize;
-        private int bufferSize;
+        private Stack<Label> buffer = new Stack<Label>();
         private const string transparentMinus = "<color=#00000000>-";
+        private Dictionary<int, Label> valuesX = new Dictionary<int, Label>();
+        private Dictionary<int, Label> valuesY = new Dictionary<int, Label>();
+        private float ceilSize;
+        private Bounds bounds;
+        private Vector2 edge;
+        private float textSize;
+        private int decimalPlaces;
+        private Matrix previousMatrixX, previousMatrixY;
+        static readonly ProfilerMarker AxisUpdateMarker =
+            new ProfilerMarker("AxisCoordinate.UpdateAxis");
         
         public enum Axis {X, Y}
         private void Start() {
             _lineRenderer = gameObject.AddComponent<GeometricalLineRenderer>();
             _lineRenderer.Setup(new LineRendererConfig(Parameters.DefaultLineWidth * 2f, false, _lineColor, Parameters.DefaultSortingOrder, true, true));
-            for (int i = 0; i < bufferX.Capacity; i++) {
-                bufferX.Add(GeometricalLabelSystem.Instance.CreateLabel(_bufferFolder, Parameters.DefaultSortingOrder));
-                bufferX[i].gameObject.name = $"Label X_{i}";
-                bufferX[i].TextMeshPro.color = _labelColor;
-            }
-            for (int i = 0; i < bufferY.Capacity; i++) {
-                bufferY.Add(GeometricalLabelSystem.Instance.CreateLabel(_bufferFolder, Parameters.DefaultSortingOrder));
-                bufferY[i].gameObject.name = $"Label Y_{i}";
-                bufferY[i].TextMeshPro.color = _labelColor;
+            for (int i = 0; i < 100; i++) {
+                Label label = GeometricalLabelSystem.Instance.CreateLabel(_bufferFolder, Parameters.DefaultSortingOrder);
+                label.gameObject.name = $"Label {i}";
+                buffer.Push(label);
             }
             FieldCamera.OnCameraChanged += OnCameraChanged;
             OnCameraChanged();
         }
-
         private void OnDestroy() {
             FieldCamera.OnCameraChanged -= OnCameraChanged;
         }
 
         public void OnCameraChanged() {
             ceilSize = FieldCamera.Instance.CeilSize();
-            Bounds bounds = FieldCamera.Instance.GetCameraBounds();
-            float minX = Utilities.SnapToGridMin(bounds.min.x, ceilSize);
-            float maxX = Utilities.SnapToGridMax(bounds.max.x, ceilSize);
-            float minY = Utilities.SnapToGridMin(bounds.min.y, ceilSize);
-            float maxY = Utilities.SnapToGridMin(bounds.max.y, ceilSize);
-            UpdateAxis(Axis.X, minX, maxX, bounds);
-            UpdateAxis(Axis.Y, minY, maxY, bounds);
+            bounds = FieldCamera.Instance.GetCameraBounds();
+            textSize = ceilSize * Parameters.DefaultLabelSize;
+            decimalPlaces = GetDecimalPlaces(ceilSize);
+            edge = CalculateEdge(bounds);
+            
+            int minIdxX = Mathf.FloorToInt(bounds.min.x / ceilSize);
+            int maxIdxX = Mathf.CeilToInt(bounds.max.x / ceilSize);
+
+            int minIdxY = Mathf.FloorToInt(bounds.min.y / ceilSize);
+            int maxIdxY = Mathf.CeilToInt(bounds.max.y / ceilSize);
+
+            OnCameraMove(new Matrix(minIdxX, maxIdxX), Axis.X);
+            OnCameraMove(new Matrix(minIdxY, maxIdxY), Axis.Y);
         }
 
-        private void UpdateAxis(Axis axis, float min, float max, Bounds bounds) {
-            int count = Mathf.Min(Mathf.RoundToInt((max - min) / ceilSize), bufferX.Capacity);
-            if (count != bufferSize) {
-                OffUnusedBuffer(axis, count);
+
+        private void OnCameraMove(Matrix currentMatrix, Axis axis) {
+            using (AxisUpdateMarker.Auto()) {
+                var activeLabels = (axis == Axis.X) ? valuesX : valuesY;
+                var prevMatrix = (axis == Axis.X) ? previousMatrixX : previousMatrixY;
+
+                if (prevMatrix != null) {
+                    List<int> toRemove = new List<int>();
+                    foreach (var index in activeLabels.Keys) {
+                        if (index < currentMatrix.Min || index > currentMatrix.Max) toRemove.Add(index);
+                    }
+                    foreach (int index in toRemove) RemoveLabel(index, axis);
+                }
+                
+                for (int i = currentMatrix.Min; i <= currentMatrix.Max; i++) {
+                    if (i == 0) continue;
+                    if (!activeLabels.ContainsKey(i)) {
+                        InitLabel(i, axis);
+                    } else {
+                        UpdateLabelPosition(activeLabels[i], i * ceilSize, i, axis);
+                    }
+                }
+                
+                if (axis == Axis.X) previousMatrixX = currentMatrix;
+                else previousMatrixY = currentMatrix;
             }
-            bufferSize = count;
-            float textSize = ceilSize * Parameters.DefaultLabelSize;
-            float offset = 0f;
-            Vector2 edge = CalculateEdge(bounds);
-            
-            for (int i = 0; i < count; i++) {
-                float value = min + (ceilSize * (i + 1));
-                if (Mathf.Approximately(0f, value)) {
-                    continue;
-                }
-                Label label = GetLabel(axis, i);
-                label.Renderer.enabled = true;
-                label.TextMeshPro.fontSize = textSize;
-                label.TextMeshPro.text = Round(value, GetDecimalPlaces(ceilSize)).ToString();
-                label.TextMeshPro.ForceMeshUpdate();
-                 switch (axis) {
-                    case Axis.X: offset = label.Renderer.bounds.extents.y * 1.25f; break;
-                    case Axis.Y: offset = label.Renderer.bounds.extents.x * 1.25f; break;   
-                 }
-                 //Yeah its a hack, bad hack, problem was that for example 1 have center in center of number 1, but -1 have center between - and 1, its looks terrible, so adding invisible minus solves this, we add minus from right and from left in result centered like positive numer
-                 if (value < 0f && axis == Axis.X) {
-                     label.TextMeshPro.text += transparentMinus;
-                 }
-                
-                Vector2 worldPos = GetWorldPosition(axis, value, offset);
-                
-                if (bounds.ContainsCamera(worldPos)) {
-                    label.SetPosition(worldPos);
-                }
-                else if (ContainsProjection(axis, bounds, worldPos)) {
-                    SetProjectionPosition(label, worldPos, axis, bounds.center.y, offset, edge);
-                }
-                else {
+        }
+
+        private void RemoveLabel(int index, Axis axis) {
+            switch (axis) {
+                case Axis.X: {
+                    valuesX.Remove(index, out Label label);
                     label.Renderer.enabled = false;
+                    buffer.Push(label);
+                    break;
                 }
-            }        
+                case Axis.Y: {
+                    valuesY.Remove(index, out Label label);
+                    label.Renderer.enabled = false;
+                    buffer.Push(label);
+                    break;
+                }
+            }
+        }
+        private void InitLabel(int index, Axis axis) {
+            Label label = buffer.Pop();
+            label.Renderer.enabled = true;
+            switch (axis) {
+                case Axis.X: valuesX[index] = label; break;
+                case Axis.Y: valuesY[index] = label; break;
+            }
+            float value = index * ceilSize;
+            string text = Round(value, decimalPlaces).ToString(CultureInfo.CurrentCulture);
+            if (value < 0f && axis == Axis.X) {
+                text += transparentMinus;
+            }
+            label.TextMeshPro.SetText(text);
+            label.TextMeshPro.fontSize = textSize;
+
+            switch (axis) {
+                case Axis.X: {
+                    label.TextMeshPro.alignment = TextAlignmentOptions.Top;
+                    label.TextMeshPro.rectTransform.pivot = new Vector2(0.5f, 1f); break;
+                }
+                case Axis.Y: {
+                    label.TextMeshPro.alignment = TextAlignmentOptions.Right;
+                    label.TextMeshPro.rectTransform.pivot = new Vector2(1f, 0.5f); break;
+                }    
+            }
+            UpdateLabelPosition(label, value, index, axis);
+        }
+
+        private void UpdateLabelPosition(Label label,float value,int index, Axis axis) {
+            Vector2 worldPos = GetWorldPosition(axis, value);
+                
+            if (bounds.ContainsCamera(worldPos)) {
+                label.SetPosition(worldPos);
+            }
+            else if (ContainsProjection(axis, bounds, worldPos)) {
+                SetProjectionPosition(label, worldPos, axis, edge);
+            }
+            else {
+                RemoveLabel(index, axis);
+            }
         }
 
         private Vector2 CalculateEdge(Bounds bounds) => bounds.center.y > 0f ? (bounds.center - bounds.extents) : (bounds.center + bounds.extents);
 
-        private Vector2 GetWorldPosition(Axis axis, float value, float offset) {
+        private Vector2 GetWorldPosition(Axis axis, float value) {
             switch (axis) {
-                case Axis.X: return new Vector2(value, -offset); 
-                case Axis.Y: return new Vector2(-offset, value); 
+                case Axis.X: return new Vector2(value, 0); 
+                case Axis.Y: return new Vector2(0, value); 
                 default: throw new ArgumentOutOfRangeException(nameof(axis), axis, null);
             }
         }
@@ -110,29 +170,10 @@ namespace Geometry {
             }
         }
 
-        private void SetProjectionPosition(Label label, Vector2 worldPosition, Axis axis, float boundsCenterY, float offset, Vector2 edgePosition) {
-            if (boundsCenterY < 0f) offset = -offset;
+        private void SetProjectionPosition(Label label, Vector2 worldPosition, Axis axis, Vector2 edgePosition) {
             switch (axis) {
-                case Axis.X: label.SetPosition(new Vector2(worldPosition.x, edgePosition.y + offset)); break;
-                case Axis.Y: label.SetPosition(new Vector2(edgePosition.x  + offset, worldPosition.y)); break;
-                default: throw new ArgumentOutOfRangeException(nameof(axis), axis, null);
-            }
-        }
-
-        private Label GetLabel(Axis axis, int index) {
-            switch (axis) {
-                case Axis.X: return bufferX[index];
-                case Axis.Y: return bufferY[index];
-                default: throw new ArgumentOutOfRangeException(nameof(axis), axis, null);
-            }
-        }
-
-        private void OffUnusedBuffer(Axis axis, int from) {
-            List<Label> labels = axis == Axis.X ? bufferX : bufferY;
-            if (from < labels.Capacity) {
-                for (int i = from; i < labels.Capacity; i++) {
-                    labels[i].Renderer.enabled = false;
-                }
+                case Axis.X: label.SetPosition(new Vector2(worldPosition.x, edgePosition.y)); break;
+                case Axis.Y: label.SetPosition(new Vector2(edgePosition.x, worldPosition.y)); break;
             }
         }
 
@@ -146,6 +187,5 @@ namespace Geometry {
             int decimals = Mathf.Max(0, -Mathf.FloorToInt(Mathf.Log10(number)));
             return Mathf.Min(decimals, 6);
         }
-
     }
 }

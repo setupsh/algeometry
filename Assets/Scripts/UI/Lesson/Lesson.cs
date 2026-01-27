@@ -8,16 +8,16 @@ public class Lesson : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI _lessonName;
     [SerializeField] private TextMeshProUGUI _lessonDescription;
     [SerializeField] private Image _lessonPreview;
-    private string sceneName;
+    private int sceneBuildIndex;
     
     public void Init(SceneInfo lessonInfo) {
         _lessonName.SetText(lessonInfo.SceneDisplayName);
         _lessonDescription.SetText(lessonInfo.SceneDescription);
         _lessonPreview.sprite = lessonInfo.ScenePreview;
-        sceneName = lessonInfo.SceneName;
+        sceneBuildIndex = lessonInfo.BuildIndex;
     }
 
     public void LoadIntoScene() {
-        SceneLoader.LoadScene(sceneName);    
+        SceneLoader.LoadScene(sceneBuildIndex);    
     }
 }

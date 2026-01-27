@@ -19,6 +19,7 @@ namespace Geometry {
         [Header("UI")]
         [SerializeField] private Description _descriptionPrefab;
         [SerializeField] private TextMeshProUGUI _numberExpressionPrefab;
+        [SerializeField] private AlgebraExpressionUI _vectorExpressionPrefab;
         [SerializeField] private AlgebraExpressionUI _fractionExpressionPrefab;
         [SerializeField] private AlgebraExpressionUI _sumExpressionPrefab;
         [SerializeField] private AlgebraExpressionUI _subtractExpressionPrefab;
@@ -36,6 +37,8 @@ namespace Geometry {
         public static Description DescriptionPrefab => Instance._descriptionPrefab;
         
         public static TextMeshProUGUI NumberExpressionPrefab => Instance._numberExpressionPrefab;
+
+        public static AlgebraExpressionUI VectorExpressionPrefab => Instance._vectorExpressionPrefab;
         
         public static AlgebraExpressionUI FractionExpressionPrefab => Instance._fractionExpressionPrefab;
         

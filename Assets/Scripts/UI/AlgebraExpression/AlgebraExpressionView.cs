@@ -30,6 +30,33 @@ namespace UI {
         }
     }
 
+    public sealed class VectorExpressionView : AlgebraExpressionView {
+        private readonly AlgebraExpressionUI root;
+        private readonly AlgebraExpressionView x;
+        private readonly AlgebraExpressionView y;
+
+        public VectorExpressionView(VectorExpression expression, Transform parent, AlgebraExpressionViewGenerator generator, AlgebraExpressionUI vectorPrefab) {
+            root = Object.Instantiate(vectorPrefab, parent);
+            x = generator.Generate(expression.X, root.Root);
+            x.Root.SetSiblingIndex(1);
+            y = generator.Generate(expression.Y, root.Root);
+            y.Root.SetSiblingIndex(3);
+        }
+
+        public override RectTransform Root => root.Root;
+
+        public override void UpdateValue() {
+            x.UpdateValue();
+            y.UpdateValue();
+        }
+
+        public override void Dispose() {
+            x.Dispose();
+            y.Dispose();
+            base.Dispose();
+        }
+    }
+
     public sealed class FractionExpressionView : AlgebraExpressionView {
         private readonly AlgebraExpressionUI root;
         private readonly AlgebraExpressionView numerator;
@@ -39,13 +66,11 @@ namespace UI {
             root = Object.Instantiate(fractionPrefab, parent);
             numerator = generator.Generate(expression.Numerator, root.Root);
             numerator.Root.SetAsFirstSibling();
-            //numerator.Root.localScale *= 0.9f;
             denominator = generator.Generate(expression.Denominator, root.Root);
             denominator.Root.SetAsLastSibling();
-            //denominator.Root.localScale *= 0.9f;
         }
 
-        public override RectTransform Root => root.GetComponent<RectTransform>();
+        public override RectTransform Root => root.Root;
 
         public override void UpdateValue() {
             numerator.UpdateValue();

@@ -24,6 +24,19 @@ namespace Algebra {
             return other is NumberExpression numberExpression && getter == numberExpression.getter;
         }
     }
+
+    public class VectorExpression : AlgebraExpression {
+        public AlgebraExpression X { get; }
+        public AlgebraExpression Y { get; }
+        
+        public override double Evaluate() {
+            return Math.Sqrt(X.Evaluate() * X.Evaluate() + Y.Evaluate() * Y.Evaluate());
+        }
+
+        public override bool SameType(AlgebraExpression other) {
+            return other is VectorExpression vectorExpression && vectorExpression.X.SameType(X) && vectorExpression.Y.SameType(Y);
+        }
+    }
     public class SumExpression : AlgebraExpression {
         public AlgebraExpression Left { get; }
         public AlgebraExpression Right { get; }

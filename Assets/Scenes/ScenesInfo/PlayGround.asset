@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 214818c6ae93411397512a76a2eb4a7a, type: 3}
   m_Name: PlayGround
   m_EditorClassIdentifier: 
+  BuildIndex: 1
+  SceneDisplayName: 
   SceneDescription: Just a pure field, build, see, relax
   ScenePreview: {fileID: 0}
-  sceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
