@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 
 namespace Geometry {
     public static class Utilities {
@@ -48,6 +49,12 @@ namespace Geometry {
 
         public static float SnapToGridMax(float value, float step) {
             return Mathf.Ceil(value / step) * step;
+        }
+        public static void SetPivotAndAlignment(this TextMeshPro textMeshPro, Vector2 pivot, TextAlignmentOptions alignment) {
+            if (pivot != textMeshPro.rectTransform.pivot && alignment != textMeshPro.alignment) {
+                textMeshPro.rectTransform.pivot = pivot;
+                textMeshPro.alignment = alignment;
+            }
         }
         
         

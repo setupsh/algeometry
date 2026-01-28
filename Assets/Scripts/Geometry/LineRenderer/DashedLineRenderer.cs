@@ -25,10 +25,11 @@ namespace Geometry {
         }
 
         protected override void ApplyMaterial(MeshRenderer meshRenderer) {
-            meshRenderer.material.shader = Shader.Find(ShadersKeys.DashedLine.Name);
+            base.ApplyMaterial(meshRenderer);
+
+            meshRenderer.material = Materials.Get(MaterialType.Dashed);
             meshRenderer.material.SetFloat(ShadersKeys.DashedLine.Length, _dashLenght);
             meshRenderer.material.SetFloat(ShadersKeys.DashedLine.TimeMultiplier, _timeMultiplier);
-            base.ApplyMaterial(meshRenderer);
         }
 
         protected override void GenerateLine(int index) {

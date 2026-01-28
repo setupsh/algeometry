@@ -26,6 +26,7 @@ namespace Geometry {
         [SerializeField] private AlgebraExpressionUI _sqrtExpressionPrefab;
         [SerializeField] private AlgebraExpressionUI _mulExpressionPrefab;
         
+        
         public static GeometryPoint FreeGeometryPointPrefab => Instance._geometryPointPrefab;
         
         public static Triangle TrianglePrefab => Instance._trianglePrefab;

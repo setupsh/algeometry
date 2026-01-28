@@ -6,7 +6,7 @@ using Unity.Profiling;
 using TMPro;
 
 namespace Geometry {
-    public class Matrix {
+    public struct Matrix {
         public int Min { get; private set; }
         public int Max { get; private set; }
         public Matrix(int min, int max) {
@@ -29,9 +29,13 @@ namespace Geometry {
         private Vector2 edge;
         private float textSize;
         private int decimalPlaces;
-        private Matrix previousMatrixX, previousMatrixY;
-        static readonly ProfilerMarker AxisUpdateMarker =
-            new ProfilerMarker("AxisCoordinate.UpdateAxis");
+        private bool CameraAbove => edge.y > 0;
+        private bool CameraRight => edge.x > 0;
+        private bool previousCameraAbove;
+        private bool previousCameraRight;
+        private List<int> moveToDelete = new List<int>(100);
+        private List<int> reinitializeToDelete = new List<int>(100);
+        static readonly ProfilerMarker AxisUpdateMarker = new ProfilerMarker("AxisCoordinate.UpdateAxis");
         
         public enum Axis {X, Y}
         private void Start() {
@@ -43,42 +47,57 @@ namespace Geometry {
                 buffer.Push(label);
             }
             FieldCamera.OnCameraChanged += OnCameraChanged;
+            FieldCamera.OnCameraZoom += OnCameraZoom;
+            FieldCamera.OnCameraMove += OnCameraMove;
             OnCameraChanged();
+            OnCameraMove();
+            OnCameraZoom();
         }
         private void OnDestroy() {
             FieldCamera.OnCameraChanged -= OnCameraChanged;
+            FieldCamera.OnCameraZoom -= OnCameraZoom;
+            FieldCamera.OnCameraMove -= OnCameraMove;
         }
 
-        public void OnCameraChanged() {
+        private void OnCameraChanged() {
+            UpdateValues();
+            UpdateAllLabelSides();
+        }
+
+        private void OnCameraZoom() {
+            ReinitializeLabels(CalculateMatrix(Axis.X), Axis.X);
+            ReinitializeLabels(CalculateMatrix(Axis.Y), Axis.Y);
+        }
+
+        private void OnCameraMove() {
+            MoveLabels(CalculateMatrix(Axis.X), Axis.X);
+            MoveLabels(CalculateMatrix(Axis.Y), Axis.Y);
+        }
+
+        private void UpdateValues() {
             ceilSize = FieldCamera.Instance.CeilSize();
             bounds = FieldCamera.Instance.GetCameraBounds();
             textSize = ceilSize * Parameters.DefaultLabelSize;
             decimalPlaces = GetDecimalPlaces(ceilSize);
             edge = CalculateEdge(bounds);
-            
-            int minIdxX = Mathf.FloorToInt(bounds.min.x / ceilSize);
-            int maxIdxX = Mathf.CeilToInt(bounds.max.x / ceilSize);
-
-            int minIdxY = Mathf.FloorToInt(bounds.min.y / ceilSize);
-            int maxIdxY = Mathf.CeilToInt(bounds.max.y / ceilSize);
-
-            OnCameraMove(new Matrix(minIdxX, maxIdxX), Axis.X);
-            OnCameraMove(new Matrix(minIdxY, maxIdxY), Axis.Y);
         }
 
-
-        private void OnCameraMove(Matrix currentMatrix, Axis axis) {
+        private Matrix CalculateMatrix(Axis axis) {
+            switch (axis) {
+                case Axis.X: return new Matrix(Mathf.FloorToInt(bounds.min.x / ceilSize), Mathf.FloorToInt(bounds.max.x / ceilSize));
+                case Axis.Y: return new Matrix(Mathf.FloorToInt(bounds.min.y / ceilSize), Mathf.FloorToInt(bounds.max.y / ceilSize));
+                default: throw new NullReferenceException();
+            }
+        }
+        private void MoveLabels(Matrix currentMatrix, Axis axis) {
             using (AxisUpdateMarker.Auto()) {
                 var activeLabels = (axis == Axis.X) ? valuesX : valuesY;
-                var prevMatrix = (axis == Axis.X) ? previousMatrixX : previousMatrixY;
-
-                if (prevMatrix != null) {
-                    List<int> toRemove = new List<int>();
-                    foreach (var index in activeLabels.Keys) {
-                        if (index < currentMatrix.Min || index > currentMatrix.Max) toRemove.Add(index);
-                    }
-                    foreach (int index in toRemove) RemoveLabel(index, axis);
+                moveToDelete.Clear();
+                
+                foreach (var index in activeLabels.Keys) {
+                    if (index < currentMatrix.Min || index > currentMatrix.Max) moveToDelete.Add(index);
                 }
+                foreach (int index in moveToDelete) RemoveLabel(index, axis);
                 
                 for (int i = currentMatrix.Min; i <= currentMatrix.Max; i++) {
                     if (i == 0) continue;
@@ -88,9 +107,23 @@ namespace Geometry {
                         UpdateLabelPosition(activeLabels[i], i * ceilSize, i, axis);
                     }
                 }
-                
-                if (axis == Axis.X) previousMatrixX = currentMatrix;
-                else previousMatrixY = currentMatrix;
+            }
+        }
+
+        private void ReinitializeLabels(Matrix matrix, Axis axis) {
+            Dictionary<int, Label> values = axis == Axis.X ? valuesX : valuesY;
+            reinitializeToDelete.Clear();
+            foreach (var kvp in values) {
+                reinitializeToDelete.Add(kvp.Key);
+            }
+            foreach (var key in reinitializeToDelete) {
+                values.Remove(key, out Label label);
+                label.Renderer.enabled = false;
+                buffer.Push(label);
+            }
+            for (int i = matrix.Min; i <= matrix.Max; i++) {
+                if (i == 0) continue;
+                InitLabel(i, axis);
             }
         }
 
@@ -140,7 +173,7 @@ namespace Geometry {
 
         private void UpdateLabelPosition(Label label,float value,int index, Axis axis) {
             Vector2 worldPos = GetWorldPosition(axis, value);
-                
+            UpdateLabelSide(label, axis);
             if (bounds.ContainsCamera(worldPos)) {
                 label.SetPosition(worldPos);
             }
@@ -152,7 +185,47 @@ namespace Geometry {
             }
         }
 
-        private Vector2 CalculateEdge(Bounds bounds) => bounds.center.y > 0f ? (bounds.center - bounds.extents) : (bounds.center + bounds.extents);
+        private Vector2 CalculateEdge(Bounds bounds) {
+            Vector2 result = Vector2.zero;
+            if (bounds.min.y > 0) {
+                result.y = bounds.min.y;
+            } else if (bounds.max.y < 0) {
+                result.y = bounds.max.y;
+            }
+            if (bounds.min.x > 0) {
+                result.x = bounds.min.x;
+            } else if (bounds.max.x < 0) {
+                result.x = bounds.max.x;
+            }
+            return result;
+        }
+        private void UpdateAllLabelSides() {
+            bool sideChanged = previousCameraAbove != CameraAbove || previousCameraRight != CameraRight;
+            if (!sideChanged) {
+                return;
+            }
+            previousCameraAbove = CameraAbove;
+            previousCameraRight = CameraRight;
+            foreach (var label in valuesX.Values) {
+                UpdateLabelSide(label, Axis.X);
+            }
+
+            foreach (var label in valuesY.Values) {
+                UpdateLabelSide(label, Axis.Y);
+            }
+        }
+        private void UpdateLabelSide(Label label, Axis axis) {
+            var textMeshPro = label.TextMeshPro;
+
+            if (axis == Axis.X) {
+                textMeshPro.alignment = CameraAbove ? TextAlignmentOptions.Bottom : TextAlignmentOptions.Top;
+                textMeshPro.rectTransform.pivot = CameraAbove ? new Vector2(0.5f, 0f) : new Vector2(0.5f, 1f);
+            }
+            else {
+                textMeshPro.alignment = CameraRight ? TextAlignmentOptions.Left : TextAlignmentOptions.Right;
+                textMeshPro.rectTransform.pivot = CameraRight ? new Vector2(0f, 0.5f) : new Vector2(1f, 0.5f);
+            }
+        }
 
         private Vector2 GetWorldPosition(Axis axis, float value) {
             switch (axis) {

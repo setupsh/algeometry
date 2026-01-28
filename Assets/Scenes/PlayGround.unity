@@ -182,8 +182,8 @@ GameObject:
   - component: {fileID: 11324738}
   - component: {fileID: 11324741}
   - component: {fileID: 11324740}
-  - component: {fileID: 11324742}
   - component: {fileID: 11324743}
+  - component: {fileID: 11324744}
   m_Layer: 5
   m_Name: Triangle
   m_TagString: Untagged
@@ -249,7 +249,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 11324737}
   m_CullTransparentMesh: 1
---- !u!114 &11324742
+--- !u!114 &11324743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11324737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3c92871cb5d4bb8ba59efa0a9d00434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _figures: 0
+--- !u!114 &11324744
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -271,12 +284,12 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.08235294, g: 0.5019608, b: 0.23921569, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
-    m_FadeDuration: 0
+    m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
@@ -294,7 +307,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11324743}
-        m_TargetAssemblyTypeName: UI.FigureSpawnDecorator, Assembly-CSharp
+        m_TargetAssemblyTypeName: UI.FigureSpawnAdapter, Assembly-CSharp
         m_MethodName: SpawnFigure
         m_Mode: 1
         m_Arguments:
@@ -305,19 +318,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &11324743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 11324737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3c92871cb5d4bb8ba59efa0a9d00434, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _figures: 0
 --- !u!1 &13977942
 GameObject:
   m_ObjectHideFlags: 0
@@ -2644,7 +2644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Geometry.FieldCamera
   _camera: {fileID: 519420031}
-  _moveMultiplier: 2.5
+  _moveMultiplier: 1
   _scrollMultiplier: 1
   _maxOrthographicSize: 10
   _minOrthographicSize: 0.5
@@ -5081,7 +5081,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1521649580}
   - component: {fileID: 1521649579}
-  - component: {fileID: 1521649581}
   m_Layer: 0
   m_Name: InputLisener
   m_TagString: Untagged
@@ -5116,23 +5115,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1521649581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1521649578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6978378a0ec14241a62541810d048b03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _elements:
-  - Text: "\u0422\u042B \u041F\u0418\u0414\u041E\u0420, \u041F\u0418\u0414\u041E\u0420\u0410\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421\u0421"
-    Prefab: {fileID: 5808118738280883109, guid: 21f07ce681f974ed5b9e8151bb6f4685, type: 3}
-  - Text: dsfsadfsadfdsafsadf
-    Prefab: {fileID: 5808118738280883109, guid: 21f07ce681f974ed5b9e8151bb6f4685, type: 3}
 --- !u!1 &1565091767
 GameObject:
   m_ObjectHideFlags: 0
@@ -5233,6 +5215,7 @@ MonoBehaviour:
   _isoscelesTrianglePrefab: {fileID: 2331614692066997020, guid: 9e01b5f3c58afa7fd82bef85e899669f, type: 3}
   _descriptionPrefab: {fileID: 3356388454285553538, guid: 2681d7d6b0a468ed0aeb1c7fdd1976d5, type: 3}
   _numberExpressionPrefab: {fileID: 4849749961258933818, guid: 93d49eab9847d6dea99fa2c895cf6cc3, type: 3}
+  _vectorExpressionPrefab: {fileID: 0}
   _fractionExpressionPrefab: {fileID: 5682134064731944212, guid: e24eda6bc957e7b7b88033cb2c0b7e46, type: 3}
   _sumExpressionPrefab: {fileID: 3082753649635430755, guid: 4f790e2399706d2d3a13816c113d6b44, type: 3}
   _subtractExpressionPrefab: {fileID: 2181132977284455494, guid: 7b89302acc20bc455b55f237fa1cf6ab, type: 3}
@@ -7565,7 +7548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Geometry.Parameters
   _defaultIndicatorSizeY: 66
   _defaultLineWidth: 0.05
-  _defaultLabelSize: 0.3
+  _defaultLabelSize: 0.2
   _gridSortingOrder: -1
   _defaultSortingOrder: 0
   _labelSortingOrder: 5

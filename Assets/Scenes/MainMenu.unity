@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 143364856}
   - component: {fileID: 143364855}
   - component: {fileID: 143364854}
-  - component: {fileID: 143364853}
+  - component: {fileID: 143364857}
   m_Layer: 0
   m_Name: Juice
   m_TagString: Untagged
@@ -233,27 +233,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &143364853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 143364852}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8bc6fb53ff84773820811eb11ae1b89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _points: []
-  _lineWidth: 0.1
-  _loop: 0
-  _lineColor: {r: 1, g: 1, b: 1, a: 0.15686275}
-  _sortingOrder: 0
-  _scalable: 0
-  _absolutePosition: 0
-  _dashLenght: 2
-  _timeMultiplier: -1
 --- !u!23 &143364854
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -319,6 +298,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1599509071}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &143364857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143364852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8bc6fb53ff84773820811eb11ae1b89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _points: []
+  _lineWidth: 0.2
+  _loop: 0
+  _lineColor: {r: 0, g: 0, b: 0, a: 0}
+  _sortingOrder: 0
+  _scalable: 1
+  _absolutePosition: 0
+  _dashLenght: 1
+  _timeMultiplier: 0
 --- !u!1 &164212327
 GameObject:
   m_ObjectHideFlags: 0
@@ -1773,7 +1773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 1599509072}
-  _juicyLineRenderer: {fileID: 143364853}
+  _juicyLineRenderer: {fileID: 143364857}
   _size: 5
   _rotationDamping: 15
   _throwForce: 30

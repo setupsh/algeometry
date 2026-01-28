@@ -89,6 +89,9 @@ namespace Geometry {
         }
         
         protected virtual void ApplyMaterial(MeshRenderer meshRenderer) {
+            if (meshRenderer.material == null) {
+                meshRenderer.material = Materials.Get(MaterialType.Lit);
+            }
             meshRenderer.sortingOrder = _sortingOrder;
             meshRenderer.material.color = _lineColor;
         }
