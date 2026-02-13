@@ -1,76 +1,132 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
+using Algebra;
 using UnityEngine.Rendering;
 using Geometry;
+using UI;
 
 namespace Geometry {
-    public class Angle : Construction {
-        private GeometryPoint _vertex, _armA, _armB;
-        private int _arcAmount;
-        private Color _color;
-        private GeometricalLineRenderer _lineRenderer;
-        private float _angleValue;
-        private bool _showLabel;
-        private Label _label = null;
-        public float Value => _angleValue;
+    public class Angle : Construction, IIndicable {
+        private GeometryPoint vertex, armA, armB;
+        private Color color;
+        private GeometricalLineRenderer lineRenderer;
+        private float angleValue;
+        private float angleValueRad => angleValue * Mathf.Deg2Rad;
+        private bool showLabel;
+        private string uniqueLabel;
+        private Label label = null;
+        private float preferredRadius;
 
-        public void Init(Figure parent, GeometryPoint armA, GeometryPoint vertex, GeometryPoint armB, Color color, bool showLabel) {
-            _vertex = vertex;
-            _armA = armA;
-            _armB = armB;
-            _color = color;
-            _showLabel = showLabel;
-            FieldCamera.OnCameraChanged += OnCameraChanged;
+        public void Init(Figure parent, GeometryPoint armA, GeometryPoint vertex, GeometryPoint armB, Color color, bool showLabel, string uniqueLabel = "") {
+            this.vertex = vertex;
+            this.armA = armA;
+            this.armB = armB;
+            this.color = color;
+            this.showLabel = showLabel;
+            this.uniqueLabel = uniqueLabel;
+            
+            FieldCamera.OnCameraZoom += OnCameraZoom;
 
             base.Init(parent);
         }
 
         private void OnDisable() {
-            FieldCamera.OnCameraChanged -= OnCameraChanged;
+            FieldCamera.OnCameraZoom -= OnCameraZoom;
         }
         public override void UpdateConstruction() {
-            _angleValue = Utilities.GetAngle(_armA.transform.position, _vertex.transform.position, _armB.transform.position);
-            List<Vector2> points = Utilities.GenerateAngleSector(_vertex.transform.position, _armA.transform.position, _armB.transform.position, CalculateRadius(), 25);
-            points.RemoveAt(0);
-            for (int i = 0; i < points.Count; i++) {
-                _lineRenderer.SetPosition(i, points[i]);
+            angleValue = Utilities.GetAngle(armA.Position, vertex.Position, armB.Position);
+            //angleValue = Vector2.Angle(armA.Position - vertex.Position, armB.Position - vertex.Position);
+            List<Vector2> points;
+            if (Math.Abs(angleValue - 90f) < Utilities.Epsilon) {
+                lineRenderer.ClearPoints();
+                points = new List<Vector2>() {
+                    vertex.Position + (armA.Position - vertex.Position).normalized * CalculateRadius(),
+                    vertex.Position + (armA.Position - vertex.Position).normalized * CalculateRadius() + (armB.Position - vertex.Position).normalized * CalculateRadius(),
+                    vertex.Position + (armB.Position - vertex.Position).normalized * CalculateRadius()
+                };
             }
-            if (_showLabel && _label) {
-                _label.TextMeshPro.text = _angleValue.ToStringDecimalPlaces(2);
-                _label.SetPosition(_vertex.Position - (_vertex.Position - points[Mathf.RoundToInt(points.Count / 2f)]) * Parameters.OffsetTextFromAngleMultiplier);
+            else {
+                points = Utilities.GenerateAngleSector(vertex.transform.position, armA.transform.position, armB.transform.position, CalculateRadius(), 25);
+                points.RemoveAt(0);
+            }
+            for (int i = 0; i < points.Count; i++) {
+                lineRenderer.SetPosition(i, points[i]);
+            }
+            if (showLabel && label) {
+                label.TextMeshPro.text = uniqueLabel;
+                label.SetPosition((vertex.Position + points[points.Count / 2]) * 0.5f);
                 //TODO Динамически обновлять размер
-                _label.TextMeshPro.fontSize = Parameters.DefaultLabelSize;
-                _label.TextMeshPro.color = _color;
+                label.TextMeshPro.fontSize = Parameters.DefaultLabelSize * FieldCamera.Instance.CeilSize();
             }
             
         }
 
+        private void OnDrawGizmos() {
+            Gizmos.DrawSphere((armA.Position - vertex.Position).normalized, 0.5f);
+            Gizmos.DrawSphere((armB.Position - vertex.Position).normalized, 0.5f);
+        }
+
         protected override void CreateConstruction() {
-            _lineRenderer = gameObject.AddComponent<GeometricalLineRenderer>();
-            _lineRenderer.Setup(new LineRendererConfig(Parameters.AngleWidth, false, _color, Parameters.DefaultSortingOrder - 1, true, false));
-            if (_showLabel) {
-                _label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
+            lineRenderer = gameObject.AddComponent<RoundedLineRenderer>();
+            lineRenderer.Setup(new RoundedLineRendererConfig(Parameters.AngleWidth, false, color, Parameters.DefaultSortingOrder - 1, true, false, 2));
+            if (showLabel) {
+                label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
+                label.TextMeshPro.color = color;
+                label.TextMeshPro.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             }
         }
 
         private float CalculateRadius() {
-            float AngleRadius = Parameters.AngleRadius;
-            return FieldCamera.Instance.ZoomLevel > 1f ? Parameters.AngleRadius / (FieldCamera.Instance.ZoomLevel) : Parameters.AngleRadius;
-            
-            //if (Vector2.Distance(_vertex.Position, _armA.Position) < 1.5f || Vector2.Distance(_vertex.Position, _armA.Position) < 1.5f) {
-            //    return AngleRadius;
-            //}
-            if (_angleValue < 30f) {
-                if (_angleValue < 10f) {
-                    return AngleRadius + (Mathf.Cos(_angleValue * Mathf.Deg2Rad) * AngleRadius * 5f);
-                }
-                return AngleRadius + (Mathf.Cos(_angleValue * Mathf.Deg2Rad) * AngleRadius * 2.5f);
+            if (Vector2.Distance(vertex.Position, armA.Position) < preferredRadius || Vector2.Distance(vertex.Position, armB.Position) < preferredRadius) {
+                return Mathf.Min(Vector2.Distance(vertex.Position, armA.Position), Vector2.Distance(vertex.Position, armB.Position));
             }
-            return AngleRadius + (Mathf.Clamp(Mathf.Cos(_angleValue * Mathf.Deg2Rad), 0, 1) * AngleRadius);
+            return preferredRadius;
+            //if (_angleValue < 30f) {
+            //    if (_angleValue < 10f) {
+            //        return AngleRadius + (Mathf.Cos(_angleValue * Mathf.Deg2Rad) * AngleRadius * 5f);
+            //    }
+            //    return AngleRadius + (Mathf.Cos(_angleValue * Mathf.Deg2Rad) * AngleRadius * 2.5f);
+            //}
+            //return AngleRadius + (Mathf.Clamp(Mathf.Cos(_angleValue * Mathf.Deg2Rad), 0, 1) * AngleRadius);
+        }
+
+        private string GetCaption() {
+            if (uniqueLabel == String.Empty) {
+                return $"{armA.Label + vertex.Label + armB.Label}";
+            }
+            return uniqueLabel;
         }
         
-        public void OnCameraChanged() {
-            UpdateConstruction();
+        private void OnCameraZoom() {
+            preferredRadius = Parameters.AngleRadius * FieldCamera.Instance.CeilSize();
+        }
+
+        public string GetBoardMenuCaption() {
+            return $"Угол {GetCaption()}";
+        }
+        
+        public enum Indicators {Sin, Cos, Tan, Ctg, Deg, Rad}
+        
+        public List<IndicatorInfo> GetIndicatorInfos() {
+            return new List<IndicatorInfo>() {
+                new AlgebraExpressionInfo(new NumberExpression(() => Math.Sin(angleValueRad)), "Синус",
+                    $"sin({GetCaption()})"),
+                new AlgebraExpressionInfo(new NumberExpression(() => Math.Cos(angleValueRad)), "Косинус",
+                    $"cos({GetCaption()})"),
+                new AlgebraExpressionInfo(new NumberExpression(() => Math.Tan(angleValueRad)), "Тангенс",
+                    $"tan({GetCaption()})"),
+                new AlgebraExpressionInfo(new NumberExpression(() => 1 / Math.Tan(angleValueRad)), "Котангенс",
+                    $"ctg({GetCaption()})"),
+                new AlgebraExpressionInfo(new NumberExpression(() => angleValue), "Угол (градусы)",
+                $"{GetCaption()}°"),
+                new AlgebraExpressionInfo(new NumberExpression(() => angleValueRad), "Угол (радианы)",
+                    $"{GetCaption()}")
+            };
+        }
+
+        public List<IIndicable> GetChildrenIndicators() {
+            throw new System.NotImplementedException();
         }
     }
     [System.Serializable]

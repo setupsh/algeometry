@@ -21,7 +21,6 @@ namespace Geometry {
         [SerializeField] private Color _labelColor;
         [SerializeField] private Transform _bufferFolder;
         private Stack<Label> buffer = new Stack<Label>();
-        private const string transparentMinus = "<color=#00000000>-";
         private Dictionary<int, Label> valuesX = new Dictionary<int, Label>();
         private Dictionary<int, Label> valuesY = new Dictionary<int, Label>();
         private float ceilSize;
@@ -35,7 +34,6 @@ namespace Geometry {
         private bool previousCameraRight;
         private List<int> moveToDelete = new List<int>(100);
         private List<int> reinitializeToDelete = new List<int>(100);
-        static readonly ProfilerMarker AxisUpdateMarker = new ProfilerMarker("AxisCoordinate.UpdateAxis");
         
         public enum Axis {X, Y}
         private void Start() {
@@ -90,22 +88,20 @@ namespace Geometry {
             }
         }
         private void MoveLabels(Matrix currentMatrix, Axis axis) {
-            using (AxisUpdateMarker.Auto()) {
-                var activeLabels = (axis == Axis.X) ? valuesX : valuesY;
-                moveToDelete.Clear();
-                
-                foreach (var index in activeLabels.Keys) {
-                    if (index < currentMatrix.Min || index > currentMatrix.Max) moveToDelete.Add(index);
-                }
-                foreach (int index in moveToDelete) RemoveLabel(index, axis);
-                
-                for (int i = currentMatrix.Min; i <= currentMatrix.Max; i++) {
-                    if (i == 0) continue;
-                    if (!activeLabels.ContainsKey(i)) {
-                        InitLabel(i, axis);
-                    } else {
-                        UpdateLabelPosition(activeLabels[i], i * ceilSize, i, axis);
-                    }
+            var activeLabels = (axis == Axis.X) ? valuesX : valuesY;
+            moveToDelete.Clear();
+            
+            foreach (var index in activeLabels.Keys) {
+                if (index < currentMatrix.Min || index > currentMatrix.Max) moveToDelete.Add(index);
+            }
+            foreach (int index in moveToDelete) RemoveLabel(index, axis);
+            
+            for (int i = currentMatrix.Min; i <= currentMatrix.Max; i++) {
+                if (i == 0) continue;
+                if (!activeLabels.ContainsKey(i)) {
+                    InitLabel(i, axis);
+                } else {
+                    UpdateLabelPosition(activeLabels[i], i * ceilSize, i, axis);
                 }
             }
         }
@@ -153,18 +149,16 @@ namespace Geometry {
             float value = index * ceilSize;
             string text = Round(value, decimalPlaces).ToString(CultureInfo.CurrentCulture);
             if (value < 0f && axis == Axis.X) {
-                text += transparentMinus;
+                text = text + Utilities.TransparentMinus;
             }
             label.TextMeshPro.SetText(text);
             label.TextMeshPro.fontSize = textSize;
 
             switch (axis) {
                 case Axis.X: {
-                    label.TextMeshPro.alignment = TextAlignmentOptions.Top;
                     label.TextMeshPro.rectTransform.pivot = new Vector2(0.5f, 1f); break;
                 }
                 case Axis.Y: {
-                    label.TextMeshPro.alignment = TextAlignmentOptions.Right;
                     label.TextMeshPro.rectTransform.pivot = new Vector2(1f, 0.5f); break;
                 }    
             }
@@ -218,11 +212,9 @@ namespace Geometry {
             var textMeshPro = label.TextMeshPro;
 
             if (axis == Axis.X) {
-                textMeshPro.alignment = CameraAbove ? TextAlignmentOptions.Bottom : TextAlignmentOptions.Top;
                 textMeshPro.rectTransform.pivot = CameraAbove ? new Vector2(0.5f, 0f) : new Vector2(0.5f, 1f);
             }
             else {
-                textMeshPro.alignment = CameraRight ? TextAlignmentOptions.Left : TextAlignmentOptions.Right;
                 textMeshPro.rectTransform.pivot = CameraRight ? new Vector2(0f, 0.5f) : new Vector2(1f, 0.5f);
             }
         }

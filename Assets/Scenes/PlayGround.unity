@@ -2506,6 +2506,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2674,6 +2675,22 @@ MonoBehaviour:
     m_RotationOrder: 4
   _zoomDuration: 0.1
   _defualtOrthographicSize: 5
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &537350380
 GameObject:
   m_ObjectHideFlags: 0
@@ -3389,6 +3406,7 @@ GameObject:
   - component: {fileID: 688275852}
   - component: {fileID: 688275851}
   - component: {fileID: 688275853}
+  - component: {fileID: 688275854}
   m_Layer: 5
   m_Name: Indicator Panel
   m_TagString: Untagged
@@ -3470,6 +3488,28 @@ MonoBehaviour:
   _prefab: {fileID: 3705251690897856055, guid: 02e0176b6c0a90a8f988f339ecbd5a0b, type: 3}
   _addIndicatorButtonPrefab: {fileID: 1910076418419160215, guid: e569be160fbdeba3f9004d5c7c5cbc0c, type: 3}
   _boardMenuContainer: {fileID: 1120387651}
+  _animator: {fileID: 688275854}
+--- !u!95 &688275854
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688275849}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9a912c1e85f13c5fab97a342d3b80821, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &774582621
 GameObject:
   m_ObjectHideFlags: 0
@@ -5185,6 +5225,8 @@ MonoBehaviour:
   _board: {fileID: 1565091767}
   _mainCanvas: {fileID: 170440093}
   _lessonText: {fileID: 314076124}
+  _lessonSummary: {fileID: 0}
+  _indicatorsList: {fileID: 0}
 --- !u!114 &1565091771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5213,9 +5255,11 @@ MonoBehaviour:
   _trianglePrefab: {fileID: 8004120993559803750, guid: 9af6656bc0abe3387bf2a359100bc003, type: 3}
   _circlePrefab: {fileID: 5435337401379549331, guid: 1811893a14cc1f094b29ae9e30da48e0, type: 3}
   _isoscelesTrianglePrefab: {fileID: 2331614692066997020, guid: 9e01b5f3c58afa7fd82bef85e899669f, type: 3}
+  _rectangularTrianglePrefab: {fileID: 0}
   _descriptionPrefab: {fileID: 3356388454285553538, guid: 2681d7d6b0a468ed0aeb1c7fdd1976d5, type: 3}
   _numberExpressionPrefab: {fileID: 4849749961258933818, guid: 93d49eab9847d6dea99fa2c895cf6cc3, type: 3}
-  _vectorExpressionPrefab: {fileID: 0}
+  _variableExpressionPrefab: {fileID: 0}
+  _vectorExpressionPrefab: {fileID: 3082753649635430755, guid: 226b5dcba29efd38296ca9cbc40469ea, type: 3}
   _fractionExpressionPrefab: {fileID: 5682134064731944212, guid: e24eda6bc957e7b7b88033cb2c0b7e46, type: 3}
   _sumExpressionPrefab: {fileID: 3082753649635430755, guid: 4f790e2399706d2d3a13816c113d6b44, type: 3}
   _subtractExpressionPrefab: {fileID: 2181132977284455494, guid: 7b89302acc20bc455b55f237fa1cf6ab, type: 3}

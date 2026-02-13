@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Resources = Geometry.Resources;
 
-public enum Figures {Triangle, IsoscelesTriangle, EquilateralTriangle, Circle}
+public enum Figures {Triangle, IsoscelesTriangle, RectangularTriangle, Circle}
 public class FigureSpawner : MonoBehaviour {
     public Dictionary<Figures, Figure> Prefabs { get; private set; } = new Dictionary<Figures, Figure>();
 
@@ -14,6 +14,7 @@ public class FigureSpawner : MonoBehaviour {
             { Figures.Triangle, Resources.TrianglePrefab},
             { Figures.Circle, Resources.CirclePrefab},
             { Figures.IsoscelesTriangle, Resources.IsoscelesTrianglePrefab},
+            { Figures.RectangularTriangle, Resources.RectangularTrianglePrefab}
         };
     }
     public Figure SpawnFigure(Figures figure) {

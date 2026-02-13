@@ -7,6 +7,7 @@ using Object = UnityEngine.Object;
 namespace Geometry {
     public abstract class Figure : MonoBehaviour, IIndicable {
         [SerializeField] protected GeometricalLineRenderer _lineRenderer;
+        public event Action OnFigureChanged;
         public GeometryPoint[] Points {get; private set;}
         public List<Side> Sides { get; private set; } = new List<Side>();
         public List<Construction> Constructions { get; private set; } = new List<Construction>();
@@ -16,6 +17,7 @@ namespace Geometry {
 
         private void OnEnable() {
             InitPoints();
+            InitConstruction();
             foreach (GeometryPoint point in Points) {
                 point.OnPositionChanged += UpdateFigure;
             }
@@ -30,7 +32,6 @@ namespace Geometry {
 
         protected void Start() {
             transform.name = GetBoardMenuCaption();
-            InitConstruction();
             InitSides();
             InitRules();
             UpdateFigure();
@@ -51,6 +52,7 @@ namespace Geometry {
                 construction.UpdateConstruction();
             }
             PostUpdate();
+            OnFigureChanged?.Invoke();
         }
 
         private void InitConstruction() {
@@ -77,7 +79,7 @@ namespace Geometry {
             pointsFolder = new GameObject("Points").transform;
             pointsFolder.SetParent(transform);
             for (int i = 0; i < PointsAmount(); i++) {
-                string caption = Board.CaptionSystem.GetFreeCaption();
+                string caption = Board.CaptionSystem.GetFreeCaption(CaptionSystem.UpperLatinLetters);
                 GeometryPoint point = Instantiate(Resources.FreeGeometryPointPrefab, pointsFolder).GetComponent<GeometryPoint>();
                 point.Label = caption;
                 point.name = $"Point {caption}";
@@ -88,6 +90,7 @@ namespace Geometry {
 
         public void AddConstruction(Construction construction) {
             Constructions.Add(construction);
+            Debug.Log(constructionFolder);
             construction.transform.parent = constructionFolder;
         }
 

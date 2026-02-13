@@ -16,11 +16,11 @@ MonoBehaviour:
     rid: 8331730943470993408
   parameters:
   - parameterUIprefab: {fileID: 6176280703050483949, guid: 3181d16ecbcb62d5fb72ba1262f74732, type: 3}
-    parameterCaption: Figure
+    parameterCaption: "\u0424\u0438\u0433\u0443\u0440\u0430"
   - parameterUIprefab: {fileID: 1667820508468493893, guid: aea5227b6c6b3aae280de90137f3aadc, type: 3}
-    parameterCaption: Color
+    parameterCaption: "\u0426\u0432\u0435\u0442"
   - parameterUIprefab: {fileID: 4707366801509571785, guid: edd44f51df3981147b0047ee4d22cfae, type: 3}
-    parameterCaption: Distance Multiplier
+    parameterCaption: "\u0420\u0430\u0441\u0441\u0442\u043E\u044F\u043D\u0438\u0435"
   references:
     version: 2
     RefIds:

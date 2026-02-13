@@ -2,13 +2,15 @@
 using UI;
 using UnityEngine;
 using System.Collections.Generic;
+using Algebra;
+
 namespace Geometry {
     public class Side : MonoBehaviour, IIndicable {
         public GeometryPoint Start {get; private set;}
         public GeometryPoint End {get; private set;}
         public Figure Parent {get; private set;}
 
-        private Label _label;
+        private Label label;
         
         public void Init(Figure parent, GeometryPoint start, GeometryPoint end) {
             Parent = parent;
@@ -18,8 +20,8 @@ namespace Geometry {
         }
 
         public void AssignLabel(string label) {
-            _label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
-            _label.TextMeshPro.SetText(label);
+            this.label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
+            this.label.TextMeshPro.SetText(label);
             UpdateLabel();
         }
 
@@ -28,14 +30,14 @@ namespace Geometry {
         }
 
         public void UpdateLabel() {
-            if (!_label) return; 
+            if (!label) return; 
             Vector2 side = Start.transform.position - End.transform.position;
             Vector2 perpendicular = new Vector2(-side.y, side.x).normalized;
             Vector2 toCenter = (Parent.GetCenter() - GetMiddle()).normalized;
             if (Vector2.Dot(perpendicular, toCenter) > 0f) {
                 perpendicular = -perpendicular;
             }
-            _label.SetPosition(GetMiddle() + perpendicular * (_label.TextMeshPro.fontSize / 100f));
+            label.SetPosition(GetMiddle() + perpendicular * (Parameters.DefaultLabelSize * FieldCamera.Instance.CeilSize()));
         }
         
         
@@ -47,7 +49,7 @@ namespace Geometry {
 
         public List<IndicatorInfo> GetIndicatorInfos() {
             return new List<IndicatorInfo>() {
-                new NumberInfo(() => Vector2.Distance(Start.Position, End.Position), $"Length of {Start.Label} - {End.Label}", $"{Start.Label} - {End.Label}")
+                new AlgebraExpressionInfo(new NumberExpression(() => Vector2.Distance(Start.Position, End.Position)), $"Length of {Start.Label} - {End.Label}", $"{Start.Label} - {End.Label}")
             };
             //var indicatorInfos = new List<IndicatorInfo>();
             //indicatorInfos.Add(new TextInfo(() => $"{Start.Label} - {End.Label} = {Vector2.Distance(Start.Position, End.Position)}",

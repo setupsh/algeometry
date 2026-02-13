@@ -9,15 +9,17 @@ namespace UI {
         [SerializeField] private Indicator _prefab;
         [SerializeField] private IndicatorAdder _addIndicatorButtonPrefab;
         [SerializeField] private BoardMenuContainer _boardMenuContainer;
+        [SerializeField] private Animator _animator;
         public BoardMenuContainer BoardMenuContainer => _boardMenuContainer;
         private List<Indicator> _indicators = new List<Indicator>();
         private IndicatorAdder _indicatorAdderButton;
 
         private void Start() {
-            _indicatorAdderButton = Instantiate(_addIndicatorButtonPrefab, _content);
-            _indicatorAdderButton.SetIndicatorsList(this, _boardMenuContainer);
+            if (_addIndicatorButtonPrefab != null) {
+                _indicatorAdderButton = Instantiate(_addIndicatorButtonPrefab, _content);
+                _indicatorAdderButton.SetIndicatorsList(this, _boardMenuContainer);
+            }
             Board.OnUpdate += UpdateIndicators;
-            //UpdateAddButtonPosition();
         }
 
         private void OnDestroy() {
@@ -26,8 +28,10 @@ namespace UI {
 
         public void AddIndicator(IndicatorInfo info) {
             Indicator indicator = Instantiate(_prefab, _content);
+            Debug.Log(indicator.name);
             indicator.SetInfo(info);
             _indicators.Add(indicator);
+            _animator.SetTrigger(AnimatorKeys.Open);
         }
 
         public void UpdateIndicators() {
@@ -35,6 +39,12 @@ namespace UI {
                 indicator.UpdateInfo();
             }
         }
+
+        public void ClearAll() {
+            _animator.SetTrigger(AnimatorKeys.Close);
+            foreach (Indicator indicator in _indicators) {
+                indicator.Delete();
+            }
+        }
     }
-    
 }

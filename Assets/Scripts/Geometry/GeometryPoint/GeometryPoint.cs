@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Algebra;
 using UI;
 
 namespace Geometry {
@@ -37,6 +38,7 @@ namespace Geometry {
         }
         
         private void OnDrag() {
+            if (blocked) return;
             Vector2 targetPosition = FieldCamera.Instance.ToWorldPoint(InputListener.MousePosition);
 
             if (InputListener.ShiftPressed) {
@@ -72,8 +74,8 @@ namespace Geometry {
             SetPosition(newPosition);
         }
         private void InvokePositionChanging() {
-            Board.Instance.InvokeUpdate();
             OnPositionChanged?.Invoke();
+            Board.Instance.InvokeUpdate();
         }
 
 
@@ -105,11 +107,10 @@ namespace Geometry {
         }
 
         public List<IndicatorInfo> GetIndicatorInfos() {
-            return new List<IndicatorInfo>() { }; //{
-            //    new TextInfo(() => $"{Label}: ({Position.x:F2}, {Position.y:F2})", () => Label),
-            //};
+            return new List<IndicatorInfo>() {
+                new AlgebraExpressionInfo(new VectorExpression(new NumberExpression(() => Position.x), new NumberExpression(() => Position.y)), $"Координаты точки {Label}", $"{Label}")
+            };
         }
-        //TODO Сделать другие варианты индикатора, чтобы индикатор решал как форматировать
 
         public List<IIndicable> GetChildrenIndicators() {
             return null;

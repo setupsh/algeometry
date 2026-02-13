@@ -18,26 +18,15 @@ namespace UI {
         public abstract AlgebraExpression GetExpression();
     }
 
-    public class NumberInfo : IndicatorInfo {
-        private Func<float> number;
-        public NumberInfo(Func<float> number, string boardMenuCaption, string uiCaption) : base(boardMenuCaption, uiCaption) {
-            this.number = number;
+    public class AlgebraExpressionInfo : IndicatorInfo {
+        private AlgebraExpression expression;
+        public AlgebraExpressionInfo(AlgebraExpression expression, string boardMenuCaption, string uiCaption) : base(boardMenuCaption, uiCaption) {
+            this.expression = expression;
         }
         public override AlgebraExpression GetExpression() {
-            return  new SqrtExpression(new FractionExpression(new SubtractExpression(new SqrtExpression(new NumberExpression(() => number())), new NumberExpression(() => number())), new FractionExpression(new  NumberExpression(() => number()), new NumberExpression(() => 3))));
+            return expression;
         }
     }
-
-    //public class CoordinatesInfo : IndicatorInfo {
-    //    private Func<Vector2> coordinates;
-    //    public CoordinatesInfo(Func<Vector2> coordinates, string boardMenuCaption, string uiCaption) : base(boardMenuCaption, uiCaption) {
-    //        this.coordinates = coordinates;
-    //    }
-    //    
-    ///    public override GameObject GetUIRepresentation() {
-    //        return new AlgebraEquation(coordinates().ToString());
-    //    }
-    //}
     
     [RequireComponent(typeof(RectTransform))]
     public class Indicator : MonoBehaviour {

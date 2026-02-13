@@ -6,10 +6,8 @@ using TMPro;
 
 namespace Geometry {
     public static class Utilities {
+        public const string TransparentMinus = "<color=#ffffff00>-</color>";
         public const float Epsilon = 0.0001f;
-        public static readonly List<string> Captions = new List<string> {
-            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
-        };
         public static bool IsVoid(this Vector2 p) => float.IsNaN(p.x) || float.IsNaN(p.y);
 
         public static bool ContainsCamera(this Bounds bounds, Vector2 point) {
@@ -27,7 +25,6 @@ namespace Geometry {
         public static bool IsSubclass(this object obj, System.Type type) {
             return obj.GetType().IsSubclassOf(type);
         }
-        // TYPING
         public static bool IsA(this object obj, System.Type type) {
             return type.IsAssignableFrom(obj.GetType());
         }
@@ -158,11 +155,6 @@ namespace Geometry {
         public static string ToStringDecimalPlaces(this float value, int decimalPlaces) {
             return string.Format("{0:F" + decimalPlaces + "}", value);
         }
-        
-        //-=RULES-HELPERS=-
-
-
-
     }
 
 }

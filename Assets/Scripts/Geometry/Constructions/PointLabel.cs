@@ -3,36 +3,32 @@ using JetBrains.Annotations;
 using UnityEngine;
 namespace Geometry {
     public class PointLabel : Construction {
-        private GeometryPoint _point;
-        private string _caption;
-        private Label _label = null;
-        private Color _color;
-        private OffsetConfig _offset;
+        private GeometryPoint point;
+        private string caption;
+        private Label label;
+        private Color color;
+        private OffsetConfig offsetConfig;
         
         public void Init(Figure parent, GeometryPoint point, Color color, OffsetConfig offsetConfig) {
-            _point = point;
-            _color = color;
-            _offset = offsetConfig;
+            this.point = point;
+            this.color = color;
+            this.offsetConfig = offsetConfig;
             base.Init(parent);
-            FieldCamera.OnCameraChanged += OnCameraChanged;
+            FieldCamera.OnCameraChanged += UpdateConstruction;
         }
 
         private void OnDisable() {
-            FieldCamera.OnCameraChanged -= OnCameraChanged;
+            FieldCamera.OnCameraChanged -= UpdateConstruction;
         }
         public override void UpdateConstruction() {
-            _label.TextMeshPro.fontSize = Parameters.DefaultLabelSize * FieldCamera.Instance.CeilSize();
-            _label.SetPosition(_offset.CalculateOffset());
+            label.TextMeshPro.fontSize = Parameters.DefaultLabelSize * FieldCamera.Instance.CeilSize();
+            label.SetPosition(offsetConfig.CalculateOffset());
         }
 
         protected override void CreateConstruction() {
-            _label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
-            _label.TextMeshPro.text = _point.Label;
-            _label.TextMeshPro.color = _color;
-            UpdateConstruction();
-        }
-
-        public void OnCameraChanged() {
+            label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
+            label.TextMeshPro.text = point.Label;
+            label.TextMeshPro.color = color;
             UpdateConstruction();
         }
     }
@@ -44,7 +40,7 @@ namespace Geometry {
             Color color = Get<Color>(arguments, 1);
             float multiplier = Get<float>(arguments, 2);
             foreach (GeometryPoint point in figure.Points) {
-                Board.Instance.Instantiate<PointLabel>().Init(figure, point, color, new CentroidOffset(figure.GetCenter, () => point.Position, multiplier));
+                Board.Instance.Instantiate<PointLabel>().Init(figure, point, color, new CentroidOffset(figure, point, multiplier));
             }
         }
     }

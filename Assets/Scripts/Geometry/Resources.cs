@@ -15,10 +15,12 @@ namespace Geometry {
         [SerializeField] private Triangle _trianglePrefab;
         [SerializeField] private Circle _circlePrefab;
         [SerializeField] private IsoscelesTriangle _isoscelesTrianglePrefab;
+        [SerializeField] private RectangularTriangle _rectangularTrianglePrefab;
         
         [Header("UI")]
         [SerializeField] private Description _descriptionPrefab;
         [SerializeField] private TextMeshProUGUI _numberExpressionPrefab;
+        [SerializeField] private TextMeshProUGUI _variableExpressionPrefab;
         [SerializeField] private AlgebraExpressionUI _vectorExpressionPrefab;
         [SerializeField] private AlgebraExpressionUI _fractionExpressionPrefab;
         [SerializeField] private AlgebraExpressionUI _sumExpressionPrefab;
@@ -33,11 +35,15 @@ namespace Geometry {
         
         public static Circle CirclePrefab => Instance._circlePrefab;
         
-        public static IsoscelesTriangle IsoscelesTrianglePrefab => Instance._isoscelesTrianglePrefab; 
+        public static IsoscelesTriangle IsoscelesTrianglePrefab => Instance._isoscelesTrianglePrefab;
+
+        public static RectangularTriangle RectangularTrianglePrefab => Instance._rectangularTrianglePrefab;
         
         public static Description DescriptionPrefab => Instance._descriptionPrefab;
         
         public static TextMeshProUGUI NumberExpressionPrefab => Instance._numberExpressionPrefab;
+
+        public static TextMeshProUGUI VariableExpressionPrefab => Instance._variableExpressionPrefab;
 
         public static AlgebraExpressionUI VectorExpressionPrefab => Instance._vectorExpressionPrefab;
         

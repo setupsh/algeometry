@@ -7,6 +7,7 @@ namespace UI {
         public AlgebraExpressionView Generate(AlgebraExpression expression, Transform parent) {
             return expression switch {
                 NumberExpression numberExpression => new NumberExpressionView(numberExpression, parent, Geometry.Resources.NumberExpressionPrefab),
+                VariableExpression variableExpression => new VariableExpressionView(variableExpression, parent, Geometry.Resources.NumberExpressionPrefab),
                 VectorExpression vectorExpression => new VectorExpressionView(vectorExpression, parent, this, Geometry.Resources.VectorExpressionPrefab),
                 SumExpression sumExpression => new SumExpressionView(sumExpression, parent, this, Geometry.Resources.SumExpressionPrefab),
                 SubtractExpression subtractExpression => new SubtractExpressionView(subtractExpression, parent, this, Geometry.Resources.SubtractExpressionPrefab),

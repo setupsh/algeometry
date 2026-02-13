@@ -46,7 +46,7 @@ namespace Geometry {
             return _to.End.Position + dir * t;
         }
 
-        public void OnCameraChanged() {
+        private void OnCameraChanged() {
             UpdateConstruction();
         }
     }

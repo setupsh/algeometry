@@ -9,6 +9,25 @@ namespace Algebra {
         public abstract bool SameType(AlgebraExpression other);
     }
 
+    public class VariableExpression : AlgebraExpression {
+        private Func<double> getter;
+        public string Name { get; private set; }
+        
+        public VariableExpression(Func<double> function, string name) {
+            getter = function;
+            Name = name;
+        }
+        public VariableExpression(double constant, string name) {
+            getter = () => constant;
+            Name = name;
+        }
+        public override double Evaluate() => getter();
+
+        public override bool SameType(AlgebraExpression other) {
+            return other is VariableExpression variableExpression && getter == variableExpression.getter;
+        }
+    }
+
     public class NumberExpression : AlgebraExpression {
         private Func<double> getter;
         
@@ -28,7 +47,11 @@ namespace Algebra {
     public class VectorExpression : AlgebraExpression {
         public AlgebraExpression X { get; }
         public AlgebraExpression Y { get; }
-        
+
+        public VectorExpression(AlgebraExpression x, AlgebraExpression y) {
+            X = x;
+            Y = y;
+        }
         public override double Evaluate() {
             return Math.Sqrt(X.Evaluate() * X.Evaluate() + Y.Evaluate() * Y.Evaluate());
         }

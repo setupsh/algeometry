@@ -12,6 +12,23 @@ namespace UI {
             Object.Destroy(Root.gameObject);
         }
     }
+
+    public sealed class VariableExpressionView : AlgebraExpressionView {
+        private VariableExpression expression;
+        private TextMeshProUGUI text;
+
+        public VariableExpressionView(VariableExpression expression, Transform parent, TextMeshProUGUI prefab) {
+            this.expression = expression;
+            text = Object.Instantiate(prefab, parent);
+            UpdateValue();
+        }
+
+        public override RectTransform Root => text.rectTransform;
+
+        public override void UpdateValue() {
+            text.text = expression.Name;
+        }
+    }
     public sealed class NumberExpressionView : AlgebraExpressionView {
         private NumberExpression expression;
         private TextMeshProUGUI text;
