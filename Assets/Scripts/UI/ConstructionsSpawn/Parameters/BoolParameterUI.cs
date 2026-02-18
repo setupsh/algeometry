@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,7 +6,7 @@ namespace UI {
     public class BoolParameterUI : GeometryParameterUI {
         [SerializeField] private TMPro.TextMeshProUGUI _caption;
         [SerializeField] private Toggle _toggle;
-        private bool value;
+        private bool value = true;
         public override void SetCaption(string caption) {
             _caption.text = caption;
         }

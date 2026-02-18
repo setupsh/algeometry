@@ -43,13 +43,17 @@ namespace Geometry {
         
         public Vector2 GetMiddle() => (Start.transform.position + End.transform.position) * 0.5f;
 
+        private string GetCaption() {
+            return $"{Start.Label}-{End.Label}";
+        }
+
         public string GetBoardMenuCaption() {
-            return String.Empty;
+            return $"Сторона {GetCaption()}";
         }
 
         public List<IndicatorInfo> GetIndicatorInfos() {
             return new List<IndicatorInfo>() {
-                new AlgebraExpressionInfo(new NumberExpression(() => Vector2.Distance(Start.Position, End.Position)), $"Length of {Start.Label} - {End.Label}", $"{Start.Label} - {End.Label}")
+                new RawNumberInfo(new NumberExpression(() => Vector2.Distance(Start.Position, End.Position)), $"Длина {GetCaption()}", GetCaption())
             };
             //var indicatorInfos = new List<IndicatorInfo>();
             //indicatorInfos.Add(new TextInfo(() => $"{Start.Label} - {End.Label} = {Vector2.Distance(Start.Position, End.Position)}",

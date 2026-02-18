@@ -31,7 +31,6 @@ public class FigureSpawner : MonoBehaviour {
 
     private void SnapToGrid(Figure figure) {
         foreach (GeometryPoint point in figure.Points) {
-            Debug.Log(Board.Grid.GetNearestGridPoint(point.Position));
             point.Position = Board.Grid.GetNearestGridPoint(point.Position);
         }
     }

@@ -2647,8 +2647,8 @@ MonoBehaviour:
   _camera: {fileID: 519420031}
   _moveMultiplier: 1
   _scrollMultiplier: 1
-  _maxOrthographicSize: 10
-  _minOrthographicSize: 0.5
+  _maxOrthographicSize: 50
+  _minOrthographicSize: 0.1
   _zoomCurve:
     serializedVersion: 2
     m_Curve:
@@ -3188,6 +3188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 619394802}
   - component: {fileID: 619394801}
+  - component: {fileID: 619394803}
   m_Layer: 0
   m_Name: Global Light 2D
   m_TagString: Untagged
@@ -3260,6 +3261,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &619394803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619394800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e98ab3ee17fe49d09f70f9db1f233240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: sin(0)
 --- !u!1 &662848087
 GameObject:
   m_ObjectHideFlags: 0
@@ -5226,7 +5240,7 @@ MonoBehaviour:
   _mainCanvas: {fileID: 170440093}
   _lessonText: {fileID: 314076124}
   _lessonSummary: {fileID: 0}
-  _indicatorsList: {fileID: 0}
+  _indicatorsList: {fileID: 688275853}
 --- !u!114 &1565091771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5258,13 +5272,15 @@ MonoBehaviour:
   _rectangularTrianglePrefab: {fileID: 0}
   _descriptionPrefab: {fileID: 3356388454285553538, guid: 2681d7d6b0a468ed0aeb1c7fdd1976d5, type: 3}
   _numberExpressionPrefab: {fileID: 4849749961258933818, guid: 93d49eab9847d6dea99fa2c895cf6cc3, type: 3}
-  _variableExpressionPrefab: {fileID: 0}
+  _variableExpressionPrefab: {fileID: 4849749961258933818, guid: 93d49eab9847d6dea99fa2c895cf6cc3, type: 3}
   _vectorExpressionPrefab: {fileID: 3082753649635430755, guid: 226b5dcba29efd38296ca9cbc40469ea, type: 3}
   _fractionExpressionPrefab: {fileID: 5682134064731944212, guid: e24eda6bc957e7b7b88033cb2c0b7e46, type: 3}
   _sumExpressionPrefab: {fileID: 3082753649635430755, guid: 4f790e2399706d2d3a13816c113d6b44, type: 3}
   _subtractExpressionPrefab: {fileID: 2181132977284455494, guid: 7b89302acc20bc455b55f237fa1cf6ab, type: 3}
   _sqrtExpressionPrefab: {fileID: 7400037722361527282, guid: 3684a9ffbf4c54985b1edec4ca8f29c2, type: 3}
   _mulExpressionPrefab: {fileID: 8767136005777789019, guid: 21e6825d9fe0a8cef8b380b8f5fd3b03, type: 3}
+  _powExpressionPrefab: {fileID: 3774780201738884175, guid: 127bc73b781e0b18c9d8a2289cfc33ed, type: 3}
+  _functionExpressionPrefab: {fileID: 6615560423524014830, guid: d88a7cabef1d1fd32b91c4f1f5a6c42c, type: 3}
 --- !u!114 &1565091773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6539,7 +6555,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2044342655}
   m_HandleRect: {fileID: 2044342654}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7597,7 +7613,7 @@ MonoBehaviour:
   _defaultSortingOrder: 0
   _labelSortingOrder: 5
   _angleWidth: 0.05
-  _angleRadius: 0.75
+  _angleRadius: 0.3
   _offsetTextFromAngleMultiplier: 1.4
   _heightLineWidth: 0.1
   _heightLineDashHeight: 0.3

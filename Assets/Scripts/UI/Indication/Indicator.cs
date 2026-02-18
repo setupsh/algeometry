@@ -27,6 +27,20 @@ namespace UI {
             return expression;
         }
     }
+
+    public class RawNumberInfo : IndicatorInfo {
+        private NumberExpression expression;
+        public RawNumberInfo(NumberExpression expression, string boardMenuCaption, string uiCaption) : base(boardMenuCaption, uiCaption) {
+            this.expression = expression;
+        }
+
+        public override AlgebraExpression GetExpression() {
+            if (MathConstants.TryToConstant(expression, out AlgebraExpression result)) {
+                return result;
+            }
+            return expression;
+        }
+    }
     
     [RequireComponent(typeof(RectTransform))]
     public class Indicator : MonoBehaviour {
@@ -44,10 +58,12 @@ namespace UI {
         }
         public void UpdateInfo() {
             AlgebraExpression newExpression = indicatorInfo.GetExpression();
+
             if (currentExpression.SameType(newExpression)) {
                 expressionView.UpdateValue();
             }
             else {
+                Debug.Log("Indicator is rebuilded");
                 expressionView.Dispose();
                 currentExpression = newExpression;
                 expressionView = Board.AlgebraExpressionViewGenerator.Generate(currentExpression, _root);

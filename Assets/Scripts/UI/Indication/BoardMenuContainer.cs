@@ -1,20 +1,48 @@
 using UI;
 using UnityEngine;
 using System.Collections.Generic;
+
 public class BoardMenuContainer : MonoBehaviour {
     [SerializeField] private BoardMenu _boardMenuPrefab;
-    private BoardMenu boardMenu = null;
-    public void GenerateBoardMenu(List<IIndicable> indicables, IndicatorsList indicatorsList) {
-        if (boardMenu != null) {
-            Destroy(boardMenu.gameObject);
-            boardMenu = null;
+    private BoardMenu currentMenu = null;
+    
+    public void GenerateMenu(List<IMenuEntry> entries, IndicatorsList getter) {
+        if (currentMenu != null)
+            DestroyBoardMenu();
+        BoardMenu menu = Instantiate(_boardMenuPrefab, transform);
+        menu.transform.position = InputListener.MousePosition;
+        menu.Init(entries, getter, this);
+        currentMenu = menu;
+    }
+    
+    public void GenerateMenu(List<IIndicable> entries, IndicatorsList getter) {
+        if (currentMenu != null)
+            DestroyBoardMenu();
+        BoardMenu menu = Instantiate(_boardMenuPrefab, transform);
+        menu.transform.position = InputListener.MousePosition;
+        menu.Init(ConvertToEntries(entries, getter), getter, this);
+        currentMenu = menu;
+    }
+    
+    private List<IMenuEntry> ConvertToEntries(List<IIndicable> items, IndicatorsList getter) {
+        List<IMenuEntry> entries = new List<IMenuEntry>();
+        foreach (var item in items) {
+            List<IMenuEntry> subEntries = new List<IMenuEntry>();
+            
+            var infos = item.GetIndicatorInfos();
+            if (infos != null) {
+                foreach (var info in infos) subEntries.Add(new ActionEntry(info));
+            }
+            var children = item.GetChildrenIndicators();
+            if (children != null) {
+                subEntries.AddRange(ConvertToEntries(children, getter));
+            }
+            entries.Add(new SubMenuEntry(item.GetBoardMenuCaption(), subEntries));
         }
-        boardMenu = Instantiate(_boardMenuPrefab, transform);
-        boardMenu.transform.position = InputListener.MousePosition;
-        boardMenu.Setup(indicables, indicatorsList);
+        return entries;
     }
 
     public void DestroyBoardMenu() {
-        Destroy(boardMenu.gameObject);
+        Destroy(currentMenu.gameObject);
     }
-}
+}        

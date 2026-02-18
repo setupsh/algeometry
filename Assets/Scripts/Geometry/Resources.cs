@@ -27,6 +27,8 @@ namespace Geometry {
         [SerializeField] private AlgebraExpressionUI _subtractExpressionPrefab;
         [SerializeField] private AlgebraExpressionUI _sqrtExpressionPrefab;
         [SerializeField] private AlgebraExpressionUI _mulExpressionPrefab;
+        [SerializeField] private PowExpressionUI _powExpressionPrefab;
+        [SerializeField] private FunctionExpressionUI _functionExpressionPrefab;
         
         
         public static GeometryPoint FreeGeometryPointPrefab => Instance._geometryPointPrefab;
@@ -56,6 +58,10 @@ namespace Geometry {
         public static AlgebraExpressionUI SqrtExpressionPrefab => Instance._sqrtExpressionPrefab;
         
         public static AlgebraExpressionUI MulExpressionPrefab => Instance._mulExpressionPrefab;
+
+        public static PowExpressionUI PowExpressionPrefab => Instance._powExpressionPrefab;
+
+        public static FunctionExpressionUI FunctionExpressionPrefab => Instance._functionExpressionPrefab;
         
         private static Resources Instance { get; set; }
         

@@ -7,7 +7,7 @@ using TMPro;
 namespace Geometry {
     public static class Utilities {
         public const string TransparentMinus = "<color=#ffffff00>-</color>";
-        public const float Epsilon = 0.0001f;
+        public const double Epsilon = 1e-6;
         public static bool IsVoid(this Vector2 p) => float.IsNaN(p.x) || float.IsNaN(p.y);
 
         public static bool ContainsCamera(this Bounds bounds, Vector2 point) {
@@ -116,38 +116,75 @@ namespace Geometry {
             }
         }
         
-        public static List<Vector2> GenerateAngleSector(Vector2 center, Vector2 sideA, Vector2 sideB, float radius, int segments = 20, bool shortestAngle = true) {
+        public static List<Vector2> GenerateAngleSectorStandalone(Vector2 center, Vector2 sideA, Vector2 sideB, float radius, int segments = 20) {
             List<Vector2> points = new List<Vector2>();
             points.Add(center);
             
-            Vector2 dirA = (sideA - center).normalized;
-            Vector2 dirB = (sideB - center).normalized;
+            float angleA = Mathf.Atan2(sideA.y - center.y, sideA.x - center.x);
+            float angleB = Mathf.Atan2(sideB.y - center.y, sideB.x - center.x);
             
-            float angleA = Mathf.Atan2(dirA.y, dirA.x);
-            float angleB = Mathf.Atan2(dirB.y, dirB.x);
+            float deltaRad = angleB - angleA;
             
-            float deltaDeg = Mathf.DeltaAngle(angleA * Mathf.Rad2Deg, angleB * Mathf.Rad2Deg);
-
-            if (!shortestAngle) {
-                if (deltaDeg > 0)
-                    deltaDeg -= 360f;
-                else
-                    deltaDeg += 360f;
-            }
-
-            float deltaRad = deltaDeg * Mathf.Deg2Rad;
+            while (deltaRad < 0) deltaRad += Mathf.PI * 2;
+    
             float angleStep = deltaRad / segments;
 
             for (int i = 0; i <= segments; i++) {
-                float angle = angleA + angleStep * i;
-                Vector2 point = center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius;
+                float currentAngle = angleA + angleStep * i;
+                Vector2 point = center + new Vector2(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle)) * radius;
                 points.Add(point);
             }
 
             return points;
         }
-        
+
+        public static List<Vector2> GenerateAngleSector(Vector2 center, Vector2 sideA, Vector2 sideB, float radius, Vector2 figureCenter, int segments = 20) {
+            List<Vector2> points = new List<Vector2>();
+    
+            float angleA = Mathf.Atan2(sideA.y - center.y, sideA.x - center.x);
+            float angleB = Mathf.Atan2(sideB.y - center.y, sideB.x - center.x);
+            
+            float deltaRad = angleB - angleA;
+            while (deltaRad < 0) deltaRad += Mathf.PI * 2;
+            while (deltaRad >= Mathf.PI * 2) deltaRad -= Mathf.PI * 2;
+            
+            float angleToCenter = Mathf.Atan2(figureCenter.y - center.y, figureCenter.x - center.x);
+            
+            float normalizedCenter = angleToCenter - angleA;
+            while (normalizedCenter < 0) normalizedCenter += Mathf.PI * 2;
+            
+            if (normalizedCenter > deltaRad) {
+                deltaRad -= Mathf.PI * 2; 
+            }
+
+            float angleStep = deltaRad / segments;
+
+            for (int i = 0; i <= segments; i++) {
+                float currentAngle = angleA + angleStep * i;
+                Vector2 point = center + new Vector2(Mathf.Cos(currentAngle), Mathf.Sin(currentAngle)) * radius;
+                points.Add(point);
+            }
+            return points;
+        }
+
         //-=ANGLES-=
+        public static float GetAngleFigure(Vector2 center, Vector2 sideA, Vector2 sideB, Vector2 figureCenter) {
+            float angleA = Mathf.Atan2(sideA.y - center.y, sideA.x - center.x);
+            float angleB = Mathf.Atan2(sideB.y - center.y, sideB.x - center.x);
+            
+            float deltaRad = angleB - angleA;
+            
+            while (deltaRad < 0) deltaRad += Mathf.PI * 2;
+            while (deltaRad >= Mathf.PI * 2) deltaRad -= Mathf.PI * 2;
+            
+            float angleToCenter = Mathf.Atan2(figureCenter.y - center.y, figureCenter.x - center.x);
+            
+            float normalizedCenter = angleToCenter - angleA;
+            while (normalizedCenter < 0) normalizedCenter += Mathf.PI * 2;
+
+            return deltaRad * Mathf.Rad2Deg;
+        }
+        
         public static float GetSighedAngle(Vector2 a, Vector2 b, Vector2 c) => Vector2.SignedAngle(a - b, c - b);
         
         public static float GetAngle(Vector2 a, Vector2 b, Vector2 c) => Vector2.Angle(a - b, c - b);

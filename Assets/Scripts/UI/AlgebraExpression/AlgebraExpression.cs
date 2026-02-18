@@ -28,6 +28,26 @@ namespace Algebra {
         }
     }
 
+    public class FunctionExpression : AlgebraExpression {
+        private Func<double, double> function;
+        public AlgebraExpression Argument;
+        public string Name { get; private set; }
+
+        public FunctionExpression(AlgebraExpression argument, Func<double, double> function, string displayName) {
+            Argument = argument;
+            Name = displayName;
+            this.function = function;
+        }
+        public override double Evaluate() {
+            return function(Argument.Evaluate());
+        }
+
+        public override bool SameType(AlgebraExpression other) {
+            return other is FunctionExpression functionExpression && Argument.SameType(functionExpression.Argument) &&
+                   Name == functionExpression.Name;
+        }
+    }
+
     public class NumberExpression : AlgebraExpression {
         private Func<double> getter;
         
@@ -40,7 +60,7 @@ namespace Algebra {
         public override double Evaluate() => getter();
 
         public override bool SameType(AlgebraExpression other) {
-            return other is NumberExpression numberExpression && getter == numberExpression.getter;
+            return other is NumberExpression;
         }
     }
 
@@ -153,6 +173,27 @@ namespace Algebra {
         public override bool SameType(AlgebraExpression other) {
             if (other is SqrtExpression otherSqrt) {
                 return Inner.SameType(otherSqrt.Inner);
+            }
+            return false;
+        }
+    }
+
+    public class PowExpression : AlgebraExpression {
+        public AlgebraExpression Base { get; }
+        public AlgebraExpression Exponent { get; }
+
+        public PowExpression(AlgebraExpression _base, AlgebraExpression exponent) {
+            Base = _base;
+            Exponent = exponent;
+        }
+        
+        public override double Evaluate() {
+            return Math.Pow(Base.Evaluate(), Exponent.Evaluate());
+        }
+
+        public override bool SameType(AlgebraExpression other) {
+            if (other is PowExpression powExpression) {
+                return Base.SameType(powExpression.Base) && Exponent.SameType(powExpression.Exponent);
             }
             return false;
         }

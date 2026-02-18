@@ -53,12 +53,12 @@ namespace Geometry {
         public void ZoomCamera(int direction) {
             if (direction >= 1) {
                 if (_camera.orthographicSize > _minOrthographicSize && !zoomBlocked) {
-                    StartCoroutine(ZoomCamera(_camera.orthographicSize - 0.5f));
+                    StartCoroutine(ZoomCamera(_camera.orthographicSize / 1.2f));
                 }
             }
             else if (direction <= -1) {
                 if (_camera.orthographicSize < _maxOrthographicSize && !zoomBlocked) {
-                    StartCoroutine(ZoomCamera(_camera.orthographicSize + 0.5f));
+                    StartCoroutine(ZoomCamera(_camera.orthographicSize * 1.2f));
                 }
             }
         }

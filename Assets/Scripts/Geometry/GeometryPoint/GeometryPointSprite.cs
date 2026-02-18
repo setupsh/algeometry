@@ -9,19 +9,19 @@ public class GeometryPointSprite : MonoBehaviour {
     [SerializeField] private int _sortingOrder;
 
     private void Awake() {
-        FieldCamera.OnCameraChanged += OnCameraChanged;
+        FieldCamera.OnCameraZoom += OnCameraZoom;
         transform.localScale = _initialScale;
         _spriteRenderer.sortingOrder = _sortingOrder;
         _spriteRenderer.color = _color;
     }
     private void OnDisable() {
-        FieldCamera.OnCameraChanged -= OnCameraChanged;
+        FieldCamera.OnCameraZoom -= OnCameraZoom;
     }
 
     public void SetColorByBlocked(bool blocked) {
         _spriteRenderer.color = blocked ? _blockedColor : _color;
     }
-    public void OnCameraChanged() {
+    private void OnCameraZoom() {
         transform.localScale = _initialScale * FieldCamera.Instance.CeilSize();
     }
 }

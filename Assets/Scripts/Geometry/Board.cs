@@ -23,10 +23,8 @@ namespace Geometry {
         public static LessonText LessonText => Instance._lessonText;
         public static LessonSummary LessonSummary => Instance._lessonSummary;
         public static IndicatorsList IndicatorsList => Instance._indicatorsList;
-
-        public static event System.Action OnPreUpdate;
+        
         public static event System.Action OnUpdate;
-        public static event System.Action OnPostUpdate;
         
 
         private void Awake() {

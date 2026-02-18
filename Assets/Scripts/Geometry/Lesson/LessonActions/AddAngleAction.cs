@@ -10,11 +10,12 @@ public class AddAngleAction : ReturnLessonAction<Angle> {
     [SerializeField] private Color _color;
     [SerializeField] private string _uniqueLabel;
     [SerializeField] private bool _showLabel;
+    [SerializeField] private bool _independenceFromFigure;
     public override Angle Value { get; protected set; }
 
     protected override void Enter() {
         Angle angle = Board.Instance.Instantiate<Angle>();
-        angle.Init(_figure.Value, _armA.Value, _vertex.Value, _armB.Value, _color, _showLabel, _uniqueLabel);
+        angle.Init(_figure.Value, _armA.Value, _vertex.Value, _armB.Value, _color, _showLabel, _uniqueLabel, _independenceFromFigure);
         Value = angle;
         Complete();
     }

@@ -90,8 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 4586357887620282794}
-  _boardMenuElementPrefab: {fileID: 6193687938102056142, guid: e905480be5072ca6eba70bb3a354c26d, type: 3}
-  _subBoardMenuPrefab: {fileID: 8091131229893348303, guid: 6c1701a74c3e874fa9fddeda1638c5da, type: 3}
+  _buttonPrefab: {fileID: 7821967106126319861, guid: 46a971bd94a1be13c9e2355c1aedc9ac, type: 3}
 --- !u!114 &4400869546246908705
 MonoBehaviour:
   m_ObjectHideFlags: 0

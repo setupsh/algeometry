@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Algebra;
@@ -9,8 +10,8 @@ namespace Geometry {
         [SerializeField] private GeometryPointCollider _collider;
         [SerializeField] private GeometryPointSprite _sprite;
         [SerializeField] private string _label;
-        private List<Rule> Rules = new List<Rule>();
-        private List<Link> Links = new List<Link>();
+        public List<Rule> Rules = new List<Rule>();
+        public List<Link> Links = new List<Link>();
         public Constrain Constrain = null;
         private bool blocked;
 
@@ -78,15 +79,6 @@ namespace Geometry {
             Board.Instance.InvokeUpdate();
         }
 
-
-        public void AddRule(Rule rule) {
-            Rules.Add(rule);
-        }
-
-        public void AddLink(Link link) {
-            Links.Add(link);
-        }
-
         public bool MatchRules(Vector2 position) {
             foreach (var rule in Rules.OrderBy(rule => rule.Priority)) {
                 if (!rule.Match(position)) {
@@ -103,12 +95,14 @@ namespace Geometry {
         }
 
         public string GetBoardMenuCaption() {
-            return $"Point {_label} coordinates";
+            return $"Точка {_label}";
         }
 
         public List<IndicatorInfo> GetIndicatorInfos() {
             return new List<IndicatorInfo>() {
-                new AlgebraExpressionInfo(new VectorExpression(new NumberExpression(() => Position.x), new NumberExpression(() => Position.y)), $"Координаты точки {Label}", $"{Label}")
+                new AlgebraExpressionInfo(new VectorExpression(new NumberExpression(() => Position.x), new NumberExpression(() => Position.y)), $"Координаты точки {Label}", $"{Label}"),
+                new AlgebraExpressionInfo(new PowExpression(new NumberExpression(() => Position.x), new NumberExpression(() => Position.y)), $"Координаты точки {Label} степень", $"{Label}"),
+                new AlgebraExpressionInfo(new FunctionExpression(new NumberExpression(0), Math.Sin, "sin"), "аааа", "ffff")
             };
         }
 

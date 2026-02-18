@@ -39,10 +39,7 @@ namespace Geometry {
         }
 
         private void UpdateFigure() {
-            for (int i = 0; i < PointsAmount(); i++) {
-                _lineRenderer.SetPosition(i, Points[i].transform.position);
-            }
-            
+            DrawFigure();
             foreach (Side side in Sides) {
                 side.UpdatePosition();
                 side.UpdateLabel();
@@ -90,11 +87,10 @@ namespace Geometry {
 
         public void AddConstruction(Construction construction) {
             Constructions.Add(construction);
-            Debug.Log(constructionFolder);
             construction.transform.parent = constructionFolder;
         }
 
-        protected abstract void PostUpdate();
+        protected virtual void PostUpdate() { }
         
         public abstract Vector2 GetCenter();
 
@@ -103,6 +99,12 @@ namespace Geometry {
         protected abstract void InitRules();
         
         protected abstract Vector2[] DefaultPositions();
+
+        protected virtual void DrawFigure() {
+            for (int i = 0; i < PointsAmount(); i++) {
+                _lineRenderer.SetPosition(i, Points[i].transform.position);
+            }
+        }
 
         public string GetBoardMenuCaption() {
             string letters = string.Empty;
@@ -113,20 +115,29 @@ namespace Geometry {
         }
 
         public List<IndicatorInfo> GetIndicatorInfos() {
-            return new List<IndicatorInfo>();
             List<IndicatorInfo> indicators = new List<IndicatorInfo>();
+            return indicators;
             foreach (Side side in Sides) {
                 foreach (IndicatorInfo info in side.GetIndicatorInfos()) {
                     indicators.Add(info);
                 }
             }
-            return indicators;
         }
 
         public List<IIndicable> GetChildrenIndicators() {
             List<IIndicable> result = new List<IIndicable>();
             foreach (Side side in Sides) {
                 result.Add(side);
+            }
+
+            foreach (Construction construction in Constructions) {
+                if (construction.Is(out IIndicable indicable)) {
+                    result.Add(indicable);
+                }
+            }
+
+            foreach (GeometryPoint point in Points) {
+                result.Add(point);
             }
             return result;
         }

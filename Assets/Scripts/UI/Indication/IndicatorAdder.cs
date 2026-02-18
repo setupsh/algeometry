@@ -22,7 +22,7 @@ namespace UI {
             }
             PointerEventData pointerEventData = (PointerEventData) eventData;
             if (pointerEventData.button == PointerEventData.InputButton.Left) {
-                _container.GenerateBoardMenu(Board.Instance.CollectIndicables(), _indicatorsList);
+                _container.GenerateMenu(Board.Instance.CollectIndicables(), _indicatorsList);
             } else if (pointerEventData.button == PointerEventData.InputButton.Right) {
                 _container.DestroyBoardMenu();
             }

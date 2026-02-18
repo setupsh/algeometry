@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2044773478262455012}
   - component: {fileID: 7112227399937099998}
   - component: {fileID: 5190330177769565234}
-  - component: {fileID: 2783018994218610074}
   - component: {fileID: 5435337401379549331}
+  - component: {fileID: 3060396474222763348}
   m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
@@ -85,25 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2783018994218610074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3286453779337032337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f8e2cf3465d4139a287d984a0e7635e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Geometry.GeometricalLineRenderer
-  _points: []
-  _lineWidth: 0.05
-  _loop: 0
-  _lineColor: {r: 0, g: 0, b: 0, a: 1}
-  _sortingOrder: 0
-  _scalable: 1
-  _absolutePosition: 0
 --- !u!114 &5435337401379549331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,5 +97,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fda314de5dd4f878fc90984fc1adb08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lineRenderer: {fileID: 2783018994218610074}
+  _lineRenderer: {fileID: 3060396474222763348}
   _segments: 32
+--- !u!114 &3060396474222763348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3286453779337032337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77dfa4e5ac5e48d4bea244d78f4d7598, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _points: []
+  _lineWidth: 0.05
+  _loop: 0
+  _lineColor: {r: 0, g: 0, b: 0, a: 1}
+  _sortingOrder: 0
+  _scalable: 1
+  _absolutePosition: 0
+  _roundCornersSegments: 2
