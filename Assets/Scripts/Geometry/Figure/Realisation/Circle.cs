@@ -18,6 +18,7 @@ namespace Geometry.Realisations {
             else {
                 linkedPoints.Add(point);
                 point.Constrain = new OnCircleConstrain(this);
+                OnFigureChanged += () => point.Position = point.Position;
             }
         }
 

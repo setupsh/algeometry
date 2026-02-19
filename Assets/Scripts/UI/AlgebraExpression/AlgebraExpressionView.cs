@@ -200,12 +200,12 @@ namespace UI {
         public override RectTransform Root => root.Root;
 
         public override void UpdateValue() {
-            left.UpdateValue();
+            left?.UpdateValue();
             right.UpdateValue();
         }
 
         public override void Dispose() {
-            left.Dispose();
+            left?.Dispose();
             right.Dispose();
             base.Dispose();
         }

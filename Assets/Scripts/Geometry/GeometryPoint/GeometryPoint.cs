@@ -14,6 +14,7 @@ namespace Geometry {
         public List<Link> Links = new List<Link>();
         public Constrain Constrain = null;
         private bool blocked;
+        public enum Indicators {Coordinates, X, Y}
 
         public bool Blocked {
             get => blocked;
@@ -101,8 +102,8 @@ namespace Geometry {
         public List<IndicatorInfo> GetIndicatorInfos() {
             return new List<IndicatorInfo>() {
                 new AlgebraExpressionInfo(new VectorExpression(new NumberExpression(() => Position.x), new NumberExpression(() => Position.y)), $"Координаты точки {Label}", $"{Label}"),
-                new AlgebraExpressionInfo(new PowExpression(new NumberExpression(() => Position.x), new NumberExpression(() => Position.y)), $"Координаты точки {Label} степень", $"{Label}"),
-                new AlgebraExpressionInfo(new FunctionExpression(new NumberExpression(0), Math.Sin, "sin"), "аааа", "ffff")
+                new RawNumberInfo((new NumberExpression(() => Position.x)), $"Координаты точки {Label} степень", $"{Label}(X)"),
+                new RawNumberInfo((new NumberExpression(() => Position.y)), $"Координаты точки {Label} степень", $"{Label}(Y)"),
             };
         }
 

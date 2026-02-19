@@ -120,9 +120,8 @@ namespace Geometry {
         
         public List<IndicatorInfo> GetIndicatorInfos() {
             return new List<IndicatorInfo>() {
-                new RawNumberInfo(new NumberExpression(() => Math.Sin(angleValueRad)), "Синус",
-                    $"sin({GetCaption()})"),
-                new AlgebraExpressionInfo(new NumberExpression(() => Math.Cos(angleValueRad)), "Косинус",
+                new RawNumberInfo(new NumberExpression(() => Math.Sin(angleValueRad)), "Синус", $"sin({GetCaption()})"),
+                new RawNumberInfo(new NumberExpression(() => Math.Cos(angleValueRad)), "Косинус",
                     $"cos({GetCaption()})"),
                 new AlgebraExpressionInfo(new NumberExpression(() => Math.Tan(angleValueRad)), "Тангенс",
                     $"tan({GetCaption()})"),
