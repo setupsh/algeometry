@@ -16,8 +16,8 @@ namespace Con {
         [ContextMenu("Indicator")]
         public void Indicator() {
             AlgebraExpressionParser parser = new();
+            Board.IndicatorsList.AddIndicator(new AlgebraExpressionInfo(parser.Parse(Lexer.Tokenize(source)), " ", " "));
             Debug.Log(parser.Parse(Lexer.Tokenize(source)));
-            Debug.Log((new AlgebraExpressionInfo(parser.Parse(Lexer.Tokenize(source)), " ", " ")).GetExpression());
         }
     }
 }

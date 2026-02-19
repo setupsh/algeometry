@@ -27,7 +27,8 @@ namespace Geometry {
         }
     }
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-    public class GeometricalLineRenderer : MonoBehaviour {
+    public class 
+        GeometricalLineRenderer : MonoBehaviour {
         [SerializeField] protected List<Vector2> _points = new List<Vector2>();
         [SerializeField] protected float _lineWidth = 0.05f;
         [SerializeField] protected bool _loop;
@@ -82,6 +83,7 @@ namespace Geometry {
             GetComponent<MeshFilter>().mesh = mesh;
             ApplyMaterial(meshRenderer);
             GenerateMesh();
+            OnCameraZoom();
         }
 
         private void OnDisable() {

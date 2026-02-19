@@ -12,9 +12,6 @@ namespace Geometry.Realisations {
         protected override void InitRules() {
             RuleHelper.PairWithEachOther.NoEqualPosition(Points);
             RuleHelper.PairWithEachOther.NonCollinear(Points);
-            SideLabel sideLabel = Board.Instance.Instantiate<SideLabel>();
-            sideLabel.Init(this, Sides[0], "ABC", Color.black);
-            AddConstruction(sideLabel);
         }
 
         protected override Vector2[] DefaultPositions() {

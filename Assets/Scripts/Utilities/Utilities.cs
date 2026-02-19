@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -168,21 +169,22 @@ namespace Geometry {
         }
 
         //-=ANGLES-=
-        public static float GetAngleFigure(Vector2 center, Vector2 sideA, Vector2 sideB, Vector2 figureCenter) {
-            float angleA = Mathf.Atan2(sideA.y - center.y, sideA.x - center.x);
-            float angleB = Mathf.Atan2(sideB.y - center.y, sideB.x - center.x);
+        public static double GetAngleFigure(Vector2 center, Vector2 sideA, Vector2 sideB, Vector2 figureCenter) {
+            double angleA = Math.Atan2(sideA.y - center.y, sideA.x - center.x);
+            double angleB = Math.Atan2(sideB.y - center.y, sideB.x - center.x);
+            double angleC = Math.Atan2(figureCenter.y - center.y, figureCenter.x - center.x);
             
-            float deltaRad = angleB - angleA;
+            double deltaBA = angleB - angleA;
+            while (deltaBA < 0) deltaBA += Mathf.PI * 2;
             
-            while (deltaRad < 0) deltaRad += Mathf.PI * 2;
-            while (deltaRad >= Mathf.PI * 2) deltaRad -= Mathf.PI * 2;
+            double deltaCA = angleC - angleA;
+            while (deltaCA < 0) deltaCA += Mathf.PI * 2;
             
-            float angleToCenter = Mathf.Atan2(figureCenter.y - center.y, figureCenter.x - center.x);
-            
-            float normalizedCenter = angleToCenter - angleA;
-            while (normalizedCenter < 0) normalizedCenter += Mathf.PI * 2;
+            if (deltaCA > deltaBA) {
+                return (Mathf.PI * 2 - deltaBA) * Mathf.Rad2Deg;
+            }
 
-            return deltaRad * Mathf.Rad2Deg;
+            return deltaBA * Mathf.Rad2Deg;
         }
         
         public static float GetSighedAngle(Vector2 a, Vector2 b, Vector2 c) => Vector2.SignedAngle(a - b, c - b);

@@ -38,7 +38,7 @@ namespace Geometry {
         }
         public override void UpdateConstruction() {
             if (independenceFromFigure) {
-                angleValue = Utilities.GetAngleFigure(vertex.Position, armA.Position, armB.Position, Parent.GetCenter());
+                angleValue = (float)Utilities.GetAngleFigure(vertex.Position, armA.Position, armB.Position, Parent.GetCenter());
             }
             else {
                 angleValue = Utilities.GetSighedAngle(armA.Position, vertex.Position, armB.Position);
@@ -48,7 +48,7 @@ namespace Geometry {
             }
             Debug.Log(angleValue);
             List<Vector2> points;
-            if (Math.Abs(angleValue - 90f) < Utilities.Epsilon) {
+            if (Math.Abs(angleValue - 90f) < 1e-4f) {
                 lineRenderer.ClearPoints();
                 points = new List<Vector2>() {
                     vertex.Position + (armA.Position - vertex.Position).normalized * CalculateRadius(),
