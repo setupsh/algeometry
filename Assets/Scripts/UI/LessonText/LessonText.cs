@@ -7,7 +7,7 @@ public class LessonText : MonoBehaviour {
     [SerializeField] private Transform _content;
     
     private List<LessonTextElement> elements = new List<LessonTextElement>();
-    private int _currentIndex = 0;
+    private List<LessonAction> triggers = new List<LessonAction>();
     
     public event Action OnAllTextFinished;
 
@@ -15,9 +15,11 @@ public class LessonText : MonoBehaviour {
         Clear();
         
         foreach (var data in dataList) {
-            LessonTextElement instance = Instantiate(data.Prefab, _content);
+            LessonTextElement instance;
+            instance = Instantiate(data.Prefab, _content);
             instance.Init(data.Text);
             elements.Add(instance);
+            triggers.Add(data.Trigger);
         }
 
         _animator.SetTrigger(AnimatorKeys.Open);
@@ -27,6 +29,7 @@ public class LessonText : MonoBehaviour {
     private void ShowText(int index) {
         elements[index].gameObject.SetActive(true);
         elements[index].OnFinish += () => {
+            triggers[index]?.Launch(null);
             if (index < elements.Count - 1) {
                 ShowText(index + 1);
             }
@@ -39,6 +42,9 @@ public class LessonText : MonoBehaviour {
 
     private void FinishSequence() {
         _animator.SetTrigger(AnimatorKeys.Close);
+    }
+
+    public void InvokeTextFinish() {
         OnAllTextFinished?.Invoke();
     }
     
@@ -48,6 +54,7 @@ public class LessonText : MonoBehaviour {
             if (element != null) Destroy(element.gameObject);
         }
         elements.Clear();
+        triggers.Clear();
     }
 }
 [System.Serializable]
@@ -57,5 +64,6 @@ public class LessonTextElementInstance {
     [TextArea] public string Text;
 
     public LessonTextElement Prefab;
-
-} 
+    
+    public LessonAction Trigger;
+}

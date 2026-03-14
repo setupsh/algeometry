@@ -317,6 +317,7 @@ MonoBehaviour:
   _sortingOrder: 0
   _scalable: 1
   _absolutePosition: 0
+  _segmentColors: []
   _dashLenght: 1
   _timeMultiplier: 0
 --- !u!1 &164212327
@@ -1193,6 +1194,7 @@ GameObject:
   - component: {fileID: 897636872}
   - component: {fileID: 897636871}
   - component: {fileID: 897636874}
+  - component: {fileID: 897636875}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1318,6 +1320,31 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &897636875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897636870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e1b642d26dba24e9daeea8bb385af8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 897636872}
+  _moveMultiplier: 0
+  _scrollMultiplier: 0
+  _maxOrthographicSize: 0
+  _minOrthographicSize: 0
+  _zoomCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _zoomDuration: 0
+  _defualtOrthographicSize: 0
 --- !u!1 &1012810654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1812,6 +1839,7 @@ MonoBehaviour:
   _sortingOrder: 0
   _scalable: 0
   _absolutePosition: 0
+  _segmentColors: []
   _roundCornersSegments: 2
 --- !u!61 &1599509073
 BoxCollider2D:

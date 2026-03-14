@@ -11,7 +11,6 @@ public class SideLabel : Construction {
     public void Init(Figure parent, Side side, string caption, Color color) {
         this.side = side;
         this.color = color;
-        this.distance = distance;
         this.caption = caption;
         base.Init(parent);
         parent.OnFigureChanged += UpdateConstruction;

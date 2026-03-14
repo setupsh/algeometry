@@ -36,12 +36,18 @@ namespace Geometry {
         [SerializeField] protected int _sortingOrder = 0;
         [SerializeField] protected bool _scalable = true;
         [SerializeField] protected bool _absolutePosition = false;
+        [SerializeField] protected List<Color> _segmentColors = new List<Color>();
+        
         public List<Vector2> Points => _points;
+        public List<Color> SegmentColors => _segmentColors;
+        public LineRendererConfig CurrentConfig => _config;
+        private LineRendererConfig _config;
         protected float lineWidth;
         protected Mesh mesh;
         protected List<Vector3> vertices  = new List<Vector3>();
         protected List<int> triangles = new List<int>();
         protected List<Vector2> uvs = new List<Vector2>();
+        protected List<Color> colors = new List<Color>();  
         public static readonly Vector2 VOID_POINT = new Vector2(float.NaN, float.NaN); 
 
         public void Setup(LineRendererConfig config) {
@@ -51,13 +57,30 @@ namespace Geometry {
             _sortingOrder = config.SortingOrder;
             _scalable = config.Scalable;
             _absolutePosition = config.AbsolutePosition;
-            Awake();
+            _config = config;
+            GenerateMesh();
+            OnCameraZoom();
+        }
+        
+        protected virtual void Awake() {
+            Init();
+            Setup(new LineRendererConfig(_lineWidth, _loop, _lineColor, _sortingOrder, _scalable, _absolutePosition));
         }
 
+        protected void Init() {
+            if (_scalable) FieldCamera.OnCameraZoom += OnCameraZoom;
+            mesh = new Mesh();
+            MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+            GetComponent<MeshFilter>().mesh = mesh;
+            ApplyMaterial(meshRenderer);
+            OnCameraZoom();
+        }
+        
         public void ClearPoints() {
             _points.Clear();
             GenerateMesh();
         }
+        
         public void SetPosition(int index, Vector2 position) {
             if (_points.Count <= index) {
                 _points.Add(position);
@@ -73,37 +96,45 @@ namespace Geometry {
             _points = points;
             GenerateMesh();
         }
-        
-        private void Awake() {
-            lineWidth = _lineWidth;
-            if (_scalable) FieldCamera.OnCameraZoom += OnCameraZoom;
-            else FieldCamera.OnCameraZoom -= OnCameraZoom;
-            mesh = new Mesh();
-            MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-            GetComponent<MeshFilter>().mesh = mesh;
-            ApplyMaterial(meshRenderer);
-            GenerateMesh();
-            OnCameraZoom();
-        }
 
         private void OnDisable() {
             if (_scalable) FieldCamera.OnCameraZoom -= OnCameraZoom;
         }
         
         protected virtual void ApplyMaterial(MeshRenderer meshRenderer) {
-            if (meshRenderer.material == null) {
-                meshRenderer.material = Materials.Get(MaterialType.Lit);
-            }
+            meshRenderer.material = Materials.Get(MaterialType.Sprite);
             meshRenderer.sortingOrder = _sortingOrder;
-            meshRenderer.material.color = _lineColor;
         }
+        
+        public void SetSegmentColor(int index, Color color) {
+            while (_segmentColors.Count <= index)
+                _segmentColors.Add(_lineColor);
+ 
+            _segmentColors[index] = color;
+            GenerateMesh();
+        }
+        
+        public void SetSegmentColors(List<Color> colors) {
+            _segmentColors = new List<Color>(colors);
+            GenerateMesh();
+        }
+        public void ClearSegmentColors() {
+            _segmentColors.Clear();
+            GenerateMesh();
+        }
+        protected Color GetSegmentColor(int index) {
+            if (_segmentColors != null && index < _segmentColors.Count)
+                return _segmentColors[index];
+            return _lineColor;
+        }    
 
         protected virtual void GenerateMesh() {
             vertices.Clear();
             triangles.Clear();
             uvs.Clear();
+            colors.Clear();
             mesh.Clear();
-            
+    
             for (int i = 0; i < _points.Count - 1; i++) {
                 if (_points[i].IsVoid() || _points[i + 1].IsVoid()) continue;
                 GenerateLine(i);
@@ -112,9 +143,14 @@ namespace Geometry {
             if (_loop && _points.Count > 1) {
                 GenerateLine(_points.Count - 1);
             }
+            
+            while (colors.Count < vertices.Count)
+                colors.Add(_lineColor);
+
             mesh.SetVertices(vertices);
             mesh.SetTriangles(triangles, 0);
             mesh.SetUVs(0, uvs);
+            mesh.SetColors(colors);
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
         }
@@ -129,6 +165,13 @@ namespace Geometry {
             vertices.Add((Vector2) line.Start - line.Perpendicular);
             vertices.Add((Vector2) line.End + line.Perpendicular);
             vertices.Add((Vector2) line.End - line.Perpendicular);
+            
+            Color segColor = GetSegmentColor(index);
+            
+            colors.Add(segColor);
+            colors.Add(segColor);
+            colors.Add(segColor);
+            colors.Add(segColor);
             
             triangles.Add(segmentIndex + 0);
             triangles.Add(segmentIndex + 2);

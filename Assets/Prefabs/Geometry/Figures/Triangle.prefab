@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4d02c5426f54fd0a6ce9e3d302910f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Geometry.Realisations.Triangle
-  _lineRenderer: {fileID: 2783018994218610074}
+  lineRenderer: {fileID: 2783018994218610074}
 --- !u!114 &2783018994218610074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,3 +117,4 @@ MonoBehaviour:
   _sortingOrder: 0
   _scalable: 1
   _absolutePosition: 0
+  _segmentColors: []

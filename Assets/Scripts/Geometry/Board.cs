@@ -12,7 +12,6 @@ namespace Geometry {
         [SerializeField] private LessonText _lessonText;
         [SerializeField] private LessonSummary _lessonSummary;
         [SerializeField] private IndicatorsList _indicatorsList;
-        private bool isUpdating = false;
         public static Board Instance { get; private set; }
 
         public static Grid Grid => Instance._grid;

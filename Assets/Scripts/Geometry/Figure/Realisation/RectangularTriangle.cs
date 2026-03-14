@@ -15,8 +15,8 @@ namespace Geometry.Realisations {
         }
 
         protected override void DrawFigure() {
-            _lineRenderer.SetPosition(0, Points[0].Position);
-            _lineRenderer.SetPosition(1, Points[2].Position);
+            lineRenderer.SetPosition(0, Points[0].Position);
+            lineRenderer.SetPosition(1, Points[2].Position);
             _redLineRenderer.SetPosition(0, Points[0].Position);
             _redLineRenderer.SetPosition(1, Points[1].Position);
             _blueLineRenderer.SetPosition(0, Points[1].Position);
@@ -27,7 +27,7 @@ namespace Geometry.Realisations {
             return new Vector2[] {
                 new Vector2(0, 0),
                 new Vector2(1, 0),
-                new Vector2(1, 1)
+                new Vector2(1, 0)
             };
         }
         protected override int PointsAmount() {

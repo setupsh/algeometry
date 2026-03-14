@@ -63,7 +63,6 @@ namespace UI {
                 expressionView.UpdateValue();
             }
             else {
-                Debug.Log("Indicator is rebuilded");
                 expressionView.Dispose();
                 currentExpression = newExpression;
                 expressionView = Board.AlgebraExpressionViewGenerator.Generate(currentExpression, _root);

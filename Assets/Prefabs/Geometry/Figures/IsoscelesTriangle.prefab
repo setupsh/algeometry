@@ -104,6 +104,7 @@ MonoBehaviour:
   _sortingOrder: 0
   _scalable: 1
   _absolutePosition: 0
+  _segmentColors: []
 --- !u!114 &2331614692066997020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,4 +117,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e8da81ec734b5cbb4e49ce2eb11ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lineRenderer: {fileID: 2783018994218610074}
+  lineRenderer: {fileID: 2783018994218610074}

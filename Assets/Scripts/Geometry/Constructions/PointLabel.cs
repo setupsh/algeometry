@@ -14,14 +14,13 @@ namespace Geometry {
             this.color = color;
             this.offsetConfig = offsetConfig;
             base.Init(parent);
-            FieldCamera.OnCameraChanged += UpdateConstruction;
+            FieldCamera.OnCameraZoom += UpdateTextSize;
         }
 
         private void OnDisable() {
-            FieldCamera.OnCameraChanged -= UpdateConstruction;
+            FieldCamera.OnCameraZoom -= UpdateTextSize;
         }
         public override void UpdateConstruction() {
-            label.TextMeshPro.fontSize = Parameters.DefaultLabelSize * FieldCamera.Instance.CeilSize();
             label.SetPosition(offsetConfig.CalculateOffset());
         }
 
@@ -30,6 +29,10 @@ namespace Geometry {
             label.TextMeshPro.text = point.Label;
             label.TextMeshPro.color = color;
             UpdateConstruction();
+        }
+
+        private void UpdateTextSize() {
+            label.TextMeshPro.fontSize = Parameters.DefaultLabelSize * FieldCamera.Instance.CeilSize();
         }
     }
 

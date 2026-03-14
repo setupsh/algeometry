@@ -56,6 +56,8 @@ public class AlgebraExpressionParser {
                         _ => throw new SystemException($"Function not found: {name}")
                     };
                 }
+                if (name == "pi")
+                    return new VariableExpression(() => Math.PI, "π");
                 return new VariableExpression(() => 0, name);
         }
         throw new SystemException($"Unexpected token: {token.Name} at value {token.Value}");

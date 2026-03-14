@@ -30,9 +30,9 @@ namespace Geometry.Realisations {
         
         protected override void DrawFigure() {
             List<Vector2> points = GetCirclePoints();
-            _lineRenderer.SetPosition(PointsAmount(), GeometricalLineRenderer.VOID_POINT);
+            lineRenderer.SetPosition(PointsAmount(), GeometricalLineRenderer.VOID_POINT);
             for (int i = 0; i < points.Count; i++) {
-                _lineRenderer.SetPosition(PointsAmount() + i + 1, points[i]);
+                lineRenderer.SetPosition(PointsAmount() + i + 1, points[i]);
             }
         }
 

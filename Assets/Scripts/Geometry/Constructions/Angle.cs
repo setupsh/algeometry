@@ -46,7 +46,6 @@ namespace Geometry {
                     angleValue += 360f;
                 }
             }
-            Debug.Log(angleValue);
             List<Vector2> points;
             if (Math.Abs(angleValue - 90f) < 1e-4f) {
                 lineRenderer.ClearPoints();

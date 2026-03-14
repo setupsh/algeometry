@@ -16,6 +16,7 @@ namespace Geometry {
         [SerializeField] private Circle _circlePrefab;
         [SerializeField] private IsoscelesTriangle _isoscelesTrianglePrefab;
         [SerializeField] private RectangularTriangle _rectangularTrianglePrefab;
+        [SerializeField] private Rectangle _rectanglePrefab;
         
         [Header("UI")]
         [SerializeField] private Description _descriptionPrefab;
@@ -30,37 +31,27 @@ namespace Geometry {
         [SerializeField] private PowExpressionUI _powExpressionPrefab;
         [SerializeField] private FunctionExpressionUI _functionExpressionPrefab;
         
-        
+        //-=FIGURES
         public static GeometryPoint FreeGeometryPointPrefab => Instance._geometryPointPrefab;
-        
         public static Triangle TrianglePrefab => Instance._trianglePrefab;
-        
         public static Circle CirclePrefab => Instance._circlePrefab;
-        
         public static IsoscelesTriangle IsoscelesTrianglePrefab => Instance._isoscelesTrianglePrefab;
-
         public static RectangularTriangle RectangularTrianglePrefab => Instance._rectangularTrianglePrefab;
+        public static Rectangle RectanglePrefab => Instance._rectanglePrefab;
         
+        //-=UI
         public static Description DescriptionPrefab => Instance._descriptionPrefab;
         
+        //-=ALGEBRA EXPRESSIONS
         public static TextMeshProUGUI NumberExpressionPrefab => Instance._numberExpressionPrefab;
-
         public static TextMeshProUGUI VariableExpressionPrefab => Instance._variableExpressionPrefab;
-
         public static AlgebraExpressionUI VectorExpressionPrefab => Instance._vectorExpressionPrefab;
-        
         public static AlgebraExpressionUI FractionExpressionPrefab => Instance._fractionExpressionPrefab;
-        
         public static AlgebraExpressionUI SumExpressionPrefab => Instance._sumExpressionPrefab;
-        
         public static AlgebraExpressionUI SubtractExpressionPrefab => Instance._subtractExpressionPrefab;
-        
         public static AlgebraExpressionUI SqrtExpressionPrefab => Instance._sqrtExpressionPrefab;
-        
         public static AlgebraExpressionUI MulExpressionPrefab => Instance._mulExpressionPrefab;
-
         public static PowExpressionUI PowExpressionPrefab => Instance._powExpressionPrefab;
-
         public static FunctionExpressionUI FunctionExpressionPrefab => Instance._functionExpressionPrefab;
         
         private static Resources Instance { get; set; }

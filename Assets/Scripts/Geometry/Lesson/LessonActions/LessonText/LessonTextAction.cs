@@ -12,7 +12,7 @@ public class LessonTextAction : LessonAction {
     }
 
     private void Exit() {
-        Complete();
         Board.LessonText.OnAllTextFinished -= Exit;
+        Complete();
     }
 }

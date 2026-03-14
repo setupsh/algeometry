@@ -28,7 +28,6 @@ namespace UI {
 
         public void AddIndicator(IndicatorInfo info) {
             Indicator indicator = Instantiate(_prefab, _content);
-            Debug.Log(indicator.name);
             indicator.SetInfo(info);
             _indicators.Add(indicator);
             _animator.SetTrigger(AnimatorKeys.Open);

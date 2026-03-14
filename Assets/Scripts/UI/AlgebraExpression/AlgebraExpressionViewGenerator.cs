@@ -6,7 +6,6 @@ using Resources = Geometry.Resources;
 namespace UI {
     public class AlgebraExpressionViewGenerator {
         public AlgebraExpressionView Generate(AlgebraExpression expression, Transform parent) {
-            Debug.Log(expression);
             return expression switch {
                 NumberExpression numberExpression => new NumberExpressionView(numberExpression, parent, Geometry.Resources.NumberExpressionPrefab),
                 VariableExpression variableExpression => new VariableExpressionView(variableExpression, parent, Geometry.Resources.NumberExpressionPrefab),

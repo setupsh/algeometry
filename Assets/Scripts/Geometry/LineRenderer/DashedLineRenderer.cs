@@ -19,6 +19,12 @@ namespace Geometry {
             _timeMultiplier = dashedLineConfig.TimeMultiplier;
             base.Setup(dashedLineConfig);
         }
+
+        protected override void Awake() {
+            Setup(new DashedLineConfig(_lineWidth, _loop, _lineColor, _sortingOrder, _scalable, _absolutePosition, _dashLenght, _timeMultiplier));
+            Init();
+        }
+
         protected override void GenerateMesh() {
             accumulatedLength = 0f;
             base.GenerateMesh();

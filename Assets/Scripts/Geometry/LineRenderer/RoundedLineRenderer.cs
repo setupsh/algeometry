@@ -14,6 +14,11 @@ namespace Geometry {
             _roundCornersSegments = config.RoundedCornersSegments;
             base.Setup(config);
         }
+        protected override void Awake() {
+            Setup(new RoundedLineRendererConfig(_lineWidth, _loop, _lineColor, _sortingOrder, _scalable, _absolutePosition, _roundCornersSegments));
+            Init();
+        }
+        
         protected override void GenerateLine(int index) {
             base.GenerateLine(index);
             Line line = CreateLine(index);

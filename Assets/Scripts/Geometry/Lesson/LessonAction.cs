@@ -11,7 +11,7 @@ public abstract class LessonAction : MonoBehaviour {
     protected abstract void Enter();
     
     protected void Complete() {
-        sequence.GoToNextAction();    
+        sequence?.GoToNextAction();    
     }
 }
 

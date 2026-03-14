@@ -17,6 +17,12 @@ namespace Geometry {
             _arrowHeight = arrowLineConfig.ArrowHeight;
             base.Setup(arrowLineConfig);
         }
+
+        protected override void Awake() {
+            Setup(new ArrowLineConfig(_lineWidth, _loop, _lineColor, _sortingOrder, _scalable, _absolutePosition, _arrowWidth, _arrowHeight));
+            Init();
+        }
+
         protected override void GenerateLine(int index) {
             int segmentIndex = vertices.Count;
             base.GenerateLine(index);

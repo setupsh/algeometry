@@ -9,21 +9,20 @@ namespace Geometry {
         [SerializeField] private GameObject _lineStorage;
         [SerializeField] private float _lineWidth;
         [SerializeField] private Color _lineColor;
-        private GeometricalLineRenderer _lineRendererVertical,  _lineRendererHorizontal;
-        private Bounds _cameraBounds;
-        private float _ceilSize = 1f;
+        private GeometricalLineRenderer lineRendererVertical,  lineRendererHorizontal;
+        private Bounds cameraBounds;
         private float ceilSize = 1f;
-        private float _startX, _endX,  _startY, _endY;
+        private float startX, endX,  startY, endY;
         private int overflowLines = 3;
-        private float _zoom;
+        private float zoom;
         private void Start() {
             ceilSize = FieldCamera.Instance.CeilSize();
-            _cameraBounds = FieldCamera.Instance.GetCameraBounds();
-            _lineRendererVertical = SetupLineRenderer(_lineWidth, _lineColor);
-            _lineRendererHorizontal = SetupLineRenderer(_lineWidth, _lineColor);
-            _startX = Utilities.SnapToGrid(_cameraBounds.min.x, ceilSize);
-            _startY = Utilities.SnapToGrid(_cameraBounds.min.y, ceilSize);
-            _zoom = FieldCamera.Instance.ZoomLevel;
+            cameraBounds = FieldCamera.Instance.GetCameraBounds();
+            lineRendererVertical = SetupLineRenderer(_lineWidth, _lineColor);
+            lineRendererHorizontal = SetupLineRenderer(_lineWidth, _lineColor);
+            startX = Utilities.SnapToGrid(cameraBounds.min.x, ceilSize);
+            startY = Utilities.SnapToGrid(cameraBounds.min.y, ceilSize);
+            zoom = FieldCamera.Instance.ZoomLevel;
             BuildGrid();
         }
 
@@ -36,13 +35,13 @@ namespace Geometry {
         }
 
         private void BuildGrid() {
-            float startX = Utilities.SnapToGridMin(_cameraBounds.min.x, ceilSize) - ceilSize * overflowLines;
-            float endX = Utilities.SnapToGridMax(_cameraBounds.max.x, ceilSize) + ceilSize * overflowLines;
-            float startY = Utilities.SnapToGridMin(_cameraBounds.min.y , ceilSize) - ceilSize * overflowLines;
-            float endY = Utilities.SnapToGridMax(_cameraBounds.max.y , ceilSize) + ceilSize * overflowLines;
+            float startX = Utilities.SnapToGridMin(cameraBounds.min.x, ceilSize) - ceilSize * overflowLines;
+            float endX = Utilities.SnapToGridMax(cameraBounds.max.x, ceilSize) + ceilSize * overflowLines;
+            float startY = Utilities.SnapToGridMin(cameraBounds.min.y , ceilSize) - ceilSize * overflowLines;
+            float endY = Utilities.SnapToGridMax(cameraBounds.max.y , ceilSize) + ceilSize * overflowLines;
             
-            _lineRendererHorizontal.transform.localPosition = Vector2.zero;
-            _lineRendererVertical.transform.localPosition = Vector2.zero;
+            lineRendererHorizontal.transform.localPosition = Vector2.zero;
+            lineRendererVertical.transform.localPosition = Vector2.zero;
 
             List<Vector2> verticalPoints = new List<Vector2>();
             for (float x = startX; x <= endX; x += ceilSize) {
@@ -50,7 +49,7 @@ namespace Geometry {
                 verticalPoints.Add(new Vector2(x, endY));
                 verticalPoints.Add(GeometricalLineRenderer.VOID_POINT);
             }
-            _lineRendererVertical.SetPositions(verticalPoints);
+            lineRendererVertical.SetPositions(verticalPoints);
             
             List<Vector2> horizontalPoints = new List<Vector2>();
             for (float y = startY; y <= endY; y += ceilSize) {
@@ -58,23 +57,23 @@ namespace Geometry {
                 horizontalPoints.Add(new Vector2(endX, y));
                 horizontalPoints.Add(GeometricalLineRenderer.VOID_POINT);
             }
-            _lineRendererHorizontal.SetPositions(horizontalPoints);
-            _startX = Utilities.SnapToGridMin(_cameraBounds.min.x, ceilSize);
-            _startY = Utilities.SnapToGridMin(_cameraBounds.min.y, ceilSize);
+            lineRendererHorizontal.SetPositions(horizontalPoints);
+            this.startX = Utilities.SnapToGridMin(cameraBounds.min.x, ceilSize);
+            this.startY = Utilities.SnapToGridMin(cameraBounds.min.y, ceilSize);
         }
 
         private void OffsetGrid() {
-            float newStartX = Utilities.SnapToGridMin(_cameraBounds.min.x, ceilSize);
-            float newStartY = Utilities.SnapToGridMin(_cameraBounds.min.y , ceilSize);
-            float deltaY = newStartY - _startY;
-            float deltaX = newStartX - _startX;
+            float newStartX = Utilities.SnapToGridMin(cameraBounds.min.x, ceilSize);
+            float newStartY = Utilities.SnapToGridMin(cameraBounds.min.y , ceilSize);
+            float deltaY = newStartY - startY;
+            float deltaX = newStartX - startX;
             
             foreach (Transform child in _lineStorage.transform) {
                 if (!Mathf.Approximately(deltaX, 0f)) child.localPosition += (Vector3) Vector2.right * deltaX;
                 if (!Mathf.Approximately(deltaY, 0f)) child.localPosition += (Vector3) Vector2.up * deltaY;
             }
-            _startX = newStartX;
-            _startY = newStartY;
+            startX = newStartX;
+            startY = newStartY;
         }
 
         private GeometricalLineRenderer SetupLineRenderer(float lineWidth, Color color) {
@@ -98,10 +97,10 @@ namespace Geometry {
             var newBounds = FieldCamera.Instance.GetCameraBounds();
 
             ceilSize = niceSize;
-            _cameraBounds = newBounds;
+            cameraBounds = newBounds;
 
-            if (!Mathf.Approximately(_zoom, FieldCamera.Instance.ZoomLevel)) {
-                _zoom = FieldCamera.Instance.ZoomLevel;
+            if (!Mathf.Approximately(zoom, FieldCamera.Instance.ZoomLevel)) {
+                zoom = FieldCamera.Instance.ZoomLevel;
                 BuildGrid();
             }
             else {

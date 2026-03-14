@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace Geometry {
     public abstract class Figure : MonoBehaviour, IIndicable {
-        [SerializeField] protected GeometricalLineRenderer _lineRenderer;
+        public GeometricalLineRenderer lineRenderer;
         public event Action OnFigureChanged;
         public GeometryPoint[] Points {get; private set;}
         public List<Side> Sides { get; private set; } = new List<Side>();
@@ -102,7 +102,7 @@ namespace Geometry {
 
         protected virtual void DrawFigure() {
             for (int i = 0; i < PointsAmount(); i++) {
-                _lineRenderer.SetPosition(i, Points[i].transform.position);
+                lineRenderer.SetPosition(i, Points[i].transform.position);
             }
         }
 
@@ -117,11 +117,6 @@ namespace Geometry {
         public List<IndicatorInfo> GetIndicatorInfos() {
             List<IndicatorInfo> indicators = new List<IndicatorInfo>();
             return indicators;
-            foreach (Side side in Sides) {
-                foreach (IndicatorInfo info in side.GetIndicatorInfos()) {
-                    indicators.Add(info);
-                }
-            }
         }
 
         public List<IIndicable> GetChildrenIndicators() {

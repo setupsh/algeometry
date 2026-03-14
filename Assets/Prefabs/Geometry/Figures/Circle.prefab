@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fda314de5dd4f878fc90984fc1adb08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lineRenderer: {fileID: 3060396474222763348}
+  lineRenderer: {fileID: 3060396474222763348}
   _segments: 32
 --- !u!114 &3060396474222763348
 MonoBehaviour:
@@ -118,4 +118,5 @@ MonoBehaviour:
   _sortingOrder: 0
   _scalable: 1
   _absolutePosition: 0
+  _segmentColors: []
   _roundCornersSegments: 2

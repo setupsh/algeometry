@@ -106,6 +106,7 @@ MonoBehaviour:
   _sortingOrder: 0
   _scalable: 1
   _absolutePosition: 0
+  _segmentColors: []
 --- !u!114 &1709183926783102703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa4fdd3748f9420868243c4cfd465c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lineRenderer: {fileID: 2783018994218610074}
+  lineRenderer: {fileID: 2783018994218610074}
   _redLineRenderer: {fileID: 5021292218081618797}
   _blueLineRenderer: {fileID: 1566572142536452993}
 --- !u!1 &3799649181298666545
@@ -220,10 +221,11 @@ MonoBehaviour:
   _points: []
   _lineWidth: 0.05
   _loop: 0
-  _lineColor: {r: 0, g: 0.16476631, b: 1, a: 0}
+  _lineColor: {r: 0, g: 0.16476631, b: 1, a: 1}
   _sortingOrder: 0
   _scalable: 1
   _absolutePosition: 0
+  _segmentColors: []
 --- !u!1 &6197677826320921878
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +325,8 @@ MonoBehaviour:
   _points: []
   _lineWidth: 0.05
   _loop: 0
-  _lineColor: {r: 1, g: 0, b: 0, a: 0}
+  _lineColor: {r: 1, g: 0, b: 0, a: 1}
   _sortingOrder: 0
   _scalable: 1
   _absolutePosition: 0
+  _segmentColors: []

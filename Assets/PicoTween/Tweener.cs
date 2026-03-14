@@ -40,6 +40,9 @@ namespace PicoTween {
         public static void Tween(this Image self, Color endValue, float duration, AnimationCurve curve, Action onComplete) {
             PicoRunner.Instance.StartCoroutine(Tween(() => self.color, value => self.color = value, endValue, duration, Color.Lerp, curve ?? defualtCurve, onComplete));
         }
+        public static void Tween(this SpriteRenderer self, Color endValue, float duration, AnimationCurve curve, Action onComplete) {
+            PicoRunner.Instance.StartCoroutine(Tween(() => self.color, value => self.color = value, endValue, duration, Color.Lerp, curve ?? defualtCurve, onComplete));
+        }
         public static void Tween(this Quaternion self, Quaternion endValue, float duration, AnimationCurve curve, Action onComplete) {
             PicoRunner.Instance.StartCoroutine(Tween(() => self, value => self = value, endValue, duration, Quaternion.Lerp, curve ?? defualtCurve, onComplete));
         }
