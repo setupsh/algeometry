@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showAnimations:
     _serializedList:
+    - Key: slowgrow
+      Value: {fileID: 11400000, guid: e8f13c51d3111f21d949e2cfced96b65, type: 2}
     - Key: char
       Value: {fileID: 11400000, guid: d82e51bb982c27c47a8814341550d76a, type: 2}
     - Key: shake

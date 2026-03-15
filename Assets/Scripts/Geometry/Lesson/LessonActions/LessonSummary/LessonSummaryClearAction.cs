@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class LessonSummaryClearAction : LessonAction {
     protected override void Enter() {
-        Board.LessonSummary.Clear();
+        Board.LessonSummary.Close();
         Complete();
     }
 }

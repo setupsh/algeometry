@@ -6,8 +6,8 @@ using TMPro;
 
 namespace Geometry {
     public class Resources : MonoBehaviour {
-        [Header("Geometry")]
-        
+        [Header("Geometry")] 
+        [SerializeField] private PolygonBuilder _polygonPrefab;
         [Header("Points")]
         [SerializeField] private GeometryPoint _geometryPointPrefab;
         
@@ -31,7 +31,8 @@ namespace Geometry {
         [SerializeField] private PowExpressionUI _powExpressionPrefab;
         [SerializeField] private FunctionExpressionUI _functionExpressionPrefab;
         [SerializeField] private AlgebraExpressionUI _parenthesizedExpressionPrefab;
-        
+
+        public static PolygonBuilder PolygonPrefab => Instance._polygonPrefab;
         //-=FIGURES
         public static GeometryPoint FreeGeometryPointPrefab => Instance._geometryPointPrefab;
         public static Triangle TrianglePrefab => Instance._trianglePrefab;

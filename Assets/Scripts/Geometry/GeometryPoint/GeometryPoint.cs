@@ -18,7 +18,9 @@ namespace Geometry {
 
         public bool Blocked {
             get => blocked;
-            set { blocked = value; _sprite.SetColorByBlocked(value); }
+            set { blocked = value; _sprite.SetColorByBlocked(value);
+                _collider.gameObject.SetActive(!value);
+            }
         }
 
         public Vector2 Position {
@@ -40,7 +42,6 @@ namespace Geometry {
         }
         
         private void OnDrag() {
-            if (blocked) return;
             Vector2 targetPosition = FieldCamera.Instance.ToWorldPoint(InputListener.MousePosition);
 
             if (InputListener.ShiftPressed) {

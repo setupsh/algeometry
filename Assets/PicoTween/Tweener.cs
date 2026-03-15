@@ -31,8 +31,8 @@ namespace PicoTween {
             PicoRunner.Instance.StartCoroutine(Tween(getter, setter, endValue, duration, Mathf.Lerp, curve ?? defualtCurve, onComplete));
         }
         
-        public static void Tween(this Vector2 self, Vector2 endValue, float duration, AnimationCurve curve, Action onComplete) {
-            PicoRunner.Instance.StartCoroutine(Tween(() => self, value => self = value, endValue, duration, Vector2.Lerp, curve ?? defualtCurve, onComplete));
+        public static void Tween(this Vector2 self, Func<Vector2> getter, Action<Vector2> setter, Vector2 endValue, float duration, AnimationCurve curve = null, Action onComplete = null) {
+            PicoRunner.Instance.StartCoroutine(Tween(getter, setter, endValue, duration, Vector2.Lerp, curve ?? defualtCurve, onComplete));
         }
         public static void Tween(this Vector3 self, Vector3 endValue, float duration, AnimationCurve curve, Action onComplete) {
             PicoRunner.Instance.StartCoroutine(Tween(() => self, value => self = value, endValue, duration, Vector3.Lerp, curve ?? defualtCurve, onComplete));
@@ -45,6 +45,9 @@ namespace PicoTween {
         }
         public static void Tween(this Quaternion self, Quaternion endValue, float duration, AnimationCurve curve, Action onComplete) {
             PicoRunner.Instance.StartCoroutine(Tween(() => self, value => self = value, endValue, duration, Quaternion.Lerp, curve ?? defualtCurve, onComplete));
+        }
+        public static void Tween(this Material self, Color endValue, float duration, AnimationCurve curve = null, Action onComplete = null) {
+            PicoRunner.Instance.StartCoroutine(Tween(() => self.color, value => self.color = value, endValue, duration, Color.Lerp, curve ?? defualtCurve, onComplete));
         }
     }
 

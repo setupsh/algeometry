@@ -10,8 +10,8 @@ namespace Geometry.Realisations {
         }
 
         protected override void InitRules() {
-            RuleHelper.PairWithEachOther.NoEqualPosition(Points);
-            RuleHelper.PairWithEachOther.NonCollinear(Points);
+            //RuleHelper.PairWithEachOther.NoEqualPosition(Points);
+            //RuleHelper.PairWithEachOther.NonCollinear(Points);
             Points[1].Blocked = true;
             Points[3].Blocked = true;
             Points[2].Links.Add(new Copy(Points[2], Points[3], Coordinate.Y));

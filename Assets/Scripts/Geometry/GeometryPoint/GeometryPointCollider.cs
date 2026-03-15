@@ -7,6 +7,7 @@ namespace Geometry {
     public class GeometryPointCollider : MonoBehaviour, IDragHandler, IEndDragHandler {
         [SerializeField] private CircleCollider2D _collider;
         [SerializeField] private float _initialRadius;
+        public bool Block;
         public event System.Action OnDrag;
         public event System.Action OnDragEnd;
         private void Awake() {
@@ -21,10 +22,12 @@ namespace Geometry {
         }
 
         void IDragHandler.OnDrag(PointerEventData eventData) {
+            if (Block) return;
             OnDrag?.Invoke();
         }
 
         public void OnEndDrag(PointerEventData eventData) {
+            if (Block) return;
             OnDragEnd?.Invoke(); 
         }
     }

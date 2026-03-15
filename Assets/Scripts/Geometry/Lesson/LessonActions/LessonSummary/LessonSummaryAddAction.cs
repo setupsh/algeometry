@@ -16,5 +16,6 @@ public class LessonSummaryAddTextAction : LessonAction {
                 Board.LessonSummary.AddSummary(Board.AlgebraExpressionViewGenerator.Generate(new AlgebraExpressionParser().Parse(Lexer.Tokenize(instance.Content)), Board.LessonSummary.transform).Root);
             }
         }
+        Complete();
     }
 }

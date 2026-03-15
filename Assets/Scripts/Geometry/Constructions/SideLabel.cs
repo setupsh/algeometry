@@ -19,11 +19,11 @@ public class SideLabel : Construction {
 
     private void OnDisable() {
         Parent.OnFigureChanged -= UpdateConstruction;
-        FieldCamera.OnCameraChanged -= UpdateConstruction;
+        FieldCamera.OnCameraZoom -= UpdateTextSize;
     }
 
     private void UpdateTextSize() {
-        label.TextMeshPro.fontSize = Parameters.DefaultLabelSize * FieldCamera.Instance.CeilSize();
+        label.TextMeshPro.fontSize = (Parameters.DefaultLabelSize * 1.5f)  * FieldCamera.Instance.CeilSize();
     }
     public override void UpdateConstruction() {
         Vector2 sideVector = side.Start.transform.position - side.End.transform.position;
@@ -47,6 +47,7 @@ public class SideLabel : Construction {
         label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
         label.TextMeshPro.text = Utilities.TransparentMinus + caption + Utilities.TransparentMinus;
         label.TextMeshPro.color = color;
+        UpdateTextSize();
         UpdateConstruction();
     }
 }
