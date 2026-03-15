@@ -15,8 +15,8 @@ namespace Geometry {
             base.Setup(config);
         }
         protected override void Awake() {
-            Setup(new RoundedLineRendererConfig(_lineWidth, _loop, _lineColor, _sortingOrder, _scalable, _absolutePosition, _roundCornersSegments));
             Init();
+            Setup(new RoundedLineRendererConfig(_lineWidth, _loop, _lineColor, _sortingOrder, _scalable, _absolutePosition, _roundCornersSegments));
         }
         
         protected override void GenerateLine(int index) {

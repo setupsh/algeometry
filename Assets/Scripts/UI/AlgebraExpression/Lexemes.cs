@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 public class Lexemes {
     public static readonly List<Regex> tokenPatterns = new List<Regex> {
+        new Regex($@"\G(?<{TokenNames.EscapedLeftBracket}>\\\()", RegexOptions.Compiled), 
+        new Regex($@"\G(?<{TokenNames.EscapedRightBracket}>\\\))", RegexOptions.Compiled),  
         new Regex($@"\G(?<{TokenNames.Add}>\+)", RegexOptions.Compiled), 
         new Regex($@"\G(?<{TokenNames.Sub}>\-)", RegexOptions.Compiled), 
         new Regex($@"\G(?<{TokenNames.Mul}>\*)", RegexOptions.Compiled), 
         new Regex($@"\G(?<{TokenNames.Div}>\/)", RegexOptions.Compiled), 
         new Regex($@"\G(?<{TokenNames.Pow}>\^)", RegexOptions.Compiled),
         new Regex($@"\G(?<{TokenNames.LeftBracket}>\()", RegexOptions.Compiled), 
-        new Regex($@"\G(?<{TokenNames.RightBracket}>\))", RegexOptions.Compiled), 
+        new Regex($@"\G(?<{TokenNames.RightBracket}>\))", RegexOptions.Compiled),
         new Regex($@"\G(?<{TokenNames.Num}>[0-9]+(\.[0-9]+)?)", RegexOptions.Compiled),
         new Regex($@"\G(?<{TokenNames.Variable}>[a-zA-Zα-ωΑ-Ω]+)", RegexOptions.Compiled), 
         new Regex($@"\G(?<{TokenNames.Separator}>\s+)", RegexOptions.Compiled),
     };
-    
 }
 public static class TokenNames {
     public const string Add = "ADD";
@@ -24,6 +25,8 @@ public static class TokenNames {
     public const string Pow = "POW";
     public const string LeftBracket = "LEFT_BRACKET";
     public const string RightBracket = "RIGHT_BRACKET";
+    public const string EscapedLeftBracket = "ESCAPED_LEFT_BRACKET";
+    public const string EscapedRightBracket = "ESCAPED_RIGHT_BRACKET";
     public const string Num = "NUM";
     public const string Variable = "VARIABLE";
     public const string Separator = "SEPARATOR";

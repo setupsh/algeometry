@@ -17,3 +17,8 @@ public class LessonSummary : MonoBehaviour {
         }
     }
 }
+[System.Serializable]
+public class LessonSummaryInstance {
+    public string Content;
+    public bool PlainText;
+}

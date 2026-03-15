@@ -32,9 +32,14 @@ public class AlgebraExpressionParser {
     private AlgebraExpression ParsePrefix(Token token) {
         switch (token.Name) {
             case TokenNames.LeftBracket:
-                var expression = ParseExpression();
+                var insideBrackets = ParseExpression();
                 Expect(TokenNames.RightBracket);
-                return expression;
+                return insideBrackets;
+            
+            case TokenNames.EscapedLeftBracket:
+                var insideEscapedBrackets = ParseExpression();
+                Expect(TokenNames.EscapedRightBracket);
+                return new ParenthesizedExpression(insideEscapedBrackets);
             
             case TokenNames.Num:
                 double value = double.Parse(token.Value, System.Globalization.CultureInfo.InvariantCulture);

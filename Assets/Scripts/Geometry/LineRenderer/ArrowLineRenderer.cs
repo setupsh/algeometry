@@ -19,8 +19,8 @@ namespace Geometry {
         }
 
         protected override void Awake() {
-            Setup(new ArrowLineConfig(_lineWidth, _loop, _lineColor, _sortingOrder, _scalable, _absolutePosition, _arrowWidth, _arrowHeight));
             Init();
+            Setup(new ArrowLineConfig(_lineWidth, _loop, _lineColor, _sortingOrder, _scalable, _absolutePosition, _arrowWidth, _arrowHeight));
         }
 
         protected override void GenerateLine(int index) {

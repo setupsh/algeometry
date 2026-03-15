@@ -59,6 +59,28 @@ namespace UI {
             text.text = expression.Evaluate().ToString(value % 1 == 0 ? "N0" : "F3");
         }
     }
+    public sealed class ParenthesizedExpressionView : AlgebraExpressionView {
+        private readonly AlgebraExpressionUI root;
+        private readonly AlgebraExpressionView inner;
+
+        public ParenthesizedExpressionView(ParenthesizedExpression expression, Transform parent,
+            AlgebraExpressionViewGenerator generator, AlgebraExpressionUI parenPrefab) {
+            root = Object.Instantiate(parenPrefab, parent);
+            inner = generator.Generate(expression.Inner, root.Root);
+            inner.Root.SetSiblingIndex(1); // 0 = "(", 1 = inner, 2 = ")"
+        }
+
+        public override RectTransform Root => root.Root;
+
+        public override void UpdateValue() => inner.UpdateValue();
+
+        public override float GetBaselineHeight() => inner.GetBaselineHeight();
+
+        public override void Dispose() {
+            inner.Dispose();
+            base.Dispose();
+        }
+    }
 
     public sealed class FunctionExpressionView : AlgebraExpressionView {
         private readonly FunctionExpressionUI root;

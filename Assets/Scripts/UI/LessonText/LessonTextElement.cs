@@ -15,6 +15,7 @@ public class LessonTextElement : MonoBehaviour {
     [SerializeField] private TMPAnimator _tmpAnimator;
     [SerializeField] private TMPWriter _tmpWriter;
     public event Action OnFinish;
+    public event Action OnAnimationEnd;
     private bool evented = false;
     private const string ending = "<wave> ... </wave>";
     public void Init(string text) {
@@ -29,6 +30,10 @@ public class LessonTextElement : MonoBehaviour {
             _tmpWriter.enabled = false;
             FadeOut();
         }
+    }
+
+    public void InvokeAnimationEnd() {
+        OnAnimationEnd?.Invoke();
     }
 
     private void FadeOut() {

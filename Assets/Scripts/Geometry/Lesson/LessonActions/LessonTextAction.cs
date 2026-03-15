@@ -11,7 +11,4 @@ public class AddIndicatorAction : LessonAction {
         Board.IndicatorsList.AddIndicator(new AlgebraExpressionInfo(_figure.Value.Points[0].GetIndicatorInfos()[0].GetExpression(), "", "POINT" ));
         Complete();
     }
-
-    private void Exit() {
-    }
 }

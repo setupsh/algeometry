@@ -29,7 +29,6 @@ public class LessonText : MonoBehaviour {
     private void ShowText(int index) {
         elements[index].gameObject.SetActive(true);
         elements[index].OnFinish += () => {
-            triggers[index]?.Launch(null);
             if (index < elements.Count - 1) {
                 ShowText(index + 1);
             }
@@ -37,6 +36,9 @@ public class LessonText : MonoBehaviour {
                 FinishSequence();
                 Clear();
             }
+        };
+        elements[index].OnAnimationEnd += () => {
+            triggers[index]?.Launch(null);
         };
     }
 

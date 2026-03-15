@@ -21,8 +21,8 @@ namespace Geometry {
         }
 
         protected override void Awake() {
-            Setup(new DashedLineConfig(_lineWidth, _loop, _lineColor, _sortingOrder, _scalable, _absolutePosition, _dashLenght, _timeMultiplier));
             Init();
+            Setup(new DashedLineConfig(_lineWidth, _loop, _lineColor, _sortingOrder, _scalable, _absolutePosition, _dashLenght, _timeMultiplier));
         }
 
         protected override void GenerateMesh() {

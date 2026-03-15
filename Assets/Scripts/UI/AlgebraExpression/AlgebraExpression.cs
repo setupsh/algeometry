@@ -27,6 +27,19 @@ namespace Algebra {
             return other is VariableExpression variableExpression && getter == variableExpression.getter;
         }
     }
+    public class ParenthesizedExpression : AlgebraExpression {
+        public AlgebraExpression Inner { get; }
+
+        public ParenthesizedExpression(AlgebraExpression inner) {
+            Inner = inner;
+        }
+
+        public override double Evaluate() => Inner.Evaluate();
+
+        public override bool SameType(AlgebraExpression other) {
+            return other is ParenthesizedExpression p && Inner.SameType(p.Inner);
+        }
+    }
 
     public class FunctionExpression : AlgebraExpression {
         private Func<double, double> function;

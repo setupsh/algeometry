@@ -38,6 +38,11 @@ public class SideLabel : Construction {
         label.TextMeshPro.rectTransform.pivot = new Vector2(pivotX, pivotY);
     }
 
+    public void SetLabel(string newCaption) {
+        caption = newCaption;
+        UpdateConstruction();
+    }
+
     protected override void CreateConstruction() {
         label = GeometricalLabelSystem.Instance.CreateLabel(transform, Parameters.LabelSortingOrder);
         label.TextMeshPro.text = Utilities.TransparentMinus + caption + Utilities.TransparentMinus;
